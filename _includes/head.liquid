@@ -1,0 +1,31 @@
+    <link rel="canonical" href="{{ site.baseurl }}" />
+    <meta name="referrer" content="origin" />
+
+    <meta property="og:site_name" content="{{ site.name }}" />
+    <meta property="og:type" content="{% if post %}article{% else %}website{% endif %}" />
+    <meta property="og:title" content="{% if title %}{{ title }}{% else %}{{ site.name }}{% endif %}" />
+    <meta property="og:description" content="{% if description %}{{ description }}{% else %}{{ site.description }}{% endif %}" />
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
+    <meta property="og:image" content="{{ site.url }}{% if cover %}{{ cover }}{% else %}{{ site.logo | imgPath }}{% endif %}" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:author" content="https://www.facebook.com/okmanideep">
+
+    <meta name="twitter:card" content="{% if cover %}summary_large_image{% else %}summary{% endif %}" />
+    <meta name="twitter:title" content="{% if title %}{{ title }}{% else %}{{ site.name }}{% endif %}" />
+    <meta name="twitter:description" content="{% if description %}{{ description}}{% else %}{{ site.description }}{% endif %}" />
+    <meta name="twitter:image" content="{{ site.url }}{% if cover %}{{ cover }}{% else %}{{ site.logo | imgPath }}{% endif %}" />
+    <meta name="twitter:author" content="@{{ site.username }}">
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "Manideep Polireddi",
+    "url": "https://okmanideep.github.io",
+    "image": "{{ "logo-black.png" | imgPath }}",
+    "description": "{{ site.description }}"
+}
+    </script>
+
+    <meta name="generator" content="11ty" />
+    <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="{{ site.baseurl }}feed.xml" />

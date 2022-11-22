@@ -1,0 +1,179 @@
+/**
+* Edited from atom-dark theme for `prism.js`
+* Based on Atom's `atom-dark` theme: https://github.com/atom/atom-dark-syntax
+* @author Joe Gibson (@gibsjose)
+*/
+
+code,
+pre {
+	--onedark-bg: #282C34;
+	--onedark-red: #E06C75;
+	--onedark-red-bg: #2E2A2E;
+	--onedark-green: #98C379;
+	--onedark-green-bg: #27332d;
+	--onedark-yellow: #E5C07B;
+	--onedark-blue: #61AFEF;
+	--onedark-purple: #C678DD;
+	--onedark-teal: #56B6C2;
+	--onedark-gray: #ABB2BF;
+
+	color: var(--onedark-gray);
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  font-family: 'JetBrains Mono', monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre {
+  padding: 0.6em;
+  border-radius: 4px;
+  margin-bottom: 1em;
+  margin-top: 0.4em;
+  overflow-x: auto;
+}
+
+:not(pre) > code,
+pre {
+  font-size: 0.9em;
+	background: var(--onedark-bg);
+}
+
+:not(pre) > code {
+  padding: 2px 4px;
+  color: var(--onedark-blue);
+  background: var(--onedark-bg);
+  border-radius: 3px;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #7C7C7C;
+}
+
+.token.punctuation {
+	color: var(--onedark-gray);
+}
+
+.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.keyword,
+.token.tag {
+	color: var(--onedark-blue);
+}
+
+.token.class-name {
+	color: var(--onedark-yellow);
+	text-decoration: underline;
+}
+
+.token.boolean,
+.token.constant {
+	color: var(--onedark-green);
+}
+
+.token.symbol,
+.token.prefix.deleted {
+	color: var(--onedark-red);
+}
+
+.token.number {
+	color: var(--onedark-purple);
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.prefix.inserted {
+	color: var(--onedark-green);
+}
+
+.token.variable {
+	color: var(--onedark-blue);
+}
+
+.token.operator {
+	color: #EDEDED;
+}
+
+.token.entity {
+	color: var(--onedark-yellow);
+	cursor: help;
+}
+
+.token.url {
+	color: var(--onedark-blue);
+}
+
+.language-css .token.string,
+.style .token.string {
+	color: var(--onedark-green);
+}
+
+.token.atrule,
+.token.attr-value {
+	color: var(--onedark-yellow);
+}
+
+.token.function {
+	color: var(--onedark-purple);
+}
+
+.token.regex {
+	color: var(--onedark-yellow);
+}
+
+.token.important {
+	color: var(--onedark-yellow);
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+/* diff-* code blocks support */
+.token.deleted {
+  background-color: var(--onedark-red-bg);
+}
+.token.inserted {
+  background-color: var(--onedark-green-bg);
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+  display: block;
+}

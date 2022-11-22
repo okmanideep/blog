@@ -1,0 +1,242 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+v2.0 | 20110126
+License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* END reset.css */
+
+/* THEME VARS */
+:root {
+  --main-bg-color: #22262c;
+  --main-text-color: #ffffff;
+  --heading-text-color: #f7f7f7;
+  --main-border-color: #333333;
+  --highlight-text-color: #61aeee;
+  --highlight-border-color: #218EE8;
+  --raised-bg-color: #282c34;
+  --dim-text-color: #9eabb3;
+}
+
+/* MAIN CSS */
+body {
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+  font-family: 'Barlow', sans-serif;
+}
+
+main {
+  width: 96%;
+  margin: auto;
+  font-size: 1rem;
+}
+
+@media only screen and (min-device-width: 960px) {
+  main {
+    width: 880px;
+    font-size: 1.2rem;
+  }
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 600;
+  color: var(--heading-text-color);
+}
+
+h1 {
+  font-size: 2.0em;
+  margin: 2em 0 0.4em 0;
+  padding-bottom: 0.65em;
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+h2 {
+  font-size: 1.8em;
+  margin: 1.6em 0 0.8em 0;
+}
+
+h3 {
+  font-size: 1.6em;
+  margin: 1em 0 0.5em 0;
+}
+
+h4 {
+  font-size: 1.4em;
+  margin: 1em 0 0.5em 0;
+}
+
+h5 {
+  font-size: 1.2em;
+  margin: 0.8em 0 0.4em 0;
+}
+
+h6 {
+  font-size: 1.1em;
+  margin-top: 0.8em 0 0.4em 0;
+}
+
+p {
+  margin: 1em 0 0.5em 0;
+}
+
+a {
+  color: var(--highlight-text-color);
+}
+
+blockquote {
+  margin: 18px 0px;
+  background: var(--raised-bg-color);
+  border-left: 4px solid var(--highlight-border-color);
+}
+
+blockquote>p {
+  padding: 0.6em 1em;
+}
+
+p, li {
+  line-height: 1.5em;
+}
+
+table {
+  padding: 0; 
+  border-collapse: collapse;
+}
+table tr {
+  border-top: 1px solid var(--main-border-color);
+  background-color: var(--main-bg-color);
+  margin: 0;
+  padding: 0; 
+}
+table thead tr {
+  background-color: var(--raised-bg-color); 
+}
+table tr:nth-child(2n) {
+  background-color: var(--raised-bg-color); 
+}
+table tr th {
+  font-weight: bold;
+  border: 1px solid var(--main-border-color);
+  text-align: left;
+  margin: 0;
+  padding: 0.6em 1em; 
+}
+table tr td {
+  border: 1px solid var(--main-border-color);
+  text-align: left;
+  margin: 0;
+  padding: 0.6em 1em; 
+}
+table tr th :first-child, table tr td :first-child {
+  margin-top: 0; 
+}
+table tr th :last-child, table tr td :last-child {
+  margin-bottom: 0; 
+}
+
+ul,ol {
+  margin-bottom: 1em;
+  margin-top: 0.4em;
+  padding-inline-start: 1.2em;
+}
+
+header {
+  padding: 2em;
+  margin: 0 0 1em 0;
+}
+
+header > nav {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+
+header > nav > a {
+  display: block;
+}
+
+header > nav > a > img {
+  height: 2em;
+}
+
+header > nav > a > svg {
+  height: 1.4em;
+  fill: var(--main-text-color);
+}
+
+header > nav > a:hover > svg {
+  fill: var(--highlight-text-color);
+  transition: fill 0.3s ease;
+}
+
+.post-meta {
+  color: var(--dim-text-color);
+  font-size: 0.9em;
+}
+
+.post-meta > a {
+  text-decoration: none;
+}
+
+.post-meta > a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  margin: 3em 1em 1em 1em;
+  display: flex;
+  justify-content: space-between;
+  color: var(--dim-text-color);
+  font-size: 1.2em;
+}
+
+footer a {
+  font-weight: bold;
+  color: var(--dim-text-color);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--main-text-color);
+}
+
