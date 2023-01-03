@@ -1,0 +1,15 @@
+---
+layout: default
+---
+
+<main role="main">
+    <article>
+        <h1 @raw="title"></h1>
+        <section class="post-meta">
+            <time class="post-date" :datetime="date" @raw="date"></time>
+            <tags></tags>
+        </section>
+        <section class="content" @raw="content">
+        </section>
+    </article>
+</main>

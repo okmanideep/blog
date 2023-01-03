@@ -3,14 +3,7 @@ cover: false
 title: Clean way to define support library dependencies
 description: 'A cleaner way to define support library dependencies which makes updating their version number a whole lot easier'
 date:   2015-11-23 20:10:00
-tags:
-    - android
-class: 'post-template'
-subclass: 'post tag-android'
-categories: 'okmanideep'
-navigation: True
-disqus: 20151124201000
-logo: 'logo-white.png'
+tags: ['android']
 ---
 
 As the support library started getting bigger with more tools in it, the team at google have suggested developers to pick and choose the individual pieces of the library in their dependencies. More recently our `build.gradle` files started to look like this

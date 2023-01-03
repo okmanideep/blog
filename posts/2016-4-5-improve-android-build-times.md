@@ -3,15 +3,7 @@ cover: false
 title: Improve your Android build times
 description: 'Simple things you can do to improve your gradle/android build time a lot'
 date:   2016-04-05 20:10:00
-tags: 
-  - android
-  - gradle
-class: 'post-template'
-subclass: 'post tag-android tag-gradle'
-categories: 'okmanideep'
-navigation: True
-disqus: 20160405201000
-logo: 'logo-white.png'
+tags: ['android', 'gradle']
 ---
 
 If you have the time to watch the video, go ahead. [Madis Pink](https://twitter.com/madisp) goes over each optimisation you can do very carefully and how you can profile the gradle build process to identify the bottlenecks of your builds. If not, go ahead do the changes mentioned below, which will take less than two minutes and enjoy a much smaller build times.

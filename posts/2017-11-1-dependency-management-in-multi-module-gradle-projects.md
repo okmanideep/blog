@@ -3,14 +3,7 @@ cover: false
 title: Dependency management in multi-module gradle projects
 description: 'Simple things you can do to improve your gradle/android dependency management'
 date:   2017-11-02 00:20:00
-tags: 
-  - android
-  - gradle
-class: 'post-template'
-subclass: 'post tag-android tag-gradle'
-categories: 'okmanideep'
-navigation: True
-disqus: 20171102002000
+tags: ['android', 'gradle']
 ---
 
 Google's approach in [this google samples repo](https://github.com/googlesamples/android-architecture-components/) seems to be tackling it very well. They actually do it across multiple projects but it applies for multiple modules as well. If you just have one module, don't bother doing this right now, but remember to do it when you decide to extract a module out.

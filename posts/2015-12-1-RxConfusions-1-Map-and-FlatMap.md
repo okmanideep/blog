@@ -3,15 +3,7 @@ cover: false
 title: 'RxConfusions - Part 1 : Map and FlatMap'
 description: 'You probably know what the map operator is. This post discussed mostly about FlatMap and that probably will remove the confusion between map and flatMap operators if any'
 date:   2015-12-01 20:10:00
-tags:
-  - rxjava
-  - android
-class: 'post-template'
-subclass: 'post tag-rxjava tag-android'
-categories: 'okmanideep'
-navigation: True
-disqus: 20151201201000
-logo: 'logo-white.png'
+tags: ['rxjava', 'android']
 ---
 
 If you don't know what RxJava is or you aren't comfortable with the terms `Observable`, `Observer`, `Operator` and `Subscriber`, I suggest you have a look at [Grokking RxJava](http://blog.danlew.net/2014/09/15/grokking-rxjava-part-1/) series by [Dan Lew](https://twitter.com/danlew42). 

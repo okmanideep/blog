@@ -1,17 +1,9 @@
 ---
-layout: post
 cover: false
 title: Permissions in marshmallow
 description: 'A deep dive into requesting permissions in Android Marshmallow and handling extreme cases'
 date:   2015-11-14 20:10:00
-tags: 
-    - android
-class: 'post-template'
-subclass: 'post tag-android'
-categories: 'okmanideep'
-navigation: True
-disqus: 20151114201000
-logo: 'logo-white.png'
+tags: [ 'android' ]
 ---
 
 I expect you to first go and have a look at this page in the [Android Bible](http://developer.android.com/training/permissions/requesting.html) about permissions in marshmallow. Especially have a look at how to:

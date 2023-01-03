@@ -1,3 +1,4 @@
+<template webc:type="11ty" 11ty:type="liquid">
     <link rel="canonical" href="{{ site.baseurl }}" />
     <meta name="referrer" content="origin" />
 
@@ -29,3 +30,4 @@
 
     <meta name="generator" content="11ty" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="{{ site.baseurl }}feed.xml" />
+</template>

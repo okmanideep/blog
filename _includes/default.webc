@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- [[! Document Settings ]] -->
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <!-- [[! Page Meta ]] -->
+        <meta webc:nokeep webc:is="page-meta" />
+
+        <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+        <meta webc:nokeep webc:is="social-meta" />
+
+        <!-- [[! Styles ]] -->
+        <style webc:nokeep webc:is="site-styles"></style>
+        <style webc:keep @raw="getCss(page.url)"></style>
+    </head>
+
+    <body>
+        <site-header></site-header>
+
+        <template webc:nokeep @raw="content"></template>
+
+        <footer>
+            <section><a :href="site.baseurl" @raw="site.name"></a> &copy; <template @raw="site.current_year"></template></section>
+            <section>Published with <a href="https://11ty.dev">11ty</a></section>
+        </footer>
+    </body>
+</html>

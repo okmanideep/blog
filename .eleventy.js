@@ -1,3 +1,4 @@
+const webcPlugin = require("@11ty/eleventy-plugin-webc")
 const CleanCSS = require("clean-css")
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight")
 
@@ -21,5 +22,6 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter("imgPath", imgPath)
   eleventyConfig.addFilter("cssmin", minifyCss)
 
+  eleventyConfig.addPlugin(webcPlugin)
   eleventyConfig.addPlugin(syntaxHighlight)
 }

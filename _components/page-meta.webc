@@ -1,0 +1,10 @@
+<template webc:type="11ty" 11ty:type="liquid">
+  <title>{% if title %}{{ title }}{% elsif site.name %}{{ site.name }}{% endif %}</title>
+  <meta name="description" content="{% if description %}{{ description }}{% else %}{{ site.description }}{% endif %}" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="shortcut icon" type="image/svg+xml" href="{{ "favicon.svg" | imgPath }}" >
+  <link rel="shortcut icon" type="image/png" href="{{ "favicon.png" | imgPath }}" >
+</template>
