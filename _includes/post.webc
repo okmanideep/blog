@@ -6,7 +6,7 @@ layout: default
     <article>
         <h1 @raw="title"></h1>
         <section class="post-meta">
-            <time class="post-date" :datetime="date" @raw="date"></time>
+            <time class="post-date" :datetime="date" @html="readableDate(date)"></time>
             <tags></tags>
         </section>
         <section class="content" @raw="content">

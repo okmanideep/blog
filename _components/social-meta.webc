@@ -1,33 +1,38 @@
-<template webc:type="11ty" 11ty:type="liquid">
-    <link rel="canonical" href="{{ site.baseurl }}" />
-    <meta name="referrer" content="origin" />
+<link rel="canonical" :href="site.baseurl" />
+<meta name="referrer" content="origin" />
+<meta name="author" content="https://twitter.com/okmanideep" />
 
-    <meta property="og:site_name" content="{{ site.name }}" />
-    <meta property="og:type" content="{% if post %}article{% else %}website{% endif %}" />
-    <meta property="og:title" content="{% if title %}{{ title }}{% else %}{{ site.name }}{% endif %}" />
-    <meta property="og:description" content="{% if description %}{{ description }}{% else %}{{ site.description }}{% endif %}" />
-    <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
-    <meta property="og:image" content="{{ site.url }}{% if cover %}{{ cover }}{% else %}{{ site.logo | imgPath }}{% endif %}" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="article:author" content="https://www.facebook.com/okmanideep">
+<meta property="og:site_name" :content="site.name" />
+<meta property="og:type" :content="post ? 'article' : 'website'" />
+<meta property="og:title" :content="title ? title : site.name" />
+<meta property="og:description" :content="description ? description : site.description" />
+<meta property="og:url" :content="`${site.url}${page.url}`" />
+<meta property="og:image" :content="`${site.url}${imgPath(cover ? cover : site.logo)}`" />
+<meta property="og:locale" content="en_US" />
+<meta property="article:author" content="https://facebook.com/okmanideep" />
 
-    <meta name="twitter:card" content="{% if cover %}summary_large_image{% else %}summary{% endif %}" />
-    <meta name="twitter:title" content="{% if title %}{{ title }}{% else %}{{ site.name }}{% endif %}" />
-    <meta name="twitter:description" content="{% if description %}{{ description}}{% else %}{{ site.description }}{% endif %}" />
-    <meta name="twitter:image" content="{{ site.url }}{% if cover %}{{ cover }}{% else %}{{ site.logo | imgPath }}{% endif %}" />
-    <meta name="twitter:author" content="@{{ site.username }}">
+<meta name="twitter:card" :content="cover ? 'summary_large_image' : 'summary'" />
+<meta name="twitter:title" :content="title ? title : site.name" />
+<meta name="twitter:description" :content="description ? description : site.description" />
+<meta name="twitter:image" :content="`${site.url}${imgPath(cover ? cover : site.logo)}`" />
+<meta name="twitter:author" :content="`@${site.username}`" />
 
-    <script type="application/ld+json">
+
+<script webc:type="js" webc:is="script" type="application/ld+json" webc:keep>
+let blackLogoPath = this.helpers.imgPath('logo-black.png')
+let ret = `
 {
     "@context": "http://schema.org",
     "@type": "Website",
     "publisher": "Manideep Polireddi",
     "url": "https://okmanideep.github.io",
-    "image": "{{ "logo-black.png" | imgPath }}",
-    "description": "{{ site.description }}"
+    "image": "${blackLogoPath}",
+    "description": "${site.description}"
 }
-    </script>
+`
 
-    <meta name="generator" content="11ty" />
-    <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="{{ site.baseurl }}feed.xml" />
-</template>
+ret
+</script>
+
+<meta name="generator" content="11ty" />
+<link rel="alternate" type="application/rss+xml" :title="site.name" :href="`${site.baseurl}feed.xml`" />

@@ -4,7 +4,7 @@ function currentYear() {
 
 module.exports = {
   name: '@okmanideep',
-  description: "Android · Development · Design",
+  description: "Android · Web · Design",
   logo: 'logo-black-on-white-square.jpg',
   logo_light: 'logo-white.png',
 
@@ -12,7 +12,6 @@ module.exports = {
   author: 'Manideep Polireddi',
   //edit 'categories' in the front matter of every post to match this username
   username: 'okmanideep',
-  bio: 'Android developer · Design Enthusiast',
   location: 'Mumbai, India',
   baseurl: '/',
   url: 'https://okmanideep.github.io',

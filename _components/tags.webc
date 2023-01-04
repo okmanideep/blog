@@ -1,4 +1,4 @@
-<script webc:type="js">
+<script webc:type="js" webc:is="template">
   let tagLinks = tags.map(tag => `<a href="${site.baseurl}/tag/${tag}">${tag}</a>`).join(',')
   let html
   if (tags.size < 0) {
