@@ -1,0 +1,18 @@
+<section class="post-meta">
+	<time class="post-date" :datetime="date" @html="readableDate(date)"></time>
+	<tags :value="tags"></tags>
+</section>
+<style>
+.post-meta {
+  color: var(--dim-text-color);
+  font-size: 0.9em;
+}
+
+.post-meta > a {
+  text-decoration: none;
+}
+
+.post-meta > a:hover {
+  text-decoration: underline;
+}
+</style>

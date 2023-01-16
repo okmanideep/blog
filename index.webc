@@ -2,4 +2,4 @@
 layout: default.webc
 ---
 
-
+<post-list :posts="collections.all"></post-list>

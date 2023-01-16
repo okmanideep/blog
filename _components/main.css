@@ -209,19 +209,6 @@ header > nav > a:hover > svg {
   transition: fill 0.3s ease;
 }
 
-.post-meta {
-  color: var(--dim-text-color);
-  font-size: 0.9em;
-}
-
-.post-meta > a {
-  text-decoration: none;
-}
-
-.post-meta > a:hover {
-  text-decoration: underline;
-}
-
 footer {
   margin: 3em 1em 1em 1em;
   display: flex;

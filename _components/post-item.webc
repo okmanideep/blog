@@ -1,0 +1,14 @@
+<div class="post-item">
+	<h3 @text="title"></h3>
+	<p @text="description"></p>
+	<post-meta :date="date" :tags="tags"></post-meta>
+</div>
+<style>
+.post-item {
+	border-radius: 3px;
+	padding: 12px 24px;
+}
+.post-item::hover {
+	background: var(--raised-bg-color);
+}
+</style>
