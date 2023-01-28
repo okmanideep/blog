@@ -1,18 +1,19 @@
-<section class="post-meta">
+<div class="post-meta">
 	<time class="post-date" :datetime="date" @html="readableDate(date)"></time>
-	<tags :value="tags"></tags>
-</section>
+	<tags :value="tags" webc:nokeep></tags>
+</div>
 <style>
 .post-meta {
   color: var(--dim-text-color);
   font-size: 0.9em;
 }
 
-.post-meta > a {
+.post-meta a {
   text-decoration: none;
+	pointer-events: auto;
 }
 
-.post-meta > a:hover {
+.post-meta a:hover {
   text-decoration: underline;
 }
 </style>

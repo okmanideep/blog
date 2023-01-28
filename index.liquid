@@ -1,0 +1,12 @@
+---
+layout: default.webc
+eleventyExcludeFromCollections: true
+---
+
+<main role="main">
+{%- for item in collections.all reversed %}
+	{% renderTemplate "webc", item.data %}
+		<post-item webc:nokeep></post-item>
+	{% endrenderTemplate %}
+{% endfor -%}
+</main>

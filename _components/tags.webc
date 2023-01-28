@@ -1,16 +1,16 @@
 <style>
 a.tag {
-  text-transform: capitalize;
+	text-transform: capitalize;
 }
 </style>
 <script webc:type="js" webc:is="template">
-  let tagLinks = value.map(tag => `<a class="tag" href="${site.baseurl}/tag/${tag}">${tag}</a>`).join(', ')
-  let html
-  if (taglist < 0) {
-    html = ``
-  } else {
-    html = `on ${tagLinks}`
-  }
+let tagLinks = value.map(tag => `<a class="tag" href="${site.baseurl}tag/${tag}">${tag}</a>`).join(', ')
+let html
+if (taglist < 0) {
+	html = ``
+} else {
+	html = `on ${tagLinks}`
+}
 
-  html
+html
 </script>

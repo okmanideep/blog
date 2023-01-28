@@ -1,14 +1,27 @@
 <div class="post-item">
-	<h3 @text="title"></h3>
-	<p @text="description"></p>
-	<post-meta :date="date" :tags="tags"></post-meta>
+	<a :href="slugify(title)">
+		<h3 @text="title"></h3>
+		<p @text="description"></p>
+	</a>
+	<post-meta :date="date" :tags="tags" webc:nokeep></post-meta>
 </div>
 <style>
 .post-item {
-	border-radius: 3px;
-	padding: 12px 24px;
+	border-radius: 5px;
+	padding: 24px 24px;
+	pointer-events: none;
+	margin-bottom: 12px;
 }
-.post-item::hover {
+.post-item h3 {
+	margin: 8px 0px;
+}
+.post-item > a {
+	text-decoration: none;
+	pointer-events: auto;
+	color: var(--main-text-color);
+}
+
+.post-item:hover {
 	background: var(--raised-bg-color);
 }
 </style>
