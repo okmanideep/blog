@@ -1,0 +1,22 @@
+---
+layout: default.webc
+eleventyExcludeFromCollections: true
+pagination:
+  data: collections
+  size: 1
+  alias: tag
+eleventyComputed:
+  title: Tagged “{{ tag }}”
+permalink: /tag/{{ tag | slugify }}/
+---
+
+<main role="main">
+<h1>Tagged “{{ tag | capitalize }}”</h1>
+{% assign taglist = collections[ tag ] %}
+{%- for item in taglist reversed %}
+	{% renderTemplate "webc", item.data %}
+		<post-item webc:nokeep></post-item>
+	{% endrenderTemplate %}
+{% endfor -%}
+</main>
+
