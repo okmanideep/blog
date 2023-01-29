@@ -14,7 +14,7 @@ module.exports = {
   username: 'okmanideep',
   location: 'Mumbai, India',
   baseurl: '/',
-  url: 'https://okmanideep.github.io',
+  url: 'https://okmanideep.me',
   image: 'okmanideep.jpg',
   twitter: 'okmanideep',
 

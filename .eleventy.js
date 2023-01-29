@@ -2,6 +2,7 @@ const webcPlugin = require("@11ty/eleventy-plugin-webc")
 const CleanCSS = require("clean-css")
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight")
 const { EleventyRenderPlugin } = require("@11ty/eleventy")
+const pluginRss = require("@11ty/eleventy-plugin-rss");
 
 function imgShortcode(src, alt) {
 	return `<img src="${imgPath(src)}" alt="${alt}" />`
@@ -34,4 +35,7 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPlugin(EleventyRenderPlugin)
 	eleventyConfig.addPlugin(webcPlugin)
 	eleventyConfig.addPlugin(syntaxHighlight)
+	eleventyConfig.addPlugin(pluginRss);
+
+	eleventyConfig.addLiquidFilter("dateToRfc3339", pluginRss.dateToRfc3339);
 }
