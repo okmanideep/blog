@@ -3,6 +3,9 @@ layout: default.webc
 eleventyExcludeFromCollections: true
 ---
 
+{% renderTemplate "webc" %}
+	<home-banner></home-banner>
+{% endrenderTemplate %}
 <main role="main">
 {%- for item in collections.all reversed %}
 	{% renderTemplate "webc", item.data %}
