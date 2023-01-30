@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:base="https://okmanideep.me/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>@okmanideep</title>
+    <link>https://okmanideep.me/</link>
+    <atom:link href="https://okmanideep.me/feed.xml" rel="self" type="application/rss+xml" />
+    <description>Android · Web · Design</description>
+    <language>en</language>
+    <item>
+      <title>Understanding Composition and Side Effects</title>
+      <link>https://okmanideep.me/understanding-composition-and-side-effects/</link>
+      <description>Important aspect to any framework that relies on functions is to understand when they are invoked. Read along to get a crystal clear understanding</description>
+      <pubDate>Fri, 01 Apr 2022 18:00:00 +0000</pubDate>
+      <dc:creator>Manideep Polireddi</dc:creator>
+      <guid>https://okmanideep.me/understanding-composition-and-side-effects/</guid>
+    </item>
+    <item>
+      <title>Dependency management in multi-module gradle projects</title>
+      <link>https://okmanideep.me/dependency-management-in-multi-module-gradle-projects/</link>
+      <description>Simple things you can do to improve your gradle/android dependency management</description>
+      <pubDate>Thu, 02 Nov 2017 00:20:00 +0000</pubDate>
+      <dc:creator>Manideep Polireddi</dc:creator>
+      <guid>https://okmanideep.me/dependency-management-in-multi-module-gradle-projects/</guid>
+    </item>
+    <item>
+      <title>Improve your Android build times</title>
+      <link>https://okmanideep.me/improve-your-android-build-times/</link>
+      <description>Simple things you can do to improve your gradle/android build time a lot</description>
+      <pubDate>Tue, 05 Apr 2016 20:10:00 +0000</pubDate>
+      <dc:creator>Manideep Polireddi</dc:creator>
+      <guid>https://okmanideep.me/improve-your-android-build-times/</guid>
+    </item>
+    <item>
+      <title>RxConfusions - Part 1 : Map and FlatMap</title>
+      <link>https://okmanideep.me/rxconfusions-part-1-map-and-flatmap/</link>
+      <description>You probably know what the map operator is. This post discussed mostly about FlatMap and that probably will remove the confusion between map and flatMap operators if any</description>
+      <pubDate>Tue, 01 Dec 2015 20:10:00 +0000</pubDate>
+      <dc:creator>Manideep Polireddi</dc:creator>
+      <guid>https://okmanideep.me/rxconfusions-part-1-map-and-flatmap/</guid>
+    </item>
+    <item>
+      <title>Clean way to define support library dependencies</title>
+      <link>https://okmanideep.me/clean-way-to-define-support-library-dependencies/</link>
+      <description>A cleaner way to define support library dependencies which makes updating their version number a whole lot easier</description>
+      <pubDate>Mon, 23 Nov 2015 20:10:00 +0000</pubDate>
+      <dc:creator>Manideep Polireddi</dc:creator>
+      <guid>https://okmanideep.me/clean-way-to-define-support-library-dependencies/</guid>
+    </item>
+    <item>
+      <title>Permissions in marshmallow</title>
+      <link>https://okmanideep.me/permissions-in-marshmallow/</link>
+      <description>A deep dive into requesting permissions in Android Marshmallow and handling extreme cases</description>
+      <pubDate>Sat, 14 Nov 2015 20:10:00 +0000</pubDate>
+      <dc:creator>Manideep Polireddi</dc:creator>
+      <guid>https://okmanideep.me/permissions-in-marshmallow/</guid>
+    </item>
+  </channel>
+</rss>
