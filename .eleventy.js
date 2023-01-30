@@ -25,6 +25,7 @@ function readableDate(dateString) {
 
 module.exports = function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("img")
+	eleventyConfig.addPassthroughCopy("CNAME")
 
 	eleventyConfig.addShortcode("img", imgShortcode)
 
