@@ -35,4 +35,3 @@ ret
 </script>
 
 <meta name="generator" content="11ty" />
-<link rel="alternate" type="application/json" :name="site.name" :href="`${site.baseurl}feed.json`" />

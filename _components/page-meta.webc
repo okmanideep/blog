@@ -4,3 +4,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" type="image/svg+xml" :href="imgPath('favicon.svg')" >
 <link rel="shortcut icon" type="image/png" :href="imgPath('favicon.png')" >
+<link rel="alternate" type="application/json" :name="site.name" :href="`${site.baseurl}feed.json`" />
+<link rel="alternate" type="application/feed+json" :name="site.name" :href="`${site.baseurl}feed.json`" />
+<link rel="alternate" type="application/rss+xml" :name="site.name" :href="`${site.baseurl}feed.xml`" />
