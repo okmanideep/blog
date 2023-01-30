@@ -1,0 +1,911 @@
+<!doctype html>
+<html>
+<head>
+        <!-- [[! Document Settings ]] -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <!-- [[! Page Meta ]] -->
+        <title>Permissions in marshmallow</title>
+<meta name="description" content="A deep dive into requesting permissions in Android Marshmallow and handling extreme cases">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" type="image/svg+xml" href="/img/favicon.svg">
+<link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+
+
+        <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+        <link rel="canonical" href="/">
+<meta name="referrer" content="origin">
+<meta name="author" content="https://twitter.com/okmanideep">
+
+<meta property="og:site_name" content="@okmanideep">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Permissions in marshmallow">
+<meta property="og:description" content="A deep dive into requesting permissions in Android Marshmallow and handling extreme cases">
+<meta property="og:url" content="https://okmanideep.me/tag/android/">
+<meta property="og:image" content="https://okmanideep.me/img/logo-black-on-white-square.jpg">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="https://facebook.com/okmanideep">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Permissions in marshmallow">
+<meta name="twitter:description" content="A deep dive into requesting permissions in Android Marshmallow and handling extreme cases">
+<meta name="twitter:image" content="https://okmanideep.me/img/logo-black-on-white-square.jpg">
+<meta name="twitter:author" content="@okmanideep">
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "Manideep Polireddi",
+    "url": "https://okmanideep.github.io",
+    "image": "/img/logo-black.png",
+    "description": "Android · Web · Design"
+}
+</script>
+
+<meta name="generator" content="11ty">
+<link rel="alternate" type="application/rss+xml" title="@okmanideep" href="/feed.xml">
+
+
+        <!-- [[! Styles ]] -->
+        
+
+
+
+        <style>
+.post-item {
+	border-radius: 5px;
+	padding: 24px 24px;
+	pointer-events: none;
+	margin-bottom: 12px;
+}
+.post-item h3 {
+	margin: 8px 0px;
+}
+.post-item > a {
+	text-decoration: none;
+	pointer-events: auto;
+	color: var(--main-text-color);
+}
+
+.post-item:hover {
+	background: var(--raised-bg-color);
+}
+
+
+.post-meta {
+  color: var(--dim-text-color);
+  font-size: 0.9em;
+}
+
+.post-meta a {
+  text-decoration: none;
+	pointer-events: auto;
+}
+
+.post-meta a:hover {
+  text-decoration: underline;
+}
+
+
+a.tag {
+	text-transform: capitalize;
+}
+
+
+.post-meta {
+  color: var(--dim-text-color);
+  font-size: 0.9em;
+}
+
+.post-meta a {
+  text-decoration: none;
+	pointer-events: auto;
+}
+
+.post-meta a:hover {
+  text-decoration: underline;
+}
+
+
+a.tag {
+	text-transform: capitalize;
+}
+
+/* Source: https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital@0;1&family=Rubik:ital,wght@0,600;1,600&display=swap */
+
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHrv4kjgoGqM7E_Cfs0wH8RnA.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHrv4kjgoGqM7E_Cfs1wH8RnA.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHrv4kjgoGqM7E_Cfs7wH8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHsv4kjgoGqM7E_CfOA5WohvTobdw.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHsv4kjgoGqM7E_CfOA5WogvTobdw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHsv4kjgoGqM7E_CfOA5WouvTo.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHpv4kjgoGqM7E_A8s52Hs.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHpv4kjgoGqM7E_Ass52Hs.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHpv4kjgoGqM7E_DMs5.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHqv4kjgoGqM7E3t-4s6FospT4.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHqv4kjgoGqM7E3t-4s6VospT4.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHqv4kjgoGqM7E3t-4s51os.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDba2o-flEEny0FZhsfKu5WU4xD-IQ-PuZJJXxfpAO-LfmOamaKjhw.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDba2o-flEEny0FZhsfKu5WU4xD-IQ-PuZJJXxfpAO-LfmOTmaKjhw.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDba2o-flEEny0FZhsfKu5WU4xD-IQ-PuZJJXxfpAO-LfmOUmaKjhw.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDba2o-flEEny0FZhsfKu5WU4xD-IQ-PuZJJXxfpAO-LfmOYmaKjhw.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDba2o-flEEny0FZhsfKu5WU4xD-IQ-PuZJJXxfpAO-LfmOZmaKjhw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDba2o-flEEny0FZhsfKu5WU4xD-IQ-PuZJJXxfpAO-LfmOXmaI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTN1OVgaY.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTPlOVgaY.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTOVOVgaY.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTNVOVgaY.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTNFOVgaY.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTOlOV.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWbBXyIfDnIV7nEt3KSJbVDV49rz8uDFHU6f4L1kA.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWbBXyIfDnIV7nEt3KSJbVDV49rz8uDFHUzf4L1kA.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* hebrew */
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWbBXyIfDnIV7nEt3KSJbVDV49rz8uDFHU1f4L1kA.woff2) format('woff2');
+  unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWbBXyIfDnIV7nEt3KSJbVDV49rz8uDFHU5f4L1kA.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWbBXyIfDnIV7nEt3KSJbVDV49rz8uDFHU3f4I.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-FWkU1Z4Y.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-FU0U1Z4Y.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* hebrew */
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-FVUU1Z4Y.woff2) format('woff2');
+  unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-FWUU1Z4Y.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-FV0U1.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+v2.0 | 20110126
+License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* END reset.css */
+
+/* THEME VARS */
+:root {
+  --main-bg-color: #22262c;
+  --main-text-color: #ffffff;
+  --heading-text-color: #f7f7f7;
+  --main-border-color: #333333;
+  --highlight-text-color: #61aeee;
+  --highlight-border-color: #218EE8;
+  --raised-bg-color: #282c34;
+  --dim-text-color: #9eabb3;
+}
+
+/* MAIN CSS */
+body {
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+  font-family: 'Barlow', sans-serif;
+}
+
+main {
+  width: 96%;
+  margin: auto;
+  font-size: 1rem;
+}
+
+@media only screen and (min-device-width: 960px) {
+  main {
+    width: 880px;
+    font-size: 1.2rem;
+  }
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 600;
+  color: var(--heading-text-color);
+}
+
+h1 {
+  font-size: 2.0em;
+  margin: 2em 0 0.4em 0;
+  padding-bottom: 0.65em;
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+h2 {
+  font-size: 1.8em;
+  margin: 1.6em 0 0.8em 0;
+}
+
+h3 {
+  font-size: 1.6em;
+  margin: 1em 0 0.5em 0;
+}
+
+h4 {
+  font-size: 1.4em;
+  margin: 1em 0 0.5em 0;
+}
+
+h5 {
+  font-size: 1.2em;
+  margin: 0.8em 0 0.4em 0;
+}
+
+h6 {
+  font-size: 1.1em;
+  margin-top: 0.8em 0 0.4em 0;
+}
+
+p {
+  margin: 1em 0 0.5em 0;
+}
+
+a {
+  color: var(--highlight-text-color);
+}
+
+blockquote {
+  margin: 18px 0px;
+  background: var(--raised-bg-color);
+  border-left: 4px solid var(--highlight-border-color);
+}
+
+blockquote>p {
+  padding: 0.6em 1em;
+}
+
+p, li {
+  line-height: 1.5em;
+}
+
+table {
+  padding: 0; 
+  border-collapse: collapse;
+}
+table tr {
+  border-top: 1px solid var(--main-border-color);
+  background-color: var(--main-bg-color);
+  margin: 0;
+  padding: 0; 
+}
+table thead tr {
+  background-color: var(--raised-bg-color); 
+}
+table tr:nth-child(2n) {
+  background-color: var(--raised-bg-color); 
+}
+table tr th {
+  font-weight: bold;
+  border: 1px solid var(--main-border-color);
+  text-align: left;
+  margin: 0;
+  padding: 0.6em 1em; 
+}
+table tr td {
+  border: 1px solid var(--main-border-color);
+  text-align: left;
+  margin: 0;
+  padding: 0.6em 1em; 
+}
+table tr th :first-child, table tr td :first-child {
+  margin-top: 0; 
+}
+table tr th :last-child, table tr td :last-child {
+  margin-bottom: 0; 
+}
+
+ul,ol {
+  margin-bottom: 1em;
+  margin-top: 0.4em;
+  padding-inline-start: 1.2em;
+}
+
+header {
+  padding: 2em;
+  margin: 0 0 1em 0;
+}
+
+header > nav {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+
+header > nav > a {
+  display: block;
+}
+
+header > nav > a > img {
+  height: 2em;
+}
+
+header > nav > a > svg {
+  height: 1.4em;
+  fill: var(--main-text-color);
+}
+
+header > nav > a:hover > svg {
+  fill: var(--highlight-text-color);
+  transition: fill 0.3s ease;
+}
+
+footer {
+  margin: 3em 1em 1em 1em;
+  display: flex;
+  justify-content: space-between;
+  color: var(--dim-text-color);
+  font-size: 1.2em;
+}
+
+footer a {
+  font-weight: bold;
+  color: var(--dim-text-color);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--main-text-color);
+}
+
+
+/**
+* Edited from atom-dark theme for `prism.js`
+* Based on Atom's `atom-dark` theme: https://github.com/atom/atom-dark-syntax
+* @author Joe Gibson (@gibsjose)
+*/
+
+code,
+pre {
+	--onedark-bg: #282C34;
+	--onedark-red: #E06C75;
+	--onedark-red-bg: #2E2A2E;
+	--onedark-green: #98C379;
+	--onedark-green-bg: #27332d;
+	--onedark-yellow: #E5C07B;
+	--onedark-blue: #61AFEF;
+	--onedark-purple: #C678DD;
+	--onedark-teal: #56B6C2;
+	--onedark-gray: #ABB2BF;
+
+	color: var(--onedark-gray);
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  font-family: 'JetBrains Mono', monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre {
+  padding: 0.6em;
+  border-radius: 4px;
+  margin-bottom: 1em;
+  margin-top: 0.4em;
+  overflow-x: auto;
+}
+
+:not(pre) > code,
+pre {
+  font-size: 0.9em;
+	background: var(--onedark-bg);
+}
+
+:not(pre) > code {
+  padding: 2px 4px;
+  color: var(--onedark-blue);
+  background: var(--onedark-bg);
+  border-radius: 3px;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #7C7C7C;
+}
+
+.token.punctuation {
+	color: var(--onedark-gray);
+}
+
+.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.keyword,
+.token.tag {
+	color: var(--onedark-blue);
+}
+
+.token.class-name {
+	color: var(--onedark-yellow);
+	text-decoration: underline;
+}
+
+.token.boolean,
+.token.constant {
+	color: var(--onedark-green);
+}
+
+.token.symbol,
+.token.prefix.deleted {
+	color: var(--onedark-red);
+}
+
+.token.number {
+	color: var(--onedark-purple);
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.prefix.inserted {
+	color: var(--onedark-green);
+}
+
+.token.variable {
+	color: var(--onedark-blue);
+}
+
+.token.operator {
+	color: #EDEDED;
+}
+
+.token.entity {
+	color: var(--onedark-yellow);
+	cursor: help;
+}
+
+.token.url {
+	color: var(--onedark-blue);
+}
+
+.language-css .token.string,
+.style .token.string {
+	color: var(--onedark-green);
+}
+
+.token.atrule,
+.token.attr-value {
+	color: var(--onedark-yellow);
+}
+
+.token.function {
+	color: var(--onedark-purple);
+}
+
+.token.regex {
+	color: var(--onedark-yellow);
+}
+
+.token.important {
+	color: var(--onedark-yellow);
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+/* diff-* code blocks support */
+.token.deleted {
+  background-color: var(--onedark-red-bg);
+}
+.token.inserted {
+  background-color: var(--onedark-green-bg);
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+  display: block;
+}
+</style>
+    </head>
+
+    <body>
+        <header>
+  <nav>
+    <a href="/"><img src="/img/logo-white.png" alt="okmanideep blog logo">
+</a>
+    <a href="/feed.xml">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M25.57 176.1C12.41 175.4 .9117 185.2 .0523 198.4s9.173 24.65 22.39 25.5c120.1 7.875 225.7 112.7 233.6 233.6C256.9 470.3 267.4 480 279.1 480c.5313 0 1.062-.0313 1.594-.0625c13.22-.8438 23.25-12.28 22.39-25.5C294.6 310.3 169.7 185.4 25.57 176.1zM32 32C14.33 32 0 46.31 0 64s14.33 32 32 32c194.1 0 352 157.9 352 352c0 17.69 14.33 32 32 32s32-14.31 32-32C448 218.6 261.4 32 32 32zM63.1 351.9C28.63 351.9 0 380.6 0 416s28.63 64 63.1 64s64.08-28.62 64.08-64S99.37 351.9 63.1 351.9z"></path></svg>
+    </a>
+  </nav>
+</header>
+
+
+        <main role="main">
+    <article>
+        <h1>Permissions in marshmallow</h1>
+		<post-meta date="Sat Nov 14 2015 20:10:00 GMT+0000 (Coordinated Universal Time)" tags="android"><div class="post-meta">
+	<time class="post-date" datetime="Sat Nov 14 2015 20:10:00 GMT+0000 (Coordinated Universal Time)">Sat, Nov 14 2015</time>
+	
+on <a class="tag" href="/tag/android">android</a>
+
+</div>
+
+</post-meta>
+        <section class="content"><p>I expect you to first go and have a look at this page in the <a href="http://developer.android.com/training/permissions/requesting.html">Android Bible</a> about permissions in marshmallow. Especially have a look at how to:</p>
+<ul>
+<li>Request the permissions you need</li>
+<li>Handle the permissions request response</li>
+</ul>
+<h4>Requesting for permission</h4>
+<p>You might have seen a code snippet like below in the training page.</p>
+<pre class="language-java"><code class="language-java"><span class="token comment">// Here, thisActivity is the current activity</span><br><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">ContextCompat</span><span class="token punctuation">.</span><span class="token function">checkSelfPermission</span><span class="token punctuation">(</span>thisActivity<span class="token punctuation">,</span><br>                <span class="token class-name">Manifest</span><span class="token punctuation">.</span>permission<span class="token punctuation">.</span><span class="token constant">READ_CONTACTS</span><span class="token punctuation">)</span><br>        <span class="token operator">!=</span> <span class="token class-name">PackageManager</span><span class="token punctuation">.</span><span class="token constant">PERMISSION_GRANTED</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token comment">// Should we show an explanation?</span><br>    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">ActivityCompat</span><span class="token punctuation">.</span><span class="token function">shouldShowRequestPermissionRationale</span><span class="token punctuation">(</span>thisActivity<span class="token punctuation">,</span><br>            <span class="token class-name">Manifest</span><span class="token punctuation">.</span>permission<span class="token punctuation">.</span><span class="token constant">READ_CONTACTS</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>        <span class="token comment">//show user the reason for permission</span><br>    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span><br>        <span class="token comment">//request permission</span><br>    <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<h3>Pay Attention</h3>
+<p>Lets just dive into the only tricky part here - <code>shouldShowRequestPermissionRationale()</code> returns</p>
+<ul>
+<li><strong>true</strong> if
+<ul>
+<li>The app has requested this permission previously and the user denied the request <strong>in the dialog</strong></li>
+<li>User has toggled off the permission <strong>in the settings</strong> (<em>Even if the app hasn't requested the permission yet, if the user just has toggled the switch on and off in the settings page, you are expected to show the rationale</em>)</li>
+</ul>
+</li>
+<li><strong>false</strong> if
+<ul>
+<li>The app didn't request for this permission yet</li>
+<li>The user denied the permission and chose <strong>Don't ask again</strong> option</li>
+<li>The device policy prohibits the app from having that permission (<em>Mostly in enterprise cenarios</em>)</li>
+</ul>
+</li>
+</ul>
+<h3>Consider this possible case</h3>
+<p>The above code works pretty much in most practical cases. Let us consider this case:</p>
+<ul>
+<li>The user has chosen <strong>Don't ask again</strong> for contacts access in the past (<em>which will most probably never happen if you have requested permissions gracefully and if the user made the decision conciously</em>)</li>
+<li>And now the user wants to send a contact to his friend</li>
+</ul>
+<p>There is no way to detect using the above code that we were denied the permission, and ask him to grant the permission via application settings.</p>
+<h3>The way out</h3>
+<p>Check for <code>shouldShowRequestPermissionRationale()</code> before and after asking permission. If it returns false both the times then the user chose 'Don't ask again' in the past or the device policy doesn't allow for that permission.</p>
+<pre class="language-diff-java"><code class="language-diff-java"><span class="token unchanged language-java"><span class="token prefix unchanged"> </span> <span class="token keyword">boolean</span> before<span class="token punctuation">,</span> after<span class="token punctuation">;</span><br><span class="token prefix unchanged"> </span> <br><span class="token prefix unchanged"> </span> <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">requestContactsPermission</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>     <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">ContextCompat</span><span class="token punctuation">.</span><span class="token function">checkSelfPermission</span><span class="token punctuation">(</span>thisActivity<span class="token punctuation">,</span><br><span class="token prefix unchanged"> </span>                     <span class="token class-name">Manifest</span><span class="token punctuation">.</span>permission<span class="token punctuation">.</span><span class="token constant">READ_CONTACTS</span><span class="token punctuation">)</span><br><span class="token prefix unchanged"> </span>             <span class="token operator">!=</span> <span class="token class-name">PackageManager</span><span class="token punctuation">.</span><span class="token constant">PERMISSION_GRANTED</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>         <span class="token comment">// Should we show an explanation?</span><br></span><span class="token inserted-sign inserted language-java"><span class="token prefix inserted">+</span>         before <span class="token operator">=</span> <span class="token class-name">ActivityCompat</span><span class="token punctuation">.</span><span class="token function">shouldShowRequestPermissionRationale</span><span class="token punctuation">(</span>thisActivity<span class="token punctuation">,</span><br><span class="token prefix inserted">+</span>                 <span class="token class-name">Manifest</span><span class="token punctuation">.</span>permission<span class="token punctuation">.</span><span class="token constant">READ_CONTACTS</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token prefix inserted">+</span>         <span class="token keyword">if</span> <span class="token punctuation">(</span>before<span class="token punctuation">)</span> <span class="token punctuation">{</span><br></span><span class="token unchanged language-java"><span class="token prefix unchanged"> </span>             <span class="token comment">//show user the reason for permission</span><br><span class="token prefix unchanged"> </span>         <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>             <span class="token comment">//request permission</span><br><span class="token prefix unchanged"> </span>         <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span>     <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span> <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span> <br><span class="token prefix unchanged"> </span> <span class="token annotation punctuation">@Override</span><br><span class="token prefix unchanged"> </span> <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onRequestPermissionsResult</span><span class="token punctuation">(</span><span class="token keyword">int</span> requestCode<span class="token punctuation">,</span><br><span class="token prefix unchanged"> </span>         <span class="token class-name">String</span> permissions<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> grantResults<span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>     <span class="token keyword">switch</span> <span class="token punctuation">(</span>requestCode<span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>         <span class="token keyword">case</span> <span class="token constant">MY_PERMISSIONS_REQUEST_READ_CONTACTS</span><span class="token operator">:</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>             <span class="token keyword">if</span> <span class="token punctuation">(</span>grantResults<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><br><span class="token prefix unchanged"> </span>                 <span class="token operator">&amp;&amp;</span> grantResults<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token class-name">PackageManager</span><span class="token punctuation">.</span><span class="token constant">PERMISSION_GRANTED</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>                 <span class="token comment">// permission was granted, yay! Do the</span><br><span class="token prefix unchanged"> </span>                 <span class="token comment">// contacts-related task you need to do.</span><br><span class="token prefix unchanged"> </span>             <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span><br></span><span class="token inserted-sign inserted language-java"><span class="token prefix inserted">+</span>                 after <span class="token operator">=</span> <span class="token class-name">ActivityCompat</span><span class="token punctuation">.</span><span class="token function">shouldShowRequestPermissionRationale</span><span class="token punctuation">(</span><br><span class="token prefix inserted">+</span>                 thisActivity<span class="token punctuation">,</span><br><span class="token prefix inserted">+</span>                 <span class="token class-name">Manifest</span><span class="token punctuation">.</span>permission<span class="token punctuation">.</span><span class="token constant">READ_CONTACTS</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token prefix inserted">+</span>                 <span class="token keyword">boolean</span> goToSettings <span class="token operator">=</span> <span class="token operator">!</span><span class="token punctuation">(</span>after <span class="token operator">||</span> before<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token prefix inserted">+</span>                 <span class="token function">showRationale</span><span class="token punctuation">(</span>goToSettings<span class="token punctuation">)</span><span class="token punctuation">;</span><br></span><span class="token unchanged language-java"><span class="token prefix unchanged"> </span>             <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span>             <span class="token keyword">return</span><span class="token punctuation">;</span><br><span class="token prefix unchanged"> </span>         <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span>     <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span> <span class="token punctuation">}</span></code></pre>
+<p>If both <code>before</code> and <code>after</code> are <code>false</code>, then show the user a dialog explaining that we need the contacts permission with a 'GO TO SETTINGS' button. On click take him to your application in the settings like this :</p>
+<pre class="language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">goToSettings</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token class-name">Intent</span> intent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Intent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    intent<span class="token punctuation">.</span><span class="token function">setAction</span><span class="token punctuation">(</span><span class="token class-name">Settings</span><span class="token punctuation">.</span><span class="token constant">ACTION_APPLICATION_DETAILS_SETTINGS</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token class-name">Uri</span> uri <span class="token operator">=</span> <span class="token class-name">Uri</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span><span class="token string">"package:"</span> <span class="token operator">+</span> <span class="token function">getPackageName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    intent<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span>uri<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token function">startActivity</span><span class="token punctuation">(</span>intent<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+</section>
+    </article>
+</main>
+
+
+        <footer>
+            <section><a href="/">@okmanideep</a> © <template>2023</template></section>
+            <section>Published with <a href="https://11ty.dev">11ty</a></section>
+        </footer>
+    
+
+</body>
+</html>

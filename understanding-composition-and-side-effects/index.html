@@ -1,0 +1,1129 @@
+<!doctype html>
+<html>
+<head>
+        <!-- [[! Document Settings ]] -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <!-- [[! Page Meta ]] -->
+        <title>Understanding Composition and Side Effects</title>
+<meta name="description" content="Important aspect to any framework that relies on functions is to understand when they are invoked. Read along to get a crystal clear understanding">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" type="image/svg+xml" href="/img/favicon.svg">
+<link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+
+
+        <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+        <link rel="canonical" href="/">
+<meta name="referrer" content="origin">
+<meta name="author" content="https://twitter.com/okmanideep">
+
+<meta property="og:site_name" content="@okmanideep">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Understanding Composition and Side Effects">
+<meta property="og:description" content="Important aspect to any framework that relies on functions is to understand when they are invoked. Read along to get a crystal clear understanding">
+<meta property="og:url" content="https://okmanideep.me/tag/compose/">
+<meta property="og:image" content="https://okmanideep.me/img/logo-black-on-white-square.jpg">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="https://facebook.com/okmanideep">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Understanding Composition and Side Effects">
+<meta name="twitter:description" content="Important aspect to any framework that relies on functions is to understand when they are invoked. Read along to get a crystal clear understanding">
+<meta name="twitter:image" content="https://okmanideep.me/img/logo-black-on-white-square.jpg">
+<meta name="twitter:author" content="@okmanideep">
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "Manideep Polireddi",
+    "url": "https://okmanideep.github.io",
+    "image": "/img/logo-black.png",
+    "description": "Android · Web · Design"
+}
+</script>
+
+<meta name="generator" content="11ty">
+<link rel="alternate" type="application/rss+xml" title="@okmanideep" href="/feed.xml">
+
+
+        <!-- [[! Styles ]] -->
+        
+
+
+
+        <style>
+.post-item {
+	border-radius: 5px;
+	padding: 24px 24px;
+	pointer-events: none;
+	margin-bottom: 12px;
+}
+.post-item h3 {
+	margin: 8px 0px;
+}
+.post-item > a {
+	text-decoration: none;
+	pointer-events: auto;
+	color: var(--main-text-color);
+}
+
+.post-item:hover {
+	background: var(--raised-bg-color);
+}
+
+
+.post-meta {
+  color: var(--dim-text-color);
+  font-size: 0.9em;
+}
+
+.post-meta a {
+  text-decoration: none;
+	pointer-events: auto;
+}
+
+.post-meta a:hover {
+  text-decoration: underline;
+}
+
+
+a.tag {
+	text-transform: capitalize;
+}
+
+
+.post-meta {
+  color: var(--dim-text-color);
+  font-size: 0.9em;
+}
+
+.post-meta a {
+  text-decoration: none;
+	pointer-events: auto;
+}
+
+.post-meta a:hover {
+  text-decoration: underline;
+}
+
+
+a.tag {
+	text-transform: capitalize;
+}
+
+/* Source: https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital@0;1&family=Rubik:ital,wght@0,600;1,600&display=swap */
+
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHrv4kjgoGqM7E_Cfs0wH8RnA.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHrv4kjgoGqM7E_Cfs1wH8RnA.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHrv4kjgoGqM7E_Cfs7wH8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHsv4kjgoGqM7E_CfOA5WohvTobdw.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHsv4kjgoGqM7E_CfOA5WogvTobdw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHsv4kjgoGqM7E_CfOA5WouvTo.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHpv4kjgoGqM7E_A8s52Hs.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHpv4kjgoGqM7E_Ass52Hs.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHpv4kjgoGqM7E_DMs5.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHqv4kjgoGqM7E3t-4s6FospT4.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHqv4kjgoGqM7E3t-4s6VospT4.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/barlow/v12/7cHqv4kjgoGqM7E3t-4s51os.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDba2o-flEEny0FZhsfKu5WU4xD-IQ-PuZJJXxfpAO-LfmOamaKjhw.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDba2o-flEEny0FZhsfKu5WU4xD-IQ-PuZJJXxfpAO-LfmOTmaKjhw.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDba2o-flEEny0FZhsfKu5WU4xD-IQ-PuZJJXxfpAO-LfmOUmaKjhw.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDba2o-flEEny0FZhsfKu5WU4xD-IQ-PuZJJXxfpAO-LfmOYmaKjhw.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDba2o-flEEny0FZhsfKu5WU4xD-IQ-PuZJJXxfpAO-LfmOZmaKjhw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDba2o-flEEny0FZhsfKu5WU4xD-IQ-PuZJJXxfpAO-LfmOXmaI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTN1OVgaY.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTPlOVgaY.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTOVOVgaY.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTNVOVgaY.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTNFOVgaY.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTOlOV.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWbBXyIfDnIV7nEt3KSJbVDV49rz8uDFHU6f4L1kA.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWbBXyIfDnIV7nEt3KSJbVDV49rz8uDFHUzf4L1kA.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* hebrew */
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWbBXyIfDnIV7nEt3KSJbVDV49rz8uDFHU1f4L1kA.woff2) format('woff2');
+  unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWbBXyIfDnIV7nEt3KSJbVDV49rz8uDFHU5f4L1kA.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWbBXyIfDnIV7nEt3KSJbVDV49rz8uDFHU3f4I.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-FWkU1Z4Y.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-FU0U1Z4Y.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* hebrew */
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-FVUU1Z4Y.woff2) format('woff2');
+  unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-FWUU1Z4Y.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-FV0U1.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+v2.0 | 20110126
+License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* END reset.css */
+
+/* THEME VARS */
+:root {
+  --main-bg-color: #22262c;
+  --main-text-color: #ffffff;
+  --heading-text-color: #f7f7f7;
+  --main-border-color: #333333;
+  --highlight-text-color: #61aeee;
+  --highlight-border-color: #218EE8;
+  --raised-bg-color: #282c34;
+  --dim-text-color: #9eabb3;
+}
+
+/* MAIN CSS */
+body {
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+  font-family: 'Barlow', sans-serif;
+}
+
+main {
+  width: 96%;
+  margin: auto;
+  font-size: 1rem;
+}
+
+@media only screen and (min-device-width: 960px) {
+  main {
+    width: 880px;
+    font-size: 1.2rem;
+  }
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 600;
+  color: var(--heading-text-color);
+}
+
+h1 {
+  font-size: 2.0em;
+  margin: 2em 0 0.4em 0;
+  padding-bottom: 0.65em;
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+h2 {
+  font-size: 1.8em;
+  margin: 1.6em 0 0.8em 0;
+}
+
+h3 {
+  font-size: 1.6em;
+  margin: 1em 0 0.5em 0;
+}
+
+h4 {
+  font-size: 1.4em;
+  margin: 1em 0 0.5em 0;
+}
+
+h5 {
+  font-size: 1.2em;
+  margin: 0.8em 0 0.4em 0;
+}
+
+h6 {
+  font-size: 1.1em;
+  margin-top: 0.8em 0 0.4em 0;
+}
+
+p {
+  margin: 1em 0 0.5em 0;
+}
+
+a {
+  color: var(--highlight-text-color);
+}
+
+blockquote {
+  margin: 18px 0px;
+  background: var(--raised-bg-color);
+  border-left: 4px solid var(--highlight-border-color);
+}
+
+blockquote>p {
+  padding: 0.6em 1em;
+}
+
+p, li {
+  line-height: 1.5em;
+}
+
+table {
+  padding: 0; 
+  border-collapse: collapse;
+}
+table tr {
+  border-top: 1px solid var(--main-border-color);
+  background-color: var(--main-bg-color);
+  margin: 0;
+  padding: 0; 
+}
+table thead tr {
+  background-color: var(--raised-bg-color); 
+}
+table tr:nth-child(2n) {
+  background-color: var(--raised-bg-color); 
+}
+table tr th {
+  font-weight: bold;
+  border: 1px solid var(--main-border-color);
+  text-align: left;
+  margin: 0;
+  padding: 0.6em 1em; 
+}
+table tr td {
+  border: 1px solid var(--main-border-color);
+  text-align: left;
+  margin: 0;
+  padding: 0.6em 1em; 
+}
+table tr th :first-child, table tr td :first-child {
+  margin-top: 0; 
+}
+table tr th :last-child, table tr td :last-child {
+  margin-bottom: 0; 
+}
+
+ul,ol {
+  margin-bottom: 1em;
+  margin-top: 0.4em;
+  padding-inline-start: 1.2em;
+}
+
+header {
+  padding: 2em;
+  margin: 0 0 1em 0;
+}
+
+header > nav {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+
+header > nav > a {
+  display: block;
+}
+
+header > nav > a > img {
+  height: 2em;
+}
+
+header > nav > a > svg {
+  height: 1.4em;
+  fill: var(--main-text-color);
+}
+
+header > nav > a:hover > svg {
+  fill: var(--highlight-text-color);
+  transition: fill 0.3s ease;
+}
+
+footer {
+  margin: 3em 1em 1em 1em;
+  display: flex;
+  justify-content: space-between;
+  color: var(--dim-text-color);
+  font-size: 1.2em;
+}
+
+footer a {
+  font-weight: bold;
+  color: var(--dim-text-color);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--main-text-color);
+}
+
+
+/**
+* Edited from atom-dark theme for `prism.js`
+* Based on Atom's `atom-dark` theme: https://github.com/atom/atom-dark-syntax
+* @author Joe Gibson (@gibsjose)
+*/
+
+code,
+pre {
+	--onedark-bg: #282C34;
+	--onedark-red: #E06C75;
+	--onedark-red-bg: #2E2A2E;
+	--onedark-green: #98C379;
+	--onedark-green-bg: #27332d;
+	--onedark-yellow: #E5C07B;
+	--onedark-blue: #61AFEF;
+	--onedark-purple: #C678DD;
+	--onedark-teal: #56B6C2;
+	--onedark-gray: #ABB2BF;
+
+	color: var(--onedark-gray);
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  font-family: 'JetBrains Mono', monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre {
+  padding: 0.6em;
+  border-radius: 4px;
+  margin-bottom: 1em;
+  margin-top: 0.4em;
+  overflow-x: auto;
+}
+
+:not(pre) > code,
+pre {
+  font-size: 0.9em;
+	background: var(--onedark-bg);
+}
+
+:not(pre) > code {
+  padding: 2px 4px;
+  color: var(--onedark-blue);
+  background: var(--onedark-bg);
+  border-radius: 3px;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #7C7C7C;
+}
+
+.token.punctuation {
+	color: var(--onedark-gray);
+}
+
+.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.keyword,
+.token.tag {
+	color: var(--onedark-blue);
+}
+
+.token.class-name {
+	color: var(--onedark-yellow);
+	text-decoration: underline;
+}
+
+.token.boolean,
+.token.constant {
+	color: var(--onedark-green);
+}
+
+.token.symbol,
+.token.prefix.deleted {
+	color: var(--onedark-red);
+}
+
+.token.number {
+	color: var(--onedark-purple);
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.prefix.inserted {
+	color: var(--onedark-green);
+}
+
+.token.variable {
+	color: var(--onedark-blue);
+}
+
+.token.operator {
+	color: #EDEDED;
+}
+
+.token.entity {
+	color: var(--onedark-yellow);
+	cursor: help;
+}
+
+.token.url {
+	color: var(--onedark-blue);
+}
+
+.language-css .token.string,
+.style .token.string {
+	color: var(--onedark-green);
+}
+
+.token.atrule,
+.token.attr-value {
+	color: var(--onedark-yellow);
+}
+
+.token.function {
+	color: var(--onedark-purple);
+}
+
+.token.regex {
+	color: var(--onedark-yellow);
+}
+
+.token.important {
+	color: var(--onedark-yellow);
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+/* diff-* code blocks support */
+.token.deleted {
+  background-color: var(--onedark-red-bg);
+}
+.token.inserted {
+  background-color: var(--onedark-green-bg);
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+  display: block;
+}
+</style>
+    </head>
+
+    <body>
+        <header>
+  <nav>
+    <a href="/"><img src="/img/logo-white.png" alt="okmanideep blog logo">
+</a>
+    <a href="/feed.xml">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M25.57 176.1C12.41 175.4 .9117 185.2 .0523 198.4s9.173 24.65 22.39 25.5c120.1 7.875 225.7 112.7 233.6 233.6C256.9 470.3 267.4 480 279.1 480c.5313 0 1.062-.0313 1.594-.0625c13.22-.8438 23.25-12.28 22.39-25.5C294.6 310.3 169.7 185.4 25.57 176.1zM32 32C14.33 32 0 46.31 0 64s14.33 32 32 32c194.1 0 352 157.9 352 352c0 17.69 14.33 32 32 32s32-14.31 32-32C448 218.6 261.4 32 32 32zM63.1 351.9C28.63 351.9 0 380.6 0 416s28.63 64 63.1 64s64.08-28.62 64.08-64S99.37 351.9 63.1 351.9z"></path></svg>
+    </a>
+  </nav>
+</header>
+
+
+        <main role="main">
+    <article>
+        <h1>Understanding Composition and Side Effects</h1>
+		<post-meta date="Fri Apr 01 2022 18:00:00 GMT+0000 (Coordinated Universal Time)" tags="jetpack,compose,android"><div class="post-meta">
+	<time class="post-date" datetime="Fri Apr 01 2022 18:00:00 GMT+0000 (Coordinated Universal Time)">Fri, Apr 01 2022</time>
+	
+on <a class="tag" href="/tag/jetpack">jetpack</a>, <a class="tag" href="/tag/compose">compose</a>, <a class="tag" href="/tag/android">android</a>
+
+</div>
+
+</post-meta>
+        <section class="content"><style>
+.insight {
+    background: #3B4354;
+    border-radius: 3px;
+    padding: 12px;
+}
+.insight > :first-child {
+    margin-top: 0;
+}
+.insight > :last-child {
+    margin-bottom: 0;
+}
+</style>
+<p>Jetpack Compose is a <strong>Declarative UI Framework</strong> that allows us to define UI, state and side effects by declaring functions. A lot of them. Named and anonymous (lambdas). We will try and understand when does the framework invoke the functions we are declaring.</p>
+<p>Some of those functions we <em>declare</em> are <a href="https://developer.android.com/jetpack/compose/side-effects">Side Effects</a>. Specifically we are going to look at <code>LaunchedEffect</code>, <code>SideEffect</code> and <code>DisposableEffect</code></p>
+<p>They look like this in the code</p>
+<pre class="language-kotlin"><code class="language-kotlin"><span class="token function">LaunchedEffect</span><span class="token punctuation">(</span><span class="token comment">/*key(s)*/</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token comment">/* effect that we are declaring as a lambda */</span><br><span class="token punctuation">}</span></code></pre>
+<p>When the above code is run, <code>LaunchedEffect</code> <a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/package-summary#LaunchedEffect(kotlin.Any,kotlin.coroutines.SuspendFunction1)">the function</a> runs and registers the lambda we passed, to run it when it needs to be run. Well when exactly? We should get an idea very soon.</p>
+<p>Let's dive in.</p>
+<h2>🛠 Setup</h2>
+<p>A <code>@Composable</code> which sets up a bunch of logs inside Side Effects - <code>DisposableEffect</code>, <code>SideEffect</code> and <code>LaunchedEffect</code></p>
+<pre class="language-kotlin"><code class="language-kotlin"><span class="token annotation builtin">@Composable</span><br><span class="token keyword">fun</span> <span class="token function">Effects</span><span class="token punctuation">(</span><br>    logTag<span class="token operator">:</span> String<span class="token punctuation">,</span><br>    key<span class="token operator">:</span> Any <span class="token operator">=</span> logTag<span class="token punctuation">,</span><br><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">val</span> tag <span class="token operator">=</span> logTag<span class="token punctuation">.</span><span class="token function">padEnd</span><span class="token punctuation">(</span><span class="token number">25</span><span class="token punctuation">)</span><br>    <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">tag</span></span><span class="token string"> - Registering Effects"</span></span><span class="token punctuation">)</span><br>    <span class="token function">LaunchedEffect</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>        <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">tag</span></span><span class="token string"> - LaunchedEffect"</span></span><span class="token punctuation">)</span><br>    <span class="token punctuation">}</span><br>    <span class="token function">DisposableEffect</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>        <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">tag</span></span><span class="token string"> - DisposableEffect"</span></span><span class="token punctuation">)</span><br>        onDispose <span class="token punctuation">{</span><br>            <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">tag</span></span><span class="token string"> - onDispose"</span></span><span class="token punctuation">)</span><br>        <span class="token punctuation">}</span><br>    <span class="token punctuation">}</span><br>    SideEffect <span class="token punctuation">{</span><br>        <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">tag</span></span><span class="token string"> - SideEffect"</span></span><span class="token punctuation">)</span><br>    <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<p>And a <code>TrafficLight</code> that shows an emoji in <code>Text</code>. Also uses the <code>Effects</code> we defined above for logging</p>
+<pre class="language-kotlin"><code class="language-kotlin"><span class="token annotation builtin">@Composable</span><br><span class="token keyword">fun</span> <span class="token function">TrafficLight</span><span class="token punctuation">(</span><br>    lightEmoji<span class="token operator">:</span> String<span class="token punctuation">,</span><br>    modifier<span class="token operator">:</span> Modifier <span class="token operator">=</span> Modifier<br><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token function">Text</span><span class="token punctuation">(</span>lightEmoji<span class="token punctuation">,</span> fontSize <span class="token operator">=</span> <span class="token number">120</span><span class="token punctuation">.</span>sp<span class="token punctuation">,</span> modifier <span class="token operator">=</span> modifier<span class="token punctuation">)</span><br><br>    <span class="token function">Effects</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"TrafficLight(</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">lightEmoji</span></span><span class="token string">)"</span></span><span class="token punctuation">)</span><br><span class="token punctuation">}</span></code></pre>
+<h2>Touch And Go</h2>
+<p>We are going to start by adding and removing this <code>TrafficLight</code> on touch as shown below</p>
+<pre class="language-kotlin"><code class="language-kotlin"><span class="token annotation builtin">@Composable</span><br><span class="token keyword">fun</span> <span class="token function">TouchAndGo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">var</span> isVisible <span class="token keyword">by</span> remember <span class="token punctuation">{</span> <span class="token function">mutableStateOf</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><br>    <span class="token function">Box</span><span class="token punctuation">(</span><br>        contentAlignment <span class="token operator">=</span> Alignment<span class="token punctuation">.</span>Center<span class="token punctuation">,</span><br>        modifier <span class="token operator">=</span> Modifier<br>            <span class="token punctuation">.</span><span class="token function">fillMaxSize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><br>            <span class="token punctuation">.</span><span class="token function">clickable</span> <span class="token punctuation">{</span><br>                <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"---Click---------------------"</span></span><span class="token punctuation">)</span><br>                isVisible <span class="token operator">=</span> <span class="token operator">!</span>isVisible<br>            <span class="token punctuation">}</span><span class="token punctuation">,</span><br>    <span class="token punctuation">)</span> <span class="token punctuation">{</span><br>        <span class="token keyword">if</span> <span class="token punctuation">(</span>isVisible<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>            <span class="token function">TrafficLight</span><span class="token punctuation">(</span>lightEmoji <span class="token operator">=</span> <span class="token string-literal singleline"><span class="token string">"🟢"</span></span><span class="token punctuation">)</span><br>        <span class="token punctuation">}</span><br>    <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<p>Initially we show nothing. On click, we show the green light 🟢.</p>
+<video width="320" height="320" autoplay muted loop>
+  <source src="https://i.imgur.com/TCy72F9.mp4" type="video/mp4">
+</video>
+<p>Together, this is what we have got</p>
+<pre class="language-kotlin"><code class="language-kotlin"><span class="token annotation builtin">@Composable</span><br><span class="token keyword">fun</span> <span class="token function">TouchAndGo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">var</span> isVisible <span class="token keyword">by</span> remember <span class="token punctuation">{</span> <span class="token function">mutableStateOf</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><br>    <span class="token function">Box</span><span class="token punctuation">(</span><br>        contentAlignment <span class="token operator">=</span> Alignment<span class="token punctuation">.</span>Center<span class="token punctuation">,</span><br>        modifier <span class="token operator">=</span> Modifier<br>            <span class="token punctuation">.</span><span class="token function">fillMaxSize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><br>            <span class="token punctuation">.</span><span class="token function">clickable</span> <span class="token punctuation">{</span><br>                <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"---Click---------------------"</span></span><span class="token punctuation">)</span><br>                isVisible <span class="token operator">=</span> <span class="token operator">!</span>isVisible<br>            <span class="token punctuation">}</span><span class="token punctuation">,</span><br>    <span class="token punctuation">)</span> <span class="token punctuation">{</span><br>        <span class="token keyword">if</span> <span class="token punctuation">(</span>isVisible<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>            <span class="token function">TrafficLight</span><span class="token punctuation">(</span>lightEmoji <span class="token operator">=</span> <span class="token string-literal singleline"><span class="token string">"🟢"</span></span><span class="token punctuation">)</span><br>        <span class="token punctuation">}</span><br>    <span class="token punctuation">}</span><br><span class="token punctuation">}</span><br><br><span class="token annotation builtin">@Composable</span><br><span class="token keyword">fun</span> <span class="token function">TrafficLight</span><span class="token punctuation">(</span><br>    lightEmoji<span class="token operator">:</span> String<span class="token punctuation">,</span><br>    modifier<span class="token operator">:</span> Modifier <span class="token operator">=</span> Modifier<br><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token function">Text</span><span class="token punctuation">(</span>lightEmoji<span class="token punctuation">,</span> fontSize <span class="token operator">=</span> <span class="token number">120</span><span class="token punctuation">.</span>sp<span class="token punctuation">,</span> modifier <span class="token operator">=</span> modifier<span class="token punctuation">)</span><br><br>    <span class="token function">Effects</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"TrafficLight(</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">lightEmoji</span></span><span class="token string">)"</span></span><span class="token punctuation">)</span><br><span class="token punctuation">}</span><br><br><span class="token annotation builtin">@Composable</span><br><span class="token keyword">fun</span> <span class="token function">Effects</span><span class="token punctuation">(</span><br>    logTag<span class="token operator">:</span> String<span class="token punctuation">,</span><br>    key<span class="token operator">:</span> Any <span class="token operator">=</span> logTag<span class="token punctuation">,</span><br><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">val</span> tag <span class="token operator">=</span> logTag<span class="token punctuation">.</span><span class="token function">padEnd</span><span class="token punctuation">(</span><span class="token number">25</span><span class="token punctuation">)</span><br>    <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">tag</span></span><span class="token string"> - Registering Effects"</span></span><span class="token punctuation">)</span><br>    <span class="token function">LaunchedEffect</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>        <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">tag</span></span><span class="token string"> - LaunchedEffect"</span></span><span class="token punctuation">)</span><br>    <span class="token punctuation">}</span><br>    <span class="token function">DisposableEffect</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>        <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">tag</span></span><span class="token string"> - DisposableEffect"</span></span><span class="token punctuation">)</span><br>        onDispose <span class="token punctuation">{</span><br>            <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">tag</span></span><span class="token string"> - onDispose"</span></span><span class="token punctuation">)</span><br>        <span class="token punctuation">}</span><br>    <span class="token punctuation">}</span><br>    SideEffect <span class="token punctuation">{</span><br>        <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">tag</span></span><span class="token string"> - SideEffect"</span></span><span class="token punctuation">)</span><br>    <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<p>Let's have a look at the logs</p>
+<pre><code>---Click---------------------
+TrafficLight(🟢)     - Registering Effects
+TrafficLight(🟢)     - DisposableEffect
+TrafficLight(🟢)     - SideEffect
+TrafficLight(🟢)     - LaunchedEffect
+---Click---------------------
+TrafficLight(🟢)     - onDispose
+</code></pre>
+<div class="insight">
+<h3>✨ Insights</h3>
+<p>When a <code>Composable</code> enters composition:</p>
+<ul>
+<li>Our <code>@Composable</code> function runs first</li>
+<li>Then the <code>DisposableEffect</code>, the <code>SideEffect</code> and the <code>LaunchedEffect</code> in that order</li>
+</ul>
+<p>When a <code>Composable</code> exits composition:</p>
+<ul>
+<li>The <code>onDispose</code> of the corresponding <code>DisposableEffect</code> runs</li>
+</ul>
+</div>
+<p>Let's make it slightly more interesting. Let's add <code>Effects</code> above and below the <code>TrafficLight</code></p>
+<pre class="language-diff-kotlin"><code class="language-diff-kotlin"><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span><span class="token annotation builtin">@Composable</span><br><span class="token prefix unchanged"> </span><span class="token keyword">fun</span> <span class="token function">TouchAndGo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>    <span class="token keyword">var</span> isVisible <span class="token keyword">by</span> remember <span class="token punctuation">{</span> <span class="token function">mutableStateOf</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span>    <span class="token function">Box</span><span class="token punctuation">(</span><br><span class="token prefix unchanged"> </span>        <span class="token comment">/*...*/</span><br><span class="token prefix unchanged"> </span>    <span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>        <span class="token keyword">if</span> <span class="token punctuation">(</span>isVisible<span class="token punctuation">)</span> <span class="token punctuation">{</span><br></span><span class="token inserted-sign inserted language-kotlin"><span class="token prefix inserted">+</span>            <span class="token function">Effects</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"Pre - TrafficLight(🟢)"</span></span><span class="token punctuation">)</span><br></span><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span>            <span class="token function">TrafficLight</span><span class="token punctuation">(</span>lightEmoji <span class="token operator">=</span> <span class="token string-literal singleline"><span class="token string">"🟢"</span></span><span class="token punctuation">)</span><br></span><span class="token inserted-sign inserted language-kotlin"><span class="token prefix inserted">+</span>            <span class="token function">Effects</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"Post - TrafficLight(🟢)"</span></span><span class="token punctuation">)</span><br></span><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span>        <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span>    <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span><span class="token punctuation">}</span></code></pre>
+<p>So what do we have on the logs now?</p>
+<pre><code>---Click---------------------
+Pre - TrafficLight(🟢)    - Registering Effects
+TrafficLight(🟢)          - Registering Effects
+Post - TrafficLight(🟢)   - Registering Effects
+Pre - TrafficLight(🟢)    - DisposableEffect
+TrafficLight(🟢)          - DisposableEffect
+Post - TrafficLight(🟢)   - DisposableEffect
+Pre - TrafficLight(🟢)    - SideEffect
+TrafficLight(🟢)          - SideEffect
+Post - TrafficLight(🟢)   - SideEffect
+Pre - TrafficLight(🟢)    - LaunchedEffect
+TrafficLight(🟢)          - LaunchedEffect
+Post - TrafficLight(🟢)   - LaunchedEffect
+---Click---------------------
+Post - TrafficLight(🟢)   - onDispose
+TrafficLight(🟢)          - onDispose
+Pre - TrafficLight(🟢)    - onDispose
+</code></pre>
+<div class="insight">
+<h3>✨ Insights</h3>
+<p>On Entering Composition: </p>
+<ul>
+    <li>All the Side Effects run in the order they are declared / registered</li>
+    <li>Among the different Side Effects - <code>DisposableEffect</code>s run first, followed by <code>SideEffect</code>s, followed by <code>LaunchedEffect</code></li>
+</ul>
+<p>On Exiting Composition: </p>
+<ul>
+    <li><code>DisposableEffect</code>s are <i>disposed</i> in the <b>reverse</b> order they are declared / registered. <b>L</b>ast <b>I</b>n <b>F</b>irst <b>O</b>ut - LIFO. Like a stack!</li>
+</ul>
+</div>
+<hr>
+<h2>Stop And Go</h2>
+<p>Toggle between 🟢 and 🔴 on click</p>
+<pre class="language-kotlin"><code class="language-kotlin"><span class="token annotation builtin">@Composable</span><br><span class="token keyword">fun</span> <span class="token function">StopAndGo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">var</span> go <span class="token keyword">by</span> remember <span class="token punctuation">{</span> <span class="token function">mutableStateOf</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><br><br>    <span class="token function">Box</span><span class="token punctuation">(</span><br>        contentAlignment <span class="token operator">=</span> Alignment<span class="token punctuation">.</span>Center<span class="token punctuation">,</span><br>        modifier <span class="token operator">=</span> Modifier<br>            <span class="token punctuation">.</span><span class="token function">fillMaxSize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><br>            <span class="token punctuation">.</span><span class="token function">clickable</span> <span class="token punctuation">{</span><br>                <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"---Click---------------------"</span></span><span class="token punctuation">)</span><br>                go <span class="token operator">=</span> <span class="token operator">!</span>go<br>            <span class="token punctuation">}</span><span class="token punctuation">,</span><br>    <span class="token punctuation">)</span> <span class="token punctuation">{</span><br>        <span class="token keyword">val</span> light <span class="token operator">=</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>go<span class="token punctuation">)</span> <span class="token string-literal singleline"><span class="token string">"🟢"</span></span> <span class="token keyword">else</span> <span class="token string-literal singleline"><span class="token string">"🔴"</span></span><br>        <span class="token function">TrafficLight</span><span class="token punctuation">(</span>lightEmoji <span class="token operator">=</span> light<span class="token punctuation">)</span><br>    <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<video width="320" height="320" autoplay muted loop>
+  <source src="https://i.imgur.com/pJWzmgh.mp4" type="video/mp4">
+</video>
+<pre><code>TrafficLight(🟢)     - Registering Effects
+TrafficLight(🟢)     - DisposableEffect
+TrafficLight(🟢)     - SideEffect
+TrafficLight(🟢)     - LaunchedEffect
+---Click---------------------
+TrafficLight(🔴)     - Registering Effects
+TrafficLight(🟢)     - onDispose
+TrafficLight(🔴)     - DisposableEffect
+TrafficLight(🔴)     - SideEffect
+TrafficLight(🔴)     - LaunchedEffect
+</code></pre>
+<div class="insight">
+<h3>✨ Insights</h3>
+<ul>
+<li>Incoming <code>DisposableEffect</code>s are <b>registered before</b> the outgoing <code>DisposableEffect</code>s are <b>disposed</b></li>
+<li>Incoming <code>DisposableEffect</code>s are <b>run after</b> the outgoing <code>DisposableEffect</code>s are <b>disposed</b></li>
+</ul>
+</div>
+<p>One might have expected this, because compose runtime figures out what are <em>incoming</em> and what are <em>outgoing</em> only after it runs / re-runs our <code>Composable</code> functions based on the new <code>State</code>.</p>
+<p>Nevertheless, this is an important aspect to keep in mind. Since this makes it safe for two <code>Composable</code>s that are never in composition together, to <code>acquire</code>/<code>release</code> to the same resource in their <code>DisposableEffect</code>s.</p>
+<h2>Stop Fade Go</h2>
+<p>More often than not, we animate our changes. Let's look at the order of execution when we add animation to the above example</p>
+<pre class="language-diff-kotlin"><code class="language-diff-kotlin"><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span><span class="token annotation builtin">@Composable</span><br><span class="token prefix unchanged"> </span><span class="token keyword">fun</span> <span class="token function">StopFadeGo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>    <span class="token keyword">var</span> go <span class="token keyword">by</span> remember <span class="token punctuation">{</span> <span class="token function">mutableStateOf</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span><br><span class="token prefix unchanged"> </span>    <span class="token function">Box</span><span class="token punctuation">(</span><br><span class="token prefix unchanged"> </span>        contentAlignment <span class="token operator">=</span> Alignment<span class="token punctuation">.</span>Center<span class="token punctuation">,</span><br><span class="token prefix unchanged"> </span>        modifier <span class="token operator">=</span> Modifier<br><span class="token prefix unchanged"> </span>            <span class="token punctuation">.</span><span class="token function">fillMaxSize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><br><span class="token prefix unchanged"> </span>            <span class="token punctuation">.</span><span class="token function">clickable</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>                <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"---Click---------------------"</span></span><span class="token punctuation">)</span><br><span class="token prefix unchanged"> </span>                go <span class="token operator">=</span> <span class="token operator">!</span>go<br><span class="token prefix unchanged"> </span>            <span class="token punctuation">}</span><span class="token punctuation">,</span><br><span class="token prefix unchanged"> </span>    <span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>        <span class="token keyword">val</span> light <span class="token operator">=</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>go<span class="token punctuation">)</span> <span class="token string-literal singleline"><span class="token string">"🟢"</span></span> <span class="token keyword">else</span> <span class="token string-literal singleline"><span class="token string">"🔴"</span></span><br></span><span class="token inserted-sign inserted language-kotlin"><span class="token prefix inserted">+</span>        <span class="token function">Crossfade</span><span class="token punctuation">(</span>targetState <span class="token operator">=</span> light<span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix inserted">+</span>            <span class="token function">TrafficLight</span><span class="token punctuation">(</span>lightEmoji <span class="token operator">=</span> it<span class="token punctuation">)</span><br><span class="token prefix inserted">+</span>        <span class="token punctuation">}</span><br></span><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span>    <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span><span class="token punctuation">}</span></code></pre>
+<pre><code>TrafficLight(🟢)     - Registering Effects
+TrafficLight(🟢)     - DisposableEffect
+TrafficLight(🟢)     - SideEffect
+TrafficLight(🟢)     - LaunchedEffect
+---Click---------------------
+TrafficLight(🔴)     - Registering Effects
+TrafficLight(🔴)     - DisposableEffect
+TrafficLight(🔴)     - SideEffect
+TrafficLight(🔴)     - LaunchedEffect
+TrafficLight(🟢)     - onDispose
+</code></pre>
+<div class="insight">
+<h3>✨ Insights</h3>
+<p>When animated, the outgoing <code>DisposableEffect</code>s are disposed only after the animation is complete</p>
+</div>
+<p>Might feel obvious in hindsight. But it is important to keep in mind that since the <em>incoming</em> <code>DisposableEffect</code> runs before the <em>outgoing</em> disposes. This basically doesn't allow those <code>Composable</code>s to acquire/attach-to the same resource.</p>
+<hr>
+<h2>Ready Set Go</h2>
+<p>🔴 Ready -&gt; 🔴 Set -&gt; 🟢 Go on click</p>
+<pre class="language-kotlin"><code class="language-kotlin"><span class="token annotation builtin">@Composable</span><br><span class="token keyword">fun</span> <span class="token function">ReadySetGo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">var</span> count <span class="token keyword">by</span> remember <span class="token punctuation">{</span> <span class="token function">mutableStateOf</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><br><br>    <span class="token function">Box</span><span class="token punctuation">(</span><br>        contentAlignment <span class="token operator">=</span> Alignment<span class="token punctuation">.</span>Center<span class="token punctuation">,</span><br>        modifier <span class="token operator">=</span> Modifier<br>            <span class="token punctuation">.</span><span class="token function">fillMaxSize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><br>            <span class="token punctuation">.</span><span class="token function">clickable</span> <span class="token punctuation">{</span><br>                <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"---Click---------------------"</span></span><span class="token punctuation">)</span><br>                count<span class="token operator">++</span><br>            <span class="token punctuation">}</span><span class="token punctuation">,</span><br>    <span class="token punctuation">)</span> <span class="token punctuation">{</span><br>        <span class="token keyword">val</span> step <span class="token operator">=</span> count <span class="token operator">%</span> <span class="token number">3</span><br>        <span class="token keyword">val</span> light <span class="token operator">=</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>step <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token string-literal singleline"><span class="token string">"🟢"</span></span> <span class="token keyword">else</span> <span class="token string-literal singleline"><span class="token string">"🔴"</span></span><br>        <span class="token keyword">val</span> message <span class="token operator">=</span> <span class="token keyword">when</span> <span class="token punctuation">(</span>step<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>            <span class="token number">1</span> <span class="token operator">-></span> <span class="token string-literal singleline"><span class="token string">"Ready"</span></span><br>            <span class="token number">2</span> <span class="token operator">-></span> <span class="token string-literal singleline"><span class="token string">"Set"</span></span><br>            <span class="token number">0</span> <span class="token operator">-></span> <span class="token string-literal singleline"><span class="token string">"GO!"</span></span><br>            <span class="token keyword">else</span> <span class="token operator">-></span> <span class="token string-literal singleline"><span class="token string">"Uh Oh!"</span></span><br>        <span class="token punctuation">}</span><br>        <span class="token function">Column</span><span class="token punctuation">(</span>horizontalAlignment <span class="token operator">=</span> Alignment<span class="token punctuation">.</span>CenterHorizontally<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>            <span class="token function">TrafficLight</span><span class="token punctuation">(</span>lightEmoji <span class="token operator">=</span> light<span class="token punctuation">)</span><br>            <span class="token function">Spacer</span><span class="token punctuation">(</span>modifier <span class="token operator">=</span> Modifier<span class="token punctuation">.</span><span class="token function">height</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">.</span>dp<span class="token punctuation">)</span><span class="token punctuation">)</span><br>            <span class="token function">Text</span><span class="token punctuation">(</span>message<span class="token punctuation">,</span> fontSize <span class="token operator">=</span> <span class="token number">36</span><span class="token punctuation">.</span>sp<span class="token punctuation">)</span><br>        <span class="token punctuation">}</span><br>    <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<video width="320" height="320" autoplay muted loop>
+  <source src="https://i.imgur.com/dEqERF5.mp4" type="video/mp4">
+</video>
+<pre><code>TrafficLight(🔴)     - Registering Effects
+TrafficLight(🔴)     - DisposableEffect
+TrafficLight(🔴)     - SideEffect
+TrafficLight(🔴)     - LaunchedEffect
+---Click---------------------
+---Click---------------------
+TrafficLight(🟢)     - Registering Effects
+TrafficLight(🔴)     - onDispose
+TrafficLight(🟢)     - DisposableEffect
+TrafficLight(🟢)     - SideEffect
+TrafficLight(🟢)     - LaunchedEffect
+</code></pre>
+<blockquote>
+<p>Note that for both &quot;Ready&quot; and &quot;Set&quot; states, the light is 🔴</p>
+</blockquote>
+<div class="insight">
+<h3>✨ Insights</h3>
+<p>Composition and Effects are skipped when the inputs don't change!</p>
+</div>
+<p>Just like <a href="https://developer.android.com/jetpack/compose/lifecycle#skipping">the documentation says</a>. But what does &quot;inputs not changing&quot; really mean? Let's find out.</p>
+<p>Instead of passing in a <code>String</code>, let's create our own <code>class</code></p>
+<pre class="language-kotlin"><code class="language-kotlin"><span class="token keyword">private</span> <span class="token keyword">class</span> <span class="token function">Light</span><span class="token punctuation">(</span><span class="token keyword">val</span> emoji<span class="token operator">:</span> String<span class="token punctuation">)</span></code></pre>
+<p>Update the <code>TrafficLight</code> and <code>ReadySetGo</code> to use <code>Light</code> instead of a <code>String</code></p>
+<pre class="language-diff-kotlin"><code class="language-diff-kotlin"><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span><span class="token annotation builtin">@Composable</span><br><span class="token prefix unchanged"> </span><span class="token keyword">fun</span> <span class="token function">ReadySetGoClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>    <span class="token keyword">var</span> count <span class="token keyword">by</span> remember <span class="token punctuation">{</span> <span class="token function">mutableStateOf</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span><br><span class="token prefix unchanged"> </span>    <span class="token function">Box</span><span class="token punctuation">(</span><br><span class="token prefix unchanged"> </span>        contentAlignment <span class="token operator">=</span> Alignment<span class="token punctuation">.</span>Center<span class="token punctuation">,</span><br><span class="token prefix unchanged"> </span>        modifier <span class="token operator">=</span> Modifier<br><span class="token prefix unchanged"> </span>            <span class="token punctuation">.</span><span class="token function">fillMaxSize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><br><span class="token prefix unchanged"> </span>            <span class="token punctuation">.</span><span class="token function">clickable</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>                <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"---Click---------------------"</span></span><span class="token punctuation">)</span><br><span class="token prefix unchanged"> </span>                count<span class="token operator">++</span><br><span class="token prefix unchanged"> </span>            <span class="token punctuation">}</span><span class="token punctuation">,</span><br><span class="token prefix unchanged"> </span>    <span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>        <span class="token keyword">val</span> step <span class="token operator">=</span> count <span class="token operator">%</span> <span class="token number">3</span><br></span><span class="token inserted-sign inserted language-kotlin"><span class="token prefix inserted">+</span>        <span class="token keyword">val</span> light <span class="token operator">=</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>step <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token function">Light</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"🟢"</span></span><span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token function">Light</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"🔴"</span></span><span class="token punctuation">)</span><br></span><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span>        <span class="token keyword">val</span> message <span class="token operator">=</span> <span class="token keyword">when</span> <span class="token punctuation">(</span>step<span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>            <span class="token number">1</span> <span class="token operator">-></span> <span class="token string-literal singleline"><span class="token string">"Ready"</span></span><br><span class="token prefix unchanged"> </span>            <span class="token number">2</span> <span class="token operator">-></span> <span class="token string-literal singleline"><span class="token string">"Set"</span></span><br><span class="token prefix unchanged"> </span>            <span class="token number">0</span> <span class="token operator">-></span> <span class="token string-literal singleline"><span class="token string">"GO!"</span></span><br><span class="token prefix unchanged"> </span>            <span class="token keyword">else</span> <span class="token operator">-></span> <span class="token string-literal singleline"><span class="token string">"Uh Oh!"</span></span><br><span class="token prefix unchanged"> </span>        <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span>        <span class="token function">Column</span><span class="token punctuation">(</span>horizontalAlignment <span class="token operator">=</span> Alignment<span class="token punctuation">.</span>CenterHorizontally<span class="token punctuation">)</span> <span class="token punctuation">{</span><br></span><span class="token inserted-sign inserted language-kotlin"><span class="token prefix inserted">+</span>            <span class="token function">TrafficLight</span><span class="token punctuation">(</span>light<span class="token punctuation">)</span><br></span><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span>            <span class="token function">Spacer</span><span class="token punctuation">(</span>modifier <span class="token operator">=</span> Modifier<span class="token punctuation">.</span><span class="token function">height</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">.</span>dp<span class="token punctuation">)</span><span class="token punctuation">)</span><br><span class="token prefix unchanged"> </span>            <span class="token function">Text</span><span class="token punctuation">(</span>message<span class="token punctuation">,</span> fontSize <span class="token operator">=</span> <span class="token number">36</span><span class="token punctuation">.</span>sp<span class="token punctuation">)</span><br><span class="token prefix unchanged"> </span>        <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span>    <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span><span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span><br><span class="token prefix unchanged"> </span><span class="token annotation builtin">@Composable</span><br><span class="token prefix unchanged"> </span><span class="token keyword">private</span> <span class="token keyword">fun</span> <span class="token function">TrafficLight</span><span class="token punctuation">(</span><br></span><span class="token inserted-sign inserted language-kotlin"><span class="token prefix inserted">+</span>    light<span class="token operator">:</span> Light<span class="token punctuation">,</span><br></span><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span>    modifier<span class="token operator">:</span> Modifier <span class="token operator">=</span> Modifier<br><span class="token prefix unchanged"> </span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br></span><span class="token inserted-sign inserted language-kotlin"><span class="token prefix inserted">+</span>    <span class="token keyword">val</span> lightEmoji <span class="token operator">=</span> light<span class="token punctuation">.</span>emoji<br></span><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span>    <span class="token function">Text</span><span class="token punctuation">(</span>lightEmoji<span class="token punctuation">,</span> fontSize <span class="token operator">=</span> <span class="token number">120</span><span class="token punctuation">.</span>sp<span class="token punctuation">,</span> modifier <span class="token operator">=</span> modifier<span class="token punctuation">)</span><br><span class="token prefix unchanged"> </span><br></span><span class="token inserted-sign inserted language-kotlin"><span class="token prefix inserted">+</span>    <span class="token function">Effects</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"TrafficLight(</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">lightEmoji</span></span><span class="token string">)"</span></span><span class="token punctuation">,</span> key <span class="token operator">=</span> light<span class="token punctuation">)</span><br></span><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span><span class="token punctuation">}</span></code></pre>
+<p>Here are the logs after the change</p>
+<pre><code>TrafficLight(🔴)     - Registering Effects
+TrafficLight(🔴)     - DisposableEffect
+TrafficLight(🔴)     - SideEffect
+TrafficLight(🔴)     - LaunchedEffect
+---Click---------------------
+TrafficLight(🔴)     - Registering Effects
+TrafficLight(🔴)     - onDispose
+TrafficLight(🔴)     - DisposableEffect
+TrafficLight(🔴)     - SideEffect
+TrafficLight(🔴)     - LaunchedEffect
+---Click---------------------
+TrafficLight(🟢)     - Registering Effects
+TrafficLight(🔴)     - onDispose
+TrafficLight(🟢)     - DisposableEffect
+TrafficLight(🟢)     - SideEffect
+TrafficLight(🟢)     - LaunchedEffect
+</code></pre>
+<p>Well what happened there!</p>
+<p>Our <code>Light</code> doesn't implement <code>.equals()</code>. The default implementation returns true only if they are the same instances. But we are creating a new instance every time. So compose runtime sees these as different inputs.</p>
+<p>Let's add a log to <code>equals()</code></p>
+<pre class="language-diff-kotlin"><code class="language-diff-kotlin"><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span><span class="token keyword">private</span> <span class="token keyword">class</span> <span class="token function">Light</span><span class="token punctuation">(</span><span class="token keyword">val</span> emoji<span class="token operator">:</span> String<span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>    <span class="token keyword">override</span> <span class="token keyword">fun</span> <span class="token function">equals</span><span class="token punctuation">(</span>other<span class="token operator">:</span> Any<span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator">:</span> Boolean <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>        <span class="token keyword">if</span> <span class="token punctuation">(</span>other <span class="token keyword">is</span> Light<span class="token punctuation">)</span> <span class="token punctuation">{</span><br></span><span class="token inserted-sign inserted language-kotlin"><span class="token prefix inserted">+</span>            <span class="token keyword">val</span> result <span class="token operator">=</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>other<span class="token punctuation">)</span><br><span class="token prefix inserted">+</span>            <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">emoji</span></span><span class="token string">.equals(</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">other<span class="token punctuation">.</span>emoji</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">) = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">result</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><br></span><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span>            <span class="token keyword">return</span> result<br><span class="token prefix unchanged"> </span>        <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span>        <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>other<span class="token punctuation">)</span><br><span class="token prefix unchanged"> </span>    <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span><span class="token punctuation">}</span></code></pre>
+<p>Haven't changed the implementation yet. Just added a log.</p>
+<p>The same logs as above but with <code>equals()</code></p>
+<pre><code>TrafficLight(🔴)     - Registering Effects
+TrafficLight(🔴)     - DisposableEffect
+TrafficLight(🔴)     - SideEffect
+TrafficLight(🔴)     - LaunchedEffect
+---Click---------------------
+🔴.equals(🔴) = false
+TrafficLight(🔴)     - Registering Effects
+🔴.equals(🔴) = false
+🔴.equals(🔴) = false
+TrafficLight(🔴)     - onDispose
+TrafficLight(🔴)     - DisposableEffect
+TrafficLight(🔴)     - SideEffect
+TrafficLight(🔴)     - LaunchedEffect
+---Click---------------------
+🔴.equals(🟢) = false
+TrafficLight(🟢)     - Registering Effects
+🔴.equals(🟢) = false
+🔴.equals(🟢) = false
+TrafficLight(🔴)     - onDispose
+TrafficLight(🟢)     - DisposableEffect
+TrafficLight(🟢)     - SideEffect
+TrafficLight(🟢)     - LaunchedEffect
+</code></pre>
+<p>So compose runtime compared the inputs. It observed that they are different (<code>.equals()</code> returned <code>false</code>), so ran the composable with the new input. It then compared the inputs again, to see if it has to run the <code>DisposableEffect</code> and the <code>LaunchedEffect</code> and ran them again because it received <code>false</code>.</p>
+<blockquote>
+<p>After all <code>DisposableEffect</code> and <code>LaunchedEffect</code> are <code>Composable</code> functions themselves</p>
+</blockquote>
+<p>Let's implement <code>equals()</code></p>
+<pre class="language-diff-kotlin"><code class="language-diff-kotlin"><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span><span class="token keyword">private</span> <span class="token keyword">class</span> <span class="token function">Light</span><span class="token punctuation">(</span><span class="token keyword">val</span> emoji<span class="token operator">:</span> String<span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>    <span class="token keyword">override</span> <span class="token keyword">fun</span> <span class="token function">equals</span><span class="token punctuation">(</span>other<span class="token operator">:</span> Any<span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator">:</span> Boolean <span class="token punctuation">{</span><br><span class="token prefix unchanged"> </span>        <span class="token keyword">if</span> <span class="token punctuation">(</span>other <span class="token keyword">is</span> Light<span class="token punctuation">)</span> <span class="token punctuation">{</span><br></span><span class="token inserted-sign inserted language-kotlin"><span class="token prefix inserted">+</span>            <span class="token keyword">val</span> result <span class="token operator">=</span> emoji <span class="token operator">==</span> other<span class="token punctuation">.</span>emoji<br></span><span class="token unchanged language-kotlin"><span class="token prefix unchanged"> </span>            <span class="token function">log</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">emoji</span></span><span class="token string">.equals(</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">other<span class="token punctuation">.</span>emoji</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">) = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">result</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><br><span class="token prefix unchanged"> </span>            <span class="token keyword">return</span> result<br><span class="token prefix unchanged"> </span>        <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span>        <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>other<span class="token punctuation">)</span><br><span class="token prefix unchanged"> </span>    <span class="token punctuation">}</span><br><span class="token prefix unchanged"> </span><span class="token punctuation">}</span></code></pre>
+<pre><code>TrafficLight(🔴)     - Registering Effects
+TrafficLight(🔴)     - DisposableEffect
+TrafficLight(🔴)     - SideEffect
+TrafficLight(🔴)     - LaunchedEffect
+---Click---------------------
+🔴.equals(🔴) = true
+---Click---------------------
+🔴.equals(🟢) = false
+TrafficLight(🟢)     - Registering Effects
+🔴.equals(🟢) = false
+🔴.equals(🟢) = false
+TrafficLight(🔴)     - onDispose
+TrafficLight(🟢)     - DisposableEffect
+TrafficLight(🟢)     - SideEffect
+TrafficLight(🟢)     - LaunchedEffect
+</code></pre>
+<p>Back to normal.</p>
+<p>Let's summarize all the insights</p>
+<div class="insight">
+<h3>✨ Insights</h3>
+<p>➡️ On Entering Composition: </p>
+<ul>
+    <li>Our <code>Composable</code> function runs first</li>
+    <li>All the Side Effects run in the order they are declared / registered</li>
+    <li>Among the different Side Effects - <code>DisposableEffect</code>s run first, followed by <code>SideEffect</code>s, followed by <code>LaunchedEffect</code></li>
+</ul>
+<p>⬅️ On Exiting Composition: </p>
+<ul>
+    <li><code>DisposableEffect</code>s are <i>disposed</i> in the <b>reverse</b> order they are declared / registered. <b>L</b>ast <b>I</b>n <b>F</b>irst <b>O</b>ut - LIFO. Like a stack!</li>
+</ul>
+<p>🔀 When a composable is being replaced with another or recomposed with the new state:</p>
+<ul>
+<li>Incoming <code>DisposableEffect</code>s are <b>registered before</b> the outgoing <code>DisposableEffect</code>s are <b>disposed</b></li>
+<li>Incoming <code>DisposableEffect</code>s are <b>run after</b> the outgoing <code>DisposableEffect</code>s are <b>disposed</b></li>
+</ul>
+<p>💫 When animated, the outgoing <code>DisposableEffect</code>s are disposed only after the animation is complete.</p>
+<p>🚫 Composition and Effects are skipped when the inputs don't change. Inputs are compared using their <code>equals()</code> method</p>
+</div>
+</section>
+    </article>
+</main>
+
+
+        <footer>
+            <section><a href="/">@okmanideep</a> © <template>2023</template></section>
+            <section>Published with <a href="https://11ty.dev">11ty</a></section>
+        </footer>
+    
+
+</body>
+</html>
