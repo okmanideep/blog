@@ -3,7 +3,7 @@ a.tag {
 	text-transform: capitalize;
 }
 </style>
-<script webc:type="js" webc:is="template">
+<script webc:type="js">
 let tagLinks = value.map(tag => `<a class="tag" href="${site.baseurl}tag/${tag}">${tag}</a>`).join(', ')
 let html
 if (taglist < 0) {

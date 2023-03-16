@@ -11,12 +11,12 @@
   "author": "okmanideep",
   "license": "ISC",
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.0-canary.23",
+    "@11ty/eleventy": "^2.0.0",
     "@11ty/eleventy-plugin-rss": "^1.2.0",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0"
   },
   "dependencies": {
-    "@11ty/eleventy-plugin-webc": "^0.8.1",
+    "@11ty/eleventy-plugin-webc": "^0.9.4",
     "clean-css": "^5.3.1"
   }
 }
