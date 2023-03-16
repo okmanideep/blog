@@ -57,7 +57,22 @@
 
 
 
-        <style>
+        <style>a.tag {
+	text-transform: capitalize;
+}
+.post-meta {
+  color: var(--dim-text-color);
+  font-size: 0.9em;
+}
+
+.post-meta a {
+  text-decoration: none;
+	pointer-events: auto;
+}
+
+.post-meta a:hover {
+  text-decoration: underline;
+}
 .post-item {
 	border-radius: 5px;
 	padding: 24px 24px;
@@ -76,47 +91,6 @@
 .post-item:hover {
 	background: var(--raised-bg-color);
 }
-
-
-.post-meta {
-  color: var(--dim-text-color);
-  font-size: 0.9em;
-}
-
-.post-meta a {
-  text-decoration: none;
-	pointer-events: auto;
-}
-
-.post-meta a:hover {
-  text-decoration: underline;
-}
-
-
-a.tag {
-	text-transform: capitalize;
-}
-
-
-.post-meta {
-  color: var(--dim-text-color);
-  font-size: 0.9em;
-}
-
-.post-meta a {
-  text-decoration: none;
-	pointer-events: auto;
-}
-
-.post-meta a:hover {
-  text-decoration: underline;
-}
-
-
-a.tag {
-	text-transform: capitalize;
-}
-
 /* Source: https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital@0;1&family=Rubik:ital,wght@0,600;1,600&display=swap */
 
 /* vietnamese */
@@ -425,7 +399,6 @@ a.tag {
   src: url(https://fonts.gstatic.com/s/rubik/v21/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-FV0U1.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 /* http://meyerweb.com/eric/tools/css/reset/ 
 v2.0 | 20110126
 License: none (public domain)
@@ -654,8 +627,6 @@ footer a {
 footer a:hover {
   color: var(--main-text-color);
 }
-
-
 /**
 * Edited from atom-dark theme for `prism.js`
 * Based on Atom's `atom-dark` theme: https://github.com/atom/atom-dark-syntax
@@ -834,8 +805,7 @@ pre {
 .token.inserted:not(.prefix),
 .token.deleted:not(.prefix) {
   display: block;
-}
-</style>
+}</style>
     </head>
 
     <body>
@@ -854,9 +824,9 @@ pre {
     <article>
         <h1>Improve your Android build times</h1>
 		<post-meta date="Tue Apr 05 2016 20:10:00 GMT+0000 (Coordinated Universal Time)" tags="android,gradle"><div class="post-meta">
-	<time class="post-date" datetime="Tue Apr 05 2016 20:10:00 GMT+0000 (Coordinated Universal Time)">Tue, Apr 05 2016</time>
+	<time datetime="Tue Apr 05 2016 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Tue, Apr 05 2016</time>
 	
-on <a class="tag" href="/tag/android">android</a>, <a class="tag" href="/tag/gradle">gradle</a>
+on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="tag">gradle</a>
 
 </div>
 

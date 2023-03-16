@@ -57,7 +57,22 @@
 
 
 
-        <style>
+        <style>a.tag {
+	text-transform: capitalize;
+}
+.post-meta {
+  color: var(--dim-text-color);
+  font-size: 0.9em;
+}
+
+.post-meta a {
+  text-decoration: none;
+	pointer-events: auto;
+}
+
+.post-meta a:hover {
+  text-decoration: underline;
+}
 .post-item {
 	border-radius: 5px;
 	padding: 24px 24px;
@@ -76,27 +91,6 @@
 .post-item:hover {
 	background: var(--raised-bg-color);
 }
-
-
-.post-meta {
-  color: var(--dim-text-color);
-  font-size: 0.9em;
-}
-
-.post-meta a {
-  text-decoration: none;
-	pointer-events: auto;
-}
-
-.post-meta a:hover {
-  text-decoration: underline;
-}
-
-
-a.tag {
-	text-transform: capitalize;
-}
-
 /* Source: https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital@0;1&family=Rubik:ital,wght@0,600;1,600&display=swap */
 
 /* vietnamese */
@@ -405,7 +399,6 @@ a.tag {
   src: url(https://fonts.gstatic.com/s/rubik/v21/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-FV0U1.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 /* http://meyerweb.com/eric/tools/css/reset/ 
 v2.0 | 20110126
 License: none (public domain)
@@ -634,8 +627,6 @@ footer a {
 footer a:hover {
   color: var(--main-text-color);
 }
-
-
 /**
 * Edited from atom-dark theme for `prism.js`
 * Based on Atom's `atom-dark` theme: https://github.com/atom/atom-dark-syntax
@@ -814,8 +805,7 @@ pre {
 .token.inserted:not(.prefix),
 .token.deleted:not(.prefix) {
   display: block;
-}
-</style>
+}</style>
     </head>
 
     <body>
@@ -840,9 +830,9 @@ pre {
 		<p>Important aspect to any framework that relies on functions is to understand when they are invoked. Read along to get a crystal clear understanding</p>
 	</a>
 	<div class="post-meta">
-	<time class="post-date" datetime="Fri Apr 01 2022 18:00:00 GMT+0000 (Coordinated Universal Time)">Fri, Apr 01 2022</time>
+	<time datetime="Fri Apr 01 2022 18:00:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Fri, Apr 01 2022</time>
 	
-on <a class="tag" href="/tag/jetpack">jetpack</a>, <a class="tag" href="/tag/compose">compose</a>, <a class="tag" href="/tag/android">android</a>
+on <a href="/tag/jetpack" class="tag">jetpack</a>, <a href="/tag/compose" class="tag">compose</a>, <a href="/tag/android" class="tag">android</a>
 
 </div>
 
@@ -858,9 +848,9 @@ on <a class="tag" href="/tag/jetpack">jetpack</a>, <a class="tag" href="/tag/com
 		<p>Simple things you can do to improve your gradle/android dependency management</p>
 	</a>
 	<div class="post-meta">
-	<time class="post-date" datetime="Thu Nov 02 2017 00:20:00 GMT+0000 (Coordinated Universal Time)">Thu, Nov 02 2017</time>
+	<time datetime="Thu Nov 02 2017 00:20:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Thu, Nov 02 2017</time>
 	
-on <a class="tag" href="/tag/android">android</a>, <a class="tag" href="/tag/gradle">gradle</a>
+on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="tag">gradle</a>
 
 </div>
 
@@ -876,9 +866,9 @@ on <a class="tag" href="/tag/android">android</a>, <a class="tag" href="/tag/gra
 		<p>Simple things you can do to improve your gradle/android build time a lot</p>
 	</a>
 	<div class="post-meta">
-	<time class="post-date" datetime="Tue Apr 05 2016 20:10:00 GMT+0000 (Coordinated Universal Time)">Tue, Apr 05 2016</time>
+	<time datetime="Tue Apr 05 2016 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Tue, Apr 05 2016</time>
 	
-on <a class="tag" href="/tag/android">android</a>, <a class="tag" href="/tag/gradle">gradle</a>
+on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="tag">gradle</a>
 
 </div>
 
@@ -894,9 +884,9 @@ on <a class="tag" href="/tag/android">android</a>, <a class="tag" href="/tag/gra
 		<p>You probably know what the map operator is. This post discussed mostly about FlatMap and that probably will remove the confusion between map and flatMap operators if any</p>
 	</a>
 	<div class="post-meta">
-	<time class="post-date" datetime="Tue Dec 01 2015 20:10:00 GMT+0000 (Coordinated Universal Time)">Tue, Dec 01 2015</time>
+	<time datetime="Tue Dec 01 2015 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Tue, Dec 01 2015</time>
 	
-on <a class="tag" href="/tag/rxjava">rxjava</a>, <a class="tag" href="/tag/android">android</a>
+on <a href="/tag/rxjava" class="tag">rxjava</a>, <a href="/tag/android" class="tag">android</a>
 
 </div>
 
@@ -912,9 +902,9 @@ on <a class="tag" href="/tag/rxjava">rxjava</a>, <a class="tag" href="/tag/andro
 		<p>A cleaner way to define support library dependencies which makes updating their version number a whole lot easier</p>
 	</a>
 	<div class="post-meta">
-	<time class="post-date" datetime="Mon Nov 23 2015 20:10:00 GMT+0000 (Coordinated Universal Time)">Mon, Nov 23 2015</time>
+	<time datetime="Mon Nov 23 2015 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Mon, Nov 23 2015</time>
 	
-on <a class="tag" href="/tag/android">android</a>
+on <a href="/tag/android" class="tag">android</a>
 
 </div>
 
@@ -930,9 +920,9 @@ on <a class="tag" href="/tag/android">android</a>
 		<p>A deep dive into requesting permissions in Android Marshmallow and handling extreme cases</p>
 	</a>
 	<div class="post-meta">
-	<time class="post-date" datetime="Sat Nov 14 2015 20:10:00 GMT+0000 (Coordinated Universal Time)">Sat, Nov 14 2015</time>
+	<time datetime="Sat Nov 14 2015 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Sat, Nov 14 2015</time>
 	
-on <a class="tag" href="/tag/android">android</a>
+on <a href="/tag/android" class="tag">android</a>
 
 </div>
 
