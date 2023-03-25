@@ -1,9 +1,9 @@
 <div class="post-item">
-	<a :href="slugify(title)">
-		<h3 @text="title"></h3>
-		<p @text="description"></p>
+	<a :href="slugify(value.title)">
+		<h3 @text="value.title"></h3>
+		<p @text="value.description"></p>
 	</a>
-	<post-meta :date="date" :tags="tags" webc:nokeep></post-meta>
+	<post-meta :@date="value.date" :@tags="value.tags" webc:nokeep></post-meta>
 </div>
 <style>
 .post-item {

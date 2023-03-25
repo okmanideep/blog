@@ -1,0 +1,18 @@
+---js
+{
+	layout: 'default.webc',
+	eleventyExcludeFromCollections: true,
+	pagination: {
+		data: 'collections',
+		size: 1,
+		alias: 'tag',
+	},
+	permalink: ({ tag }) => `/tag/${tag}/`,
+}
+---
+
+<main role="main">
+	<h1 @text="`Tagged ${tag}`"></h1>
+	<post-list :@posts="collections[tag].reverse()"></post-list>
+</main>
+

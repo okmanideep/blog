@@ -1,7 +1,5 @@
-<template webc:type="11ty" 11ty:type="liquid">
-{%- for item in posts %}
-	{% renderTemplate "webc", item.data %}
-		<post-item></post-item>
-	{% endrenderTemplate %}
-{% endfor -%}
-</template>
+<post-item
+	webc:for="item of posts"
+	:@value="item.data"
+	webc:nokeep>
+</post-item>

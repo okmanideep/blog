@@ -1,6 +1,6 @@
 <div class="post-meta">
 	<time class="post-date" :datetime="date" @html="readableDate(date)"></time>
-	<tags :value="tags" webc:nokeep></tags>
+	<tags :@value="tags" webc:nokeep></tags>
 </div>
 <style>
 .post-meta {
