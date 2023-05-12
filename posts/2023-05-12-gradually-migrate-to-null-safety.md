@@ -6,7 +6,7 @@ date:   2023-05-12 17:00:00
 tags: ['flutter', 'dart']
 ---
 
-Dart 3 🎯 is here! And it brings very useful features like `sealed` classes, pattern matching and [many more](https://www.youtube.com/watch?v=yRlwOdCK7Ho&t=1766s)
+Dart 3 🎯 is here! And it brings very useful features like `sealed` classes, pattern matching and [many more](https://www.youtube.com/watch?v=yRlwOdCK7Ho&t=1766s).
 
 It also **ends the support for `--no-sound-null-safety`**.
 
