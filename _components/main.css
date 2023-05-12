@@ -86,9 +86,16 @@ h1,h2,h3,h4,h5,h6 {
 
 h1 {
   font-size: 2.0em;
-  margin: 2em 0 0.4em 0;
+  margin: 0.4em 0 0.4em 0;
   padding-bottom: 0.65em;
+  line-height: 1.2em;
   border-bottom: 1px solid var(--main-border-color);
+}
+
+@media only screen and (min-device-width: 960px) {
+  h1 {
+	  margin: 2em 0 0.4em 0;
+  }
 }
 
 h2 {
@@ -189,6 +196,7 @@ header > nav {
   display: flex;
   justify-content: space-between;
   align-content: center;
+  align-items: center;
 }
 
 header > nav > a {
@@ -227,3 +235,7 @@ footer a:hover {
   color: var(--main-text-color);
 }
 
+img {
+  max-width: 100%;
+  margin: 8px auto;
+}
