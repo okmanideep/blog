@@ -487,9 +487,16 @@ h1,h2,h3,h4,h5,h6 {
 
 h1 {
   font-size: 2.0em;
-  margin: 2em 0 0.4em 0;
+  margin: 0.4em 0 0.4em 0;
   padding-bottom: 0.65em;
+  line-height: 1.2em;
   border-bottom: 1px solid var(--main-border-color);
+}
+
+@media only screen and (min-device-width: 960px) {
+  h1 {
+	  margin: 2em 0 0.4em 0;
+  }
 }
 
 h2 {
@@ -590,6 +597,7 @@ header > nav {
   display: flex;
   justify-content: space-between;
   align-content: center;
+  align-items: center;
 }
 
 header > nav > a {
@@ -626,6 +634,11 @@ footer a {
 
 footer a:hover {
   color: var(--main-text-color);
+}
+
+img {
+  max-width: 100%;
+  margin: 8px auto;
 }
 /**
 * Edited from atom-dark theme for `prism.js`
@@ -911,6 +924,22 @@ on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="
 	<time datetime="Fri Apr 01 2022 18:00:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Fri, Apr 01 2022</time>
 	
 on <a href="/tag/jetpack" class="tag">jetpack</a>, <a href="/tag/compose" class="tag">compose</a>, <a href="/tag/android" class="tag">android</a>
+
+</div>
+
+
+</div>
+
+
+<div class="post-item">
+	<a href="migrating-to-dart-3-and-null-safety">
+		<h3>Migrating to Dart 3 and null safety</h3>
+		<p>Dart 3 is here, but we cannot adopt it unless our entire codebase is null safe. Here are few strategies we have been using to slowly migrate our codebase</p>
+	</a>
+	<div class="post-meta">
+	<time datetime="Fri May 12 2023 17:00:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Fri, May 12 2023</time>
+	
+on <a href="/tag/flutter" class="tag">flutter</a>, <a href="/tag/dart" class="tag">dart</a>
 
 </div>
 

@@ -7,6 +7,14 @@
     <description>Android · Web · Design</description>
     <language>en</language>
     <item>
+      <title>Migrating to Dart 3 and null safety</title>
+      <link>https://okmanideep.me/migrating-to-dart-3-and-null-safety/</link>
+      <description>Dart 3 is here, but we cannot adopt it unless our entire codebase is null safe. Here are few strategies we have been using to slowly migrate our codebase</description>
+      <pubDate>Fri, 12 May 2023 17:00:00 +0000</pubDate>
+      <dc:creator>Manideep Polireddi</dc:creator>
+      <guid>https://okmanideep.me/migrating-to-dart-3-and-null-safety/</guid>
+    </item>
+    <item>
       <title>Understanding Composition and Side Effects</title>
       <link>https://okmanideep.me/understanding-composition-and-side-effects/</link>
       <description>Important aspect to any framework that relies on functions is to understand when they are invoked. Read along to get a crystal clear understanding</description>

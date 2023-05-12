@@ -6,8 +6,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
         <!-- [[! Page Meta ]] -->
-        <title>@okmanideep</title>
-<meta name="description" content="Android · Web · Design">
+        <title>Migrating to Dart 3 and null safety</title>
+<meta name="description" content="Dart 3 is here, but we cannot adopt it unless our entire codebase is null safe. Here are few strategies we have been using to slowly migrate our codebase">
 <meta name="HandheldFriendly" content="True">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="shortcut icon" type="image/svg+xml" href="/img/favicon.svg">
@@ -23,17 +23,17 @@
 <meta name="author" content="https://twitter.com/okmanideep">
 
 <meta property="og:site_name" content="@okmanideep">
-<meta property="og:type" content="website">
-<meta property="og:title" content="@okmanideep">
-<meta property="og:description" content="Android · Web · Design">
-<meta property="og:url" content="https://okmanideep.me/tag/android/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Migrating to Dart 3 and null safety">
+<meta property="og:description" content="Dart 3 is here, but we cannot adopt it unless our entire codebase is null safe. Here are few strategies we have been using to slowly migrate our codebase">
+<meta property="og:url" content="https://okmanideep.me/migrating-to-dart-3-and-null-safety/">
 <meta property="og:image" content="https://okmanideep.me/img/logo-black-on-white-square.jpg">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="https://facebook.com/okmanideep">
 
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="@okmanideep">
-<meta name="twitter:description" content="Android · Web · Design">
+<meta name="twitter:title" content="Migrating to Dart 3 and null safety">
+<meta name="twitter:description" content="Dart 3 is here, but we cannot adopt it unless our entire codebase is null safe. Here are few strategies we have been using to slowly migrate our codebase">
 <meta name="twitter:image" content="https://okmanideep.me/img/logo-black-on-white-square.jpg">
 <meta name="twitter:author" content="@okmanideep">
 
@@ -72,24 +72,6 @@
 
 .post-meta a:hover {
   text-decoration: underline;
-}
-.post-item {
-	border-radius: 5px;
-	padding: 24px 24px;
-	pointer-events: none;
-	margin-bottom: 12px;
-}
-.post-item h3 {
-	margin: 8px 0px;
-}
-.post-item > a {
-	text-decoration: none;
-	pointer-events: auto;
-	color: var(--main-text-color);
-}
-
-.post-item:hover {
-	background: var(--raised-bg-color);
 }
 /* Source: https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital@0;1&family=Rubik:ital,wght@0,600;1,600&display=swap */
 
@@ -834,106 +816,50 @@ pre {
 
 
         <main role="main">
-	<h1>Tagged android</h1>
-	<div class="post-item">
-	<a href="understanding-composition-and-side-effects">
-		<h3>Understanding Composition and Side Effects</h3>
-		<p>Important aspect to any framework that relies on functions is to understand when they are invoked. Read along to get a crystal clear understanding</p>
-	</a>
-	<div class="post-meta">
-	<time datetime="Fri Apr 01 2022 18:00:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Fri, Apr 01 2022</time>
+    <article>
+        <h1>Migrating to Dart 3 and null safety</h1>
+		<post-meta date="Fri May 12 2023 17:00:00 GMT+0000 (Coordinated Universal Time)" tags="flutter,dart"><div class="post-meta">
+	<time datetime="Fri May 12 2023 17:00:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Fri, May 12 2023</time>
 	
-on <a href="/tag/jetpack" class="tag">jetpack</a>, <a href="/tag/compose" class="tag">compose</a>, <a href="/tag/android" class="tag">android</a>
+on <a href="/tag/flutter" class="tag">flutter</a>, <a href="/tag/dart" class="tag">dart</a>
 
 </div>
 
-
-</div>
-
-
-<div class="post-item">
-	<a href="dependency-management-in-multi-module-gradle-projects">
-		<h3>Dependency management in multi-module gradle projects</h3>
-		<p>Simple things you can do to improve your gradle/android dependency management</p>
-	</a>
-	<div class="post-meta">
-	<time datetime="Thu Nov 02 2017 00:20:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Thu, Nov 02 2017</time>
-	
-on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="tag">gradle</a>
-
-</div>
-
-
-</div>
-
-
-<div class="post-item">
-	<a href="improve-your-android-build-times">
-		<h3>Improve your Android build times</h3>
-		<p>Simple things you can do to improve your gradle/android build time a lot</p>
-	</a>
-	<div class="post-meta">
-	<time datetime="Tue Apr 05 2016 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Tue, Apr 05 2016</time>
-	
-on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="tag">gradle</a>
-
-</div>
-
-
-</div>
-
-
-<div class="post-item">
-	<a href="rxconfusions-part-1-map-and-flatmap">
-		<h3>RxConfusions - Part 1 : Map and FlatMap</h3>
-		<p>You probably know what the map operator is. This post discussed mostly about FlatMap and that probably will remove the confusion between map and flatMap operators if any</p>
-	</a>
-	<div class="post-meta">
-	<time datetime="Tue Dec 01 2015 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Tue, Dec 01 2015</time>
-	
-on <a href="/tag/rxjava" class="tag">rxjava</a>, <a href="/tag/android" class="tag">android</a>
-
-</div>
-
-
-</div>
-
-
-<div class="post-item">
-	<a href="clean-way-to-define-support-library-dependencies">
-		<h3>Clean way to define support library dependencies</h3>
-		<p>A cleaner way to define support library dependencies which makes updating their version number a whole lot easier</p>
-	</a>
-	<div class="post-meta">
-	<time datetime="Mon Nov 23 2015 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Mon, Nov 23 2015</time>
-	
-on <a href="/tag/android" class="tag">android</a>
-
-</div>
-
-
-</div>
-
-
-<div class="post-item">
-	<a href="permissions-in-marshmallow">
-		<h3>Permissions in marshmallow</h3>
-		<p>A deep dive into requesting permissions in Android Marshmallow and handling extreme cases</p>
-	</a>
-	<div class="post-meta">
-	<time datetime="Sat Nov 14 2015 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Sat, Nov 14 2015</time>
-	
-on <a href="/tag/android" class="tag">android</a>
-
-</div>
-
-
-</div>
-
-
-
+</post-meta>
+        <section class="content"><p>Dart 3 🎯 is here! And it brings very useful features like <code>sealed</code> classes, pattern matching and <a href="https://www.youtube.com/watch?v=yRlwOdCK7Ho&amp;t=1766s">many more</a></p>
+<p>It also <strong>ends the support for <code>--no-sound-null-safety</code></strong>.</p>
+<p>Which means to adopt it in any codebase, every single file should be null safe.</p>
+<p>Like us at <a href="https://github.com/praja">Praja</a>, if you have started writing your Flutter app more than a couple of years ago, you would have started slowly migrating your codebase to sound null safety. Some of you would have completed it. If you are one of them <a href="https://twitter.com/okmanideep">I would like to here about your experience</a> and learn what helped and what didn't.</p>
+<p>If you are still going through this transition, I hope this helps you. Here's how we have approached it.</p>
+<h3>Preread 📄</h3>
+<p><a href="https://dart.dev/null-safety/migration-guide">Official Dart Guide for migrating to null safety</a></p>
+<h3>1. Mark all your existing files as not null safe 🏁</h3>
+<p>Skip this step if you have already done it.</p>
+<ul>
+<li>Upgrade dart to 2.12+</li>
+<li>Add <code>// @dart = 2.9</code> to the starting of every dart file in your project and manually convert your <code>main.dart</code></li>
+</ul>
+<p>The following script can help you out here</p>
+<pre class="language-ruby"><code class="language-ruby"><span class="token comment">#!/usr/bin/env ruby</span><br><br>directory <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"/lib"</span></span><br><br><span class="token comment"># Navigate to the directory</span><br><span class="token builtin">Dir</span><span class="token punctuation">.</span>chdir<span class="token punctuation">(</span>directory<span class="token punctuation">)</span><br><br><span class="token comment"># Loop through each .dart file in the directory</span><br><span class="token builtin">Dir</span><span class="token punctuation">.</span>glob<span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"**/*.dart"</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">each</span> <span class="token keyword">do</span> <span class="token operator">|</span>file<span class="token operator">|</span><br>  <span class="token comment"># Check if the file is a regular file</span><br>  <span class="token keyword">if</span> <span class="token builtin">File</span><span class="token punctuation">.</span>file<span class="token operator">?</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span><br>    <span class="token comment"># Prepend "// @dart=2.9" to the file</span><br>    content <span class="token operator">=</span> <span class="token builtin">File</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span>file<span class="token punctuation">)</span><br>    <span class="token builtin">File</span><span class="token punctuation">.</span>open<span class="token punctuation">(</span>file<span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"w"</span></span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>f<span class="token operator">|</span><br>      f<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"// @dart=2.9\n</span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">content</span><span class="token delimiter punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><br>    <span class="token keyword">end</span><br>    puts <span class="token string-literal"><span class="token string">"Added // @dart=2.9 to </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">file</span><span class="token delimiter punctuation">}</span></span><span class="token string">"</span></span><br>  <span class="token keyword">end</span><br><span class="token keyword">end</span></code></pre>
+<p>With this you can start using <code>flutter run --no-sound-null-safety</code> and run your app as always</p>
+<h3>2. Add a PR check as a nudge for your team ✅</h3>
+<p>Since this doesn't immediately impact the product, it's not going to be worth it to migrate all the files as a single task / project. We want to do this gradually over a few months. For that, we'd like some regular nudges to everyone in the team to slowly convert files they are touching.</p>
+<p>A PR check like this can help out in a big way</p>
+<pre class="language-yaml"><code class="language-yaml"><span class="token key atrule">name</span><span class="token punctuation">:</span> Dart Null Safety Validation<br><span class="token key atrule">on</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>pull_request<span class="token punctuation">]</span><br><br><span class="token key atrule">env</span><span class="token punctuation">:</span><br>  <span class="token key atrule">GITHUB_BASE_REF</span><span class="token punctuation">:</span> $<br>  <br><span class="token key atrule">jobs</span><span class="token punctuation">:</span><br>  <span class="token key atrule">validate</span><span class="token punctuation">:</span><br>    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest<br>    <span class="token key atrule">steps</span><span class="token punctuation">:</span><br>      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Checkout code<br>        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v3<br>      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Validate Dart files<br>        <span class="token key atrule">shell</span><span class="token punctuation">:</span> bash<br>        <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string"><br>          # Fetch the base branch for diffing<br>          git fetch origin $GITHUB_BASE_REF:$GITHUB_BASE_REF</span><br><br>          n_files=$((grep <span class="token punctuation">-</span>r <span class="token punctuation">-</span>H <span class="token punctuation">-</span><span class="token punctuation">-</span>include \<span class="token important">*.dart</span> "// @dart = 2.9" $(git diff <span class="token punctuation">-</span><span class="token punctuation">-</span>name<span class="token punctuation">-</span>only $GITHUB_BASE_REF) <span class="token punctuation">|</span><span class="token punctuation">|</span> true) <span class="token punctuation">|</span> wc <span class="token punctuation">-</span>l)<br><br>          if <span class="token punctuation">[</span> $n_files <span class="token punctuation">-</span>ne 0 <span class="token punctuation">]</span>; then<br>            echo "Dart Files that changed<span class="token punctuation">,</span> but still contain 2.9 dart version<span class="token punctuation">:</span>"<br>            grep <span class="token punctuation">-</span>r <span class="token punctuation">-</span>H <span class="token punctuation">-</span><span class="token punctuation">-</span>include \<span class="token important">*.dart</span> "// @dart = 2.9" $(git diff <span class="token punctuation">-</span><span class="token punctuation">-</span>name<span class="token punctuation">-</span>only $GITHUB_BASE_REF)<br>            echo "\n"<br>            echo "Please convert the above files to project dart version"<br>            exit 1<br>          fi<br></code></pre>
+<p>This validates that all <code>.dart</code> files added/modified in a PR are null safe.</p>
+<p>Based on your team, you can choose to make this an optional or a required check. We chose to have it as optional and it worked out for us.</p>
+<p>With just this, over a couple of months, we converted over half the codebase to null safety!</p>
+<h3>3. Highlight low hanging fruits 🍎</h3>
+<p>There are bound to be some files which are not touched at all and are lying there, which stop your from adopting full sound null safety. The PR check is not going to help here.</p>
+<p>A small script that can tell you how many files are left to convert and what are few low hanging fruits helps quite a bit</p>
+<img src="/img/null-safe-report-usage.png"/>
+<pre class="language-ruby"><code class="language-ruby"><span class="token comment"># frozen_string_literal: true</span><br><br><span class="token comment"># Usage:</span><br><span class="token comment"># From the root of this project</span><br><span class="token comment"># $ ruby scripts/null_safe_report.rb ./lib</span><br><span class="token keyword">require</span> <span class="token string-literal"><span class="token string">'find'</span></span><br><br><span class="token comment"># This class is used to sort the files by line count</span><br><span class="token keyword">class</span> <span class="token class-name">FileToConvert</span><br>  <span class="token keyword">def</span> <span class="token method-definition"><span class="token function">initialize</span></span><span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> line_count<span class="token punctuation">)</span><br>    <span class="token variable">@file_name</span> <span class="token operator">=</span> file_name<br>    <span class="token variable">@line_count</span> <span class="token operator">=</span> line_count<br>  <span class="token keyword">end</span><br><br>  attr_reader <span class="token symbol">:line_count</span><br><br>  <span class="token keyword">def</span> <span class="token method-definition"><span class="token function">to_s</span></span><br>    <span class="token string-literal"><span class="token string">"</span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content"><span class="token variable">@file_name</span></span><span class="token delimiter punctuation">}</span></span><span class="token string">: </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content"><span class="token variable">@line_count</span></span><span class="token delimiter punctuation">}</span></span><span class="token string"> lines"</span></span><br>  <span class="token keyword">end</span><br><span class="token keyword">end</span><br><br>path <span class="token operator">=</span> <span class="token constant">ARGV</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><br><br>file_count <span class="token operator">=</span> <span class="token number">0</span><br>files_to_convert <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><br><span class="token builtin">Dir</span><span class="token punctuation">.</span>glob<span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"</span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">path</span><span class="token delimiter punctuation">}</span></span><span class="token string">/**/*.dart"</span></span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>file_name<span class="token operator">|</span><br>  file_count <span class="token operator">+=</span> <span class="token number">1</span><br>  first_line <span class="token operator">=</span> <span class="token builtin">File</span><span class="token punctuation">.</span>open<span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> <span class="token operator">&amp;</span><span class="token symbol">:readline</span><span class="token punctuation">)</span><br>  is_non_null_safe <span class="token operator">=</span> first_line<span class="token punctuation">.</span>start_with<span class="token operator">?</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">'// @dart = 2.9'</span></span><span class="token punctuation">)</span><br>  files_to_convert <span class="token operator">&lt;&lt;</span> <span class="token class-name">FileToConvert</span><span class="token punctuation">.</span><span class="token keyword">new</span><span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> <span class="token builtin">File</span><span class="token punctuation">.</span>foreach<span class="token punctuation">(</span>file_name<span class="token punctuation">)</span><span class="token punctuation">.</span>count<span class="token punctuation">)</span> <span class="token keyword">if</span> is_non_null_safe<br><span class="token keyword">end</span><br><br>files_to_convert<span class="token punctuation">.</span>sort_by<span class="token operator">!</span><span class="token punctuation">(</span><span class="token operator">&amp;</span><span class="token symbol">:line_count</span><span class="token punctuation">)</span><br><br>puts <span class="token string-literal"><span class="token string">"Null safe percent: </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content"><span class="token punctuation">(</span><span class="token punctuation">(</span>file_count <span class="token operator">-</span> files_to_convert<span class="token punctuation">.</span>count<span class="token punctuation">)</span><span class="token punctuation">.</span>to_f <span class="token operator">/</span> file_count<span class="token punctuation">.</span>to_f <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">.</span>round<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span></span><span class="token delimiter punctuation">}</span></span><span class="token string">%"</span></span><br>puts <span class="token string-literal"><span class="token string">"Number of files left to convert: </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">files_to_convert<span class="token punctuation">.</span>count</span><span class="token delimiter punctuation">}</span></span><span class="token string">"</span></span><br>puts <span class="token string-literal"><span class="token string">''</span></span><br>puts <span class="token string-literal"><span class="token string">'10 Smallest files left to convert:'</span></span><br>files_to_convert<span class="token punctuation">[</span><span class="token number">0.</span><span class="token number">.9</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token keyword">each</span> <span class="token keyword">do</span> <span class="token operator">|</span>file<span class="token operator">|</span><br>  puts file<br><span class="token keyword">end</span></code></pre>
+<h3>4. The final push 🥅</h3>
+<p>You likely have a few huge files that no one wants to touch. Likely some God object definitions. There is no shortcut here. We have to approach it like some good old tech debt and buy some time to replace these.</p>
+<p>We are yet to make this final push. Will update this article if we have any learnings.</p>
+</section>
+    </article>
 </main>
-
 
 
         <footer>
