@@ -449,7 +449,7 @@ body {
 }
 
 main {
-  width: 96%;
+  width: calc(100% - 3em);
   margin: auto;
   font-size: 1rem;
 }
@@ -464,6 +464,7 @@ main {
 h1,h2,h3,h4,h5,h6 {
   font-family: 'Rubik', sans-serif;
   font-weight: 600;
+  line-height: 1.2em;
   color: var(--heading-text-color);
 }
 
@@ -471,7 +472,6 @@ h1 {
   font-size: 2.0em;
   margin: 0.4em 0 0.4em 0;
   padding-bottom: 0.65em;
-  line-height: 1.2em;
   border-bottom: 1px solid var(--main-border-color);
 }
 
@@ -526,6 +526,7 @@ blockquote>p {
 
 p, li {
   line-height: 1.5em;
+  font-size: 1.1em;
 }
 
 table {
@@ -571,7 +572,7 @@ ul,ol {
 }
 
 header {
-  padding: 2em;
+  padding: 2em 1.5em;
   margin: 0 0 1em 0;
 }
 
@@ -826,7 +827,7 @@ on <a href="/tag/flutter" class="tag">flutter</a>, <a href="/tag/dart" class="ta
 </div>
 
 </post-meta>
-        <section class="content"><p>Dart 3 🎯 is here! And it brings very useful features like <code>sealed</code> classes, pattern matching and <a href="https://www.youtube.com/watch?v=yRlwOdCK7Ho&amp;t=1766s">many more</a></p>
+        <section class="content"><p>Dart 3 🎯 is here! And it brings very useful features like <code>sealed</code> classes, pattern matching and <a href="https://www.youtube.com/watch?v=yRlwOdCK7Ho&amp;t=1766s">many more</a>.</p>
 <p>It also <strong>ends the support for <code>--no-sound-null-safety</code></strong>.</p>
 <p>Which means to adopt it in any codebase, every single file should be null safe.</p>
 <p>Like us at <a href="https://github.com/praja">Praja</a>, if you have started writing your Flutter app more than a couple of years ago, you would have started slowly migrating your codebase to sound null safety. Some of you would have completed it. If you are one of them <a href="https://twitter.com/okmanideep">I would like to here about your experience</a> and learn what helped and what didn't.</p>
