@@ -230,6 +230,7 @@ footer a {
   font-weight: bold;
   color: var(--dim-text-color);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 footer a:hover {

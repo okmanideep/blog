@@ -11,14 +11,21 @@
 	padding: 24px 24px;
 	pointer-events: none;
 	margin-bottom: 12px;
+	transition: background 0.2s ease-in-out;
 }
 .post-item h3 {
-	margin: 8px 0px;
+	margin: 0px;
+	padding: 8px 0px;
 }
 .post-item > a {
 	text-decoration: none;
 	pointer-events: auto;
 	color: var(--main-text-color);
+}
+
+.post-item p {
+	margin: 0px;
+	padding: 0.3em 0 0.5em 0;
 }
 
 .post-item:hover {
