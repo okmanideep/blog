@@ -78,14 +78,21 @@
 	padding: 24px 24px;
 	pointer-events: none;
 	margin-bottom: 12px;
+	transition: background 0.2s ease-in-out;
 }
 .post-item h3 {
-	margin: 8px 0px;
+	margin: 0px;
+	padding: 8px 0px;
 }
 .post-item > a {
 	text-decoration: none;
 	pointer-events: auto;
 	color: var(--main-text-color);
+}
+
+.post-item p {
+	margin: 0px;
+	padding: 0.3em 0 0.5em 0;
 }
 
 .post-item:hover {
@@ -631,6 +638,7 @@ footer a {
   font-weight: bold;
   color: var(--dim-text-color);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 footer a:hover {
@@ -662,7 +670,7 @@ pre {
 
 	color: var(--onedark-gray);
 	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
-  font-family: 'JetBrains Mono', monospace;
+	font-family: 'JetBrains Mono', monospace;
 	direction: ltr;
 	text-align: left;
 	white-space: pre;
@@ -691,7 +699,7 @@ pre {
 
 :not(pre) > code,
 pre {
-  font-size: 0.9em;
+	font-size: 0.9em;
 	background: var(--onedark-bg);
 }
 
