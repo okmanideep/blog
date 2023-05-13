@@ -11,8 +11,8 @@
 }
 ---
 
-<main role="main">
-	<h1 @text="`Tagged ${tag}`"></h1>
+<h1 @text="`Tagged ${tag}`" class="padded-width"></h1>
+<main role="main" class="full-width">
 	<post-list :@posts="collections[tag].reverse()"></post-list>
 </main>
 

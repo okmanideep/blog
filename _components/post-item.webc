@@ -8,7 +8,7 @@
 <style>
 .post-item {
 	border-radius: 5px;
-	padding: 24px 24px;
+	padding: var(--edge-margin);
 	pointer-events: none;
 	margin-bottom: 12px;
 	transition: background 0.2s ease-in-out;

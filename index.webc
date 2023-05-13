@@ -3,7 +3,7 @@ layout: default.webc
 eleventyExcludeFromCollections: true
 ---
 <home-banner></home-banner>
-<main role="main">
+<main role="main" class="full-width">
 	<post-list :@posts="collections.all.reverse()"></post-list>
 </main>
 

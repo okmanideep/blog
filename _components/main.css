@@ -56,6 +56,7 @@ table {
   --highlight-border-color: #218EE8;
   --raised-bg-color: #282c34;
   --dim-text-color: #9eabb3;
+  --edge-margin: 1.5rem;
 }
 
 /* MAIN CSS */
@@ -66,15 +67,31 @@ body {
 }
 
 main {
-  width: calc(100% - 3em);
+  width: calc(100% - 2*var(--edge-margin));
   margin: auto;
   font-size: 1rem;
 }
 
-@media only screen and (min-device-width: 960px) {
+@media only screen and (min-width: 960px) {
   main {
-    width: 880px;
+    width: calc(960px - 2*var(--edge-margin));
     font-size: 1.2rem;
+  }
+}
+
+main.full-width {
+	width: 100%;
+	max-width: 960px;
+}
+
+.padded-width {
+  width: calc(100% - 2*var(--edge-margin));
+  margin: auto;
+}
+
+@media only screen and (min-width: 960px) {
+  .padded-width {
+    width: calc(960px - 2*var(--edge-margin));
   }
 }
 
@@ -92,7 +109,7 @@ h1 {
   border-bottom: 1px solid var(--main-border-color);
 }
 
-@media only screen and (min-device-width: 960px) {
+@media only screen and (min-width: 960px) {
   h1 {
 	  margin: 2em 0 0.4em 0;
   }
@@ -189,8 +206,14 @@ ul,ol {
 }
 
 header {
-  padding: 2em 1.5em;
-  margin: 0 0 1em 0;
+	padding: 2em var(--edge-margin);
+	margin: 0;
+}
+
+media only screen and (min-width: 960px) {
+	header {
+		margin: 0 0 1em 0;
+	}
 }
 
 header > nav {
