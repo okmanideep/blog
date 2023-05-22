@@ -73,11 +73,11 @@ jobs:
           # Fetch the base branch for diffing
           git fetch origin $GITHUB_BASE_REF:$GITHUB_BASE_REF
 
-          n_files=$((grep -r -H --include \*.dart "// @dart = 2.9" $(git diff --name-only $GITHUB_BASE_REF) || true) | wc -l)
+          n_files=$((grep -r -H --include \*.dart "// @dart = 2.9" $(git diff --name-only $GITHUB_BASE_REF --diff-filter=AMR) || true) | wc -l)
 
           if [ $n_files -ne 0 ]; then
             echo "Dart Files that changed, but still contain 2.9 dart version:"
-            grep -r -H --include \*.dart "// @dart = 2.9" $(git diff --name-only $GITHUB_BASE_REF)
+            grep -r -H --include \*.dart "// @dart = 2.9" $(git diff --name-only $GITHUB_BASE_REF --diff-filter=AMR)
             echo "\n"
             echo "Please convert the above files to project dart version"
             exit 1
