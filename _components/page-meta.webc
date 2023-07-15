@@ -1,9 +1,9 @@
-<title @text="title ? title : site.name"></title>
-<meta name="description" :content="description ? description : site.description" />
+<title @text="title ? title : $data.site.name"></title>
+<meta name="description" :content="description ? description : $data.site.description" />
 <meta name="HandheldFriendly" content="True" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" type="image/svg+xml" :href="imgPath('favicon.svg')" >
 <link rel="shortcut icon" type="image/png" :href="imgPath('favicon.png')" >
-<link rel="alternate" type="application/json" :name="site.name" :href="`${site.baseurl}feed.json`" />
-<link rel="alternate" type="application/feed+json" :name="site.name" :href="`${site.baseurl}feed.json`" />
-<link rel="alternate" type="application/rss+xml" :name="site.name" :href="`${site.baseurl}feed.xml`" />
+<link rel="alternate" type="application/json" :name="$data.site.name" :href="`${$data.site.baseurl}feed.json`" />
+<link rel="alternate" type="application/feed+json" :name="$data.site.name" :href="`${$data.site.baseurl}feed.json`" />
+<link rel="alternate" type="application/rss+xml" :name="$data.site.name" :href="`${$data.site.baseurl}feed.xml`" />

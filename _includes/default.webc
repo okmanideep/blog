@@ -22,7 +22,7 @@
         <template webc:nokeep @raw="content"></template>
 
         <footer>
-            <section><a :href="site.baseurl" @raw="site.name"></a> &copy; <template @raw="site.current_year"></template></section>
+            <section><a :href="$data.site.baseurl" @raw="$data.site.name"></a> &copy; <template @raw="$data.site.current_year"></template></section>
             <section>Published with <a href="https://11ty.dev">11ty</a></section>
         </footer>
     </body>
