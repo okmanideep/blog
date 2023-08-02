@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- [[! Document Settings ]] -->
+        <meta charset="utf-8" />
+		<style>
+			/* THEME VARS */
+			:root {
+			  --main-bg-color: #22262c;
+			  --main-text-color: #ffffff;
+			  --heading-text-color: #f7f7f7;
+			  --highlight-text-color: #61aeee;
+			  --raised-bg-color: #282c34;
+			}
+
+			/* MAIN CSS */
+			#frame {
+			  background-color: var(--main-bg-color);
+			  color: var(--main-text-color);
+			  font-family: 'Barlow', sans-serif;
+			  width: 1200px;
+			  height: 630px;
+			  margin: auto;
+			  position: relative;
+			}
+
+			/* latin */
+			@font-face {
+			  font-family: 'Rubik';
+			  font-style: normal;
+			  font-weight: 600;
+			  font-display: swap;
+			  src: url(https://fonts.gstatic.com/s/rubik/v21/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-FV0U1.woff2) format('woff2');
+			  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+			}
+
+			/* latin */
+			@font-face {
+			  font-family: 'JetBrains Mono';
+			  font-style: normal;
+			  font-weight: 400;
+			  font-display: swap;
+			  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v13/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTOlOV.woff2) format('woff2');
+			  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+			}
+
+			h3 {
+			  font-family: 'Rubik', sans-serif;
+			  font-weight: 600;
+			  line-height: 28px;
+			  font-size: 48px;
+			  margin: 12px 0px;
+			  color: var(--heading-text-color);
+			}
+
+			div.logo {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			div.logo > svg {
+				width: 160px;
+				height: 160px;
+				fill: white;
+				margin-bottom: 24px; /* standing tall */
+			}
+
+			div.dp {
+				position: absolute;
+				top: 24px;
+				left: 24px;
+			}
+
+			div.dp > img {
+				object-fit: cover;
+				width: 96px;
+				height: 96px;
+				border-radius: 48px;
+				border: 2px solid white;
+				margin: 24px 0px;
+			}
+
+			div.content {
+				position: absolute;
+				bottom: 12px;
+				left: 24px;
+			}
+
+			p.sub {
+				font-family: "JetBrains Mono", monospace;
+				font-size: 28px;
+			}
+
+			p.sub > .domain {
+				color: var(--highlight-text-color);
+			}
+		</style>
+    </head>
+
+    <body>
+		<div id="frame">
+			<div class="logo">
+				<svg width="3298" height="3298" viewBox="0 0 3298 3298" xmlns="http://www.w3.org/2000/svg">
+					<path d="M1188.81 2357.74C1185.32 2357.99 1181.82 2358.37 1178.3 2358.9C1105.66 2369.76 1055.57 2437.46 1066.44 2510.11C1071.99 2547.22 1092.37 2578.44 1120.67 2598.66L1120.49 2598.9C1139.23 2610 1153 2629.13 1156.47 2652.36C1160.43 2678.83 1150.04 2704.14 1131.13 2720.38C1152 2724.76 1173.96 2725.57 1196.25 2722.24C1297.84 2707.05 1367.75 2611.48 1352.39 2508.8C1348.7 2484.11 1340.41 2461.26 1328.55 2441C1274.45 2427.76 1225.79 2398.47 1188.81 2357.74Z"/>
+					<path d="M2139.32 577.968C2127.54 582.955 2118.67 591.928 2113.61 602.651C1797.79 1176.91 1493.34 1757.11 1200.43 2342.85C1238.68 2383.13 1288.68 2411.66 1344.19 2423.43C1641.83 1837.44 1927.88 1245.8 2202.19 648.892C2209.68 635.802 2211.19 619.485 2204.86 604.522C2194.09 579.092 2164.75 567.204 2139.32 577.968Z"/>
+					<path d="M1041.22 2267.61C1027.37 2267.61 1011.79 2263.28 994.488 2254.63L179.344 1714.66C167.229 1707.74 157.711 1698.22 150.788 1686.11C145.596 1672.26 143 1658.42 143 1644.57C143 1632.46 146.461 1620.34 153.384 1608.23C160.307 1594.38 169.825 1584 181.94 1577.07L1046.41 1024.13C1060.25 1015.47 1074.96 1011.15 1090.54 1011.15C1111.31 1011.15 1129.48 1019.8 1145.06 1037.11C1162.36 1052.68 1171.02 1071.72 1171.02 1094.22C1171.02 1106.33 1167.55 1119.31 1160.63 1133.16C1153.71 1145.27 1144.19 1154.79 1132.08 1161.71L374.044 1647.17L1085.35 2117.04C1097.46 2123.97 1106.12 2134.35 1111.31 2148.19C1118.23 2160.31 1121.69 2173.29 1121.69 2187.13C1121.69 2207.9 1113.9 2226.94 1098.33 2244.25C1082.75 2259.82 1063.71 2267.61 1041.22 2267.61Z"/>
+					<path d="M2257.76 2290.61C2236.99 2290.61 2217.95 2282.82 2200.65 2267.25C2185.07 2249.94 2177.28 2230.9 2177.28 2210.13C2177.28 2180.71 2190.26 2157.35 2216.22 2140.04L2924.93 1670.17L2166.9 1184.71C2154.79 1177.79 2145.27 1168.27 2138.34 1156.16C2131.42 1144.04 2127.96 1131.06 2127.96 1117.22C2127.96 1094.72 2135.75 1075.68 2151.32 1060.11C2168.63 1042.8 2188.53 1034.15 2211.03 1034.15C2223.15 1034.15 2237.86 1038.47 2255.16 1047.13L3117.04 1600.07C3129.15 1607 3138.67 1617.38 3145.59 1631.23C3152.51 1643.34 3155.98 1655.46 3155.98 1667.57C3155.98 1700.45 3143.86 1723.82 3119.63 1737.66L2304.49 2277.63C2290.64 2286.28 2275.07 2290.61 2257.76 2290.61Z"/>
+				</svg>
+			</div>
+			<div class="dp">
+				<img src="https://github.com/okmanideep.png" alt="okmanideep" width="100" height="100" />
+			</div>
+			<div class="content">
+				<h3>{{TITLE}}</h3>
+				<p class="sub"><span class="domain">okmanideep.me</span>{{TAGS}}</p>
+			</div>
+		</div>
+    </body>
+</html>
