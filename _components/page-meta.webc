@@ -1,5 +1,5 @@
-<title @text="title ? title : $data.site.name"></title>
-<meta name="description" :content="description ? description : $data.site.description" />
+<title @text="$data.title ? $data.title : $data.site.name"></title>
+<meta name="description" :content="$data.description ? $data.description : $data.site.description" />
 <meta name="HandheldFriendly" content="True" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" type="image/svg+xml" :href="imgPath('favicon.svg')" >
