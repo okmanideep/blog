@@ -7,6 +7,7 @@ module.exports = {
   description: "Android · Web · Design",
   logo: 'logo-black-on-white-square.jpg',
   logo_light: 'logo-white.png',
+  cover: 'cover-default-compressed.png',
 
   //Author's info
   author: 'Manideep Polireddi',

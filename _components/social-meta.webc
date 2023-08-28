@@ -7,14 +7,14 @@
 <meta property="og:title" :content="$data.title ? $data.title : $data.site.name" />
 <meta property="og:description" :content="$data.description ? $data.description : $data.site.description" />
 <meta property="og:url" :content="`${$data.site.url}${$data.page.url}`" />
-<meta property="og:image" :content="`${$data.site.url}${imgPath($data.cover ? $data.cover : $data.site.logo)}`" />
+<meta property="og:image" :content="`${$data.site.url}${imgPath($data.cover ? $data.cover : $data.site.cover)}`" />
 <meta property="og:locale" content="en_US" />
 <meta property="article:author" content="https://facebook.com/okmanideep" />
 
 <meta name="twitter:card" :content="$data.cover ? 'summary_large_image' : 'summary'" />
 <meta name="twitter:title" :content="$data.title ? $data.title : $data.site.name" />
 <meta name="twitter:description" :content="$data.description ? $data.description : $data.site.description" />
-<meta name="twitter:image" :content="`${$data.site.url}${imgPath($data.cover ? $data.cover : $data.site.logo)}`" />
+<meta name="twitter:image" :content="`${$data.site.url}${imgPath($data.cover ? $data.cover : $data.site.cover)}`" />
 <meta name="twitter:author" :content="`@${$data.site.username}`" />
 
 
