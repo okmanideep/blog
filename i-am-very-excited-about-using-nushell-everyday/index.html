@@ -854,10 +854,12 @@ on <a href="/tag/shell" class="tag">shell</a>, <a href="/tag/windows" class="tag
         <section class="content"><p>From the moment I saw the <a href="https://youtu.be/bMpYyqWCzZk?si=VLXcaCFLT2p_fHXf">intro video</a> I found it very appealing. It takes the best of <code>bash</code>(in unix) and <code>powershell</code>. I will assume you could totally relate to the <code>bash</code> part of that sentence.</p>
 <h2>What's best in <code>powershell</code>?</h2>
 <p>I like the structural data flow in <code>powershell</code>. Since <code>powershell</code> commands aren't as well named for casual and quick scripting, it doesn't look good. But my OOP brain that could not master regex or <code>awk</code> in a decade was attracted to the named, associative data structures moving through the command pipeline.</p>
-<p>I remember the time I was trying to find the last modified file in a directory in a terminal running <code>bash</code>. I knew <code>ls</code> and I knew <code>sort</code>. I was totally in awe of the unix philosophy - individual programs doing only one thing and doing it well, composing different programs to solve complicated problems. So I tried</p>
+<p>I remember the first time I was trying to find the last modified file in a directory in a terminal running <code>bash</code>. I knew <code>ls</code> and I knew <code>sort</code>. I was totally in awe of the unix philosophy - individual programs doing only one thing and doing it well, composing different programs to solve complicated problems. So I tried</p>
 <pre class="language-bash"><code class="language-bash">$ <span class="token function">ls</span> <span class="token operator">|</span> <span class="token function">sort</span></code></pre>
+<img src="https://i.imgur.com/i0FEqKZ.jpg" alt="ls and sort in bash" style="max-width:480px;" />
 <p>🤔: <em>Oh! <code>ls</code> only outputs names. So I should use <code>ll</code> in this case</em></p>
 <pre class="language-bash"><code class="language-bash">$ ll <span class="token operator">|</span> <span class="token function">sort</span></code></pre>
+<img src="https://i.imgur.com/ew8uvmA.jpg" alrt="ll and sort in bash" style="max-width: 600px;" />
 <p>🤔: <em>But how do I tell the <code>sort</code> command which property to use for sorting? Does it use size? Does it use the file name?</em></p>
 <p>I was obviously missing something. I found the answer with a quick Google. There is a <code>-t</code> flag on <code>ls</code></p>
 <p>So <code>ls</code> also does sorting. That's... not... simple... right?</p>
@@ -881,9 +883,10 @@ on <a href="/tag/shell" class="tag">shell</a>, <a href="/tag/windows" class="tag
 <img src="https://i.imgur.com/oo37EzL.jpg" alt="powershell startup message with 969ms initialization time" style="max-width: 480px" />
 <p>This is after I have spent some time profiling and optimizing. I removed a few plugins that were good to have but not must haves.</p>
 <p>I have been living with this for <a href="https://github.com/okmanideep/dotfiles/commit/baf2df87224fb86ce5af59b058955b4cfd5e1b50">well over an year</a>. Why you ask? Because I <strong>hate</strong> lock in. I remember watching all the sensible features Microsoft was bringing to Windows that were aimed directly at developers and wanting to give it a try. And then I realized I actually can't, with my current workflow. It's a long boring journey that we can talk later. But <code>powershell</code> was the only cross platform shell I could find to have a consistent workflow between my PC at home and my office Mac.</p>
-<p>And <code>nu</code> is this fast to start - ~100ms</p>
+<p>And <code>nu</code> startup in less than <strong>100ms</strong> after I have configured it to my liking with largely same behaviors.</p>
 <img src="https://i.imgur.com/40pcOjZ.jpg" alt="nushell startup message with 94ms startup time" style="max-width: 600px" />
 <p>Besides startup, the speed while usage isn't much different. It's barely noticeable and I won't be surprised if <code>powershell</code> beats <code>nu</code> in a few cases. But being ready to type as soon as I press the short cut for new tab, feels very nice.</p>
+<p>I also have <code>vi</code> mode on the command line. I don't have to Google &quot;move the cursor back word by word in command line&quot; anymore.</p>
 <h2>⚠️</h2>
 <p>I am still a noob in <code>bash</code> and <code>powershell</code>. And I am a mega noob in <code>nushell</code>. It feels like a <em>pre-honeymoon</em> phase with <code>nu</code>. So there is a lot of adulation right now. It's likely that there are a lot of sour learnings to follow. Plain text is definitely simpler than tables. So maybe we are just moving complexity here. Or this is a very good abstraction and a lot of things improve. Time will tell.</p>
 <p>If you are as intrigued by <a href="https://www.nushell.sh/"><code>nushell</code></a> as I am and want to give it a spin, I will warn you about one key thing - The language that is used for configuration and scripting - <code>nu</code> is not locked yet. They intend to evolve it and mercilessly break things until 1.0. You've been warned.</p>
