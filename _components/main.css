@@ -246,7 +246,7 @@ footer {
   display: flex;
   justify-content: space-between;
   color: var(--dim-text-color);
-  font-size: 1.2em;
+  font-size: 1.0em;
 }
 
 footer a {
