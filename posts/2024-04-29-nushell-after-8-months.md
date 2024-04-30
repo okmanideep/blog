@@ -39,7 +39,7 @@ This is just plain text but pipe it into `detect columns` and we get an actual `
 $ kubectl -n namespace get pods | detect columns
 ```
 
-<img src="https://imgur.com/9lVQPJ0.png" style="max-width: 600px;" />
+<img src="https://imgur.com/k5im8XR.png" style="max-width: 680px;" />
 
 Now we can filter the rows with `where` and get the first row with `first`
 
