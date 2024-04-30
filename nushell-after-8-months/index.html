@@ -873,7 +873,7 @@ namespace-86c7df9555-xv45m                             1/1     Running     0    
 </code></pre>
 <p>This is just plain text but pipe it into <code>detect columns</code> and we get an actual <code>nushell</code> table</p>
 <pre class="language-sh"><code class="language-sh">$ kubectl <span class="token parameter variable">-n</span> namespace get pods <span class="token operator">|</span> detect columns</code></pre>
-<img src="https://imgur.com/9lVQPJ0.png" style="max-width: 600px;" />
+<img src="https://imgur.com/k5im8XR.png" style="max-width: 680px;" />
 <p>Now we can filter the rows with <code>where</code> and get the first row with <code>first</code></p>
 <pre class="language-sh"><code class="language-sh">$ kubectl <span class="token parameter variable">-n</span> namespace get pods <span class="token operator">|</span> detect columns <span class="token operator">|</span> where <span class="token punctuation">{</span> <span class="token variable">$it</span>.STATUS <span class="token operator">==</span> <span class="token string">"Running"</span> <span class="token punctuation">}</span> <span class="token operator">|</span> first <span class="token operator">|</span> get NAME</code></pre>
 <p>We can store this in a variable and access the shell with <code>kubectl exec</code></p>
