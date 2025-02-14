@@ -894,7 +894,7 @@ namespace-86c7df9555-xv45m                             1/1     Running     0    
 <pre class="language-sh"><code class="language-sh"><span class="token function">open</span> leads.csv <span class="token operator">|</span> to json <span class="token operator">|</span> pbcopy</code></pre>
 <p>Ready to just paste it into a node REPL.</p>
 <p>This works with CSV, JSON, YAML, TOML, SQLite and <a href="http://www.nushell.sh/book/loading_data.html#opening-files">many more formats</a>. This came in handy to check which exact version of package is being used in a <code>package-lock.json</code> file a number of times.</p>
-<pre class="language-sh"><code class="language-sh"><span class="token function">open</span> package-lock.json <span class="token operator">|</span> get dependencies <span class="token operator">|</span> get ws <span class="token operator">|</span> get version</code></pre>
+<pre class="language-sh"><code class="language-sh"><span class="token function">open</span> package-lock.json <span class="token operator">|</span> get dependencies.ws.version</code></pre>
 <h2>It can't all be that good, can it?</h2>
 <p>While I was about to adopt a new shell that's not 1.0 yet, I was expecting to deal with some rough edges.</p>
 <blockquote>
@@ -913,7 +913,7 @@ namespace-86c7df9555-xv45m                             1/1     Running     0    
 
 
         <footer>
-            <section><a href="/">@okmanideep</a> © <template>2024</template></section>
+            <section><a href="/">@okmanideep</a> © <template>2025</template></section>
             <section>Published with <a href="https://11ty.dev">11ty</a></section>
         </footer>
     
