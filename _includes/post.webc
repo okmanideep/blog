@@ -3,10 +3,11 @@ layout: default
 ---
 
 <main role="main">
-    <article>
-        <h1 @raw="title"></h1>
-		<post-meta :date="date" :tags="tags"></post-meta>
-        <section class="content" @raw="content">
-        </section>
-    </article>
+	<article>
+		<h1 @raw="title"></h1>
+		<post-meta :@date="date" :@tags="tags"></post-meta>
+		<section class="content" @raw="content">
+		</section>
+		<bsky-comments webc:if="bskyuri" :uri="bskyuri" webc:nokeep></bsky-comments>
+	</article>
 </main>
