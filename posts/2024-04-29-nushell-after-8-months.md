@@ -91,7 +91,7 @@ Ready to just paste it into a node REPL.
 This works with CSV, JSON, YAML, TOML, SQLite and [many more formats](http://www.nushell.sh/book/loading_data.html#opening-files). This came in handy to check which exact version of package is being used in a `package-lock.json` file a number of times.
 
 ```sh
-open package-lock.json | get dependencies | get ws | get version
+open package-lock.json | get dependencies.ws.version
 ```
 
 ## It can't all be that good, can it?
