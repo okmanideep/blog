@@ -99,15 +99,38 @@ async function getPostThread(atUri) {
 	return data.thread;
 }
 
-function renderThread(thread, _) {
-	const likeCountEl = document.getElementById("likeCount");
-	const repostCountEl = document.getElementById("repostCount");
-	const replyCountEl = document.getElementById("replyCount");
-	const commentPostLink = document.getElementById("comment-post-meta-reply");
+function renderThread(thread, container) {
+	const likeCountEl = container.querySelector("#likeCount");
+	const repostCountEl = container.querySelector("#repostCount");
+	const replyCountEl = container.querySelector("#replyCount");
+	const commentPostLink = container.querySelector("#comment-post-meta-reply");
 
 	likeCountEl.textContent = thread.post.likeCount ?? 0;
 	repostCountEl.textContent = thread.post.repostCount ?? 0;
 	replyCountEl.textContent = thread.post.replyCount ?? 0;
+
+	const postAuthorImgEl = container.querySelector("#comment-post .author .avatar-img");
+	const postAuthorNameEl = container.querySelector("#comment-post .author .author-name");
+	const postAuthorHandleEl = container.querySelector("#comment-post .author .author-handle");
+	const postAvatarLinkEl = container.querySelector("#comment-post .author .avatar-link");
+	const postAuthorLinkEl = container.querySelector("#comment-post .author .author-link");
+
+	const postAuthor = thread.post.author;
+
+	if (postAuthor) {
+		postAuthorImgEl.src = postAuthor.avatar;
+		postAuthorImgEl.alt = postAuthor.displayName ?? postAuthor.handle;
+		postAuthorImgEl.title = postAuthor.handle;
+
+		postAuthorNameEl.textContent = postAuthor.displayName ?? postAuthor.handle;
+		postAuthorHandleEl.textContent = `@${postAuthor.handle}`;
+
+		postAvatarLinkEl.href = `https://bsky.app/profile/${postAuthor.did}`;
+		postAuthorLinkEl.href = `https://bsky.app/profile/${postAuthor.did}`;
+	}
+
+	const postTextEl = container.querySelector("#comment-post .comment-text");
+	postTextEl.textContent = thread.post.record.text;
 
 	const postUrl = `https://bsky.app/profile/${
 thread.post.author.did
@@ -115,7 +138,7 @@ thread.post.author.did
 	commentPostLink.href = postUrl;
 
 
-	const commentsContainer = document.getElementById("comments-container");
+	const commentsContainer = container.querySelector("#comments-container");
 	commentsContainer.innerHTML = "";
 	if (thread.replies && thread.replies.length > 0) {
 		const sortedReplies = thread.replies.sort(sortByLikes);
@@ -138,6 +161,7 @@ function renderComment(comment) {
 	const avatarImg = commentClone.querySelector(".avatar-img");
 	const authorLink = commentClone.querySelector(".author-link");
 	const authorName = commentClone.querySelector(".author-name");
+	const authorHandle = commentClone.querySelector(".author-handle");
 	const commentText = commentClone.querySelector(".comment-text");
 
 	avatarLink.href = `https://bsky.app/profile/${author.did}`;
@@ -151,18 +175,24 @@ function renderComment(comment) {
 
 	authorName.textContent = author.displayName ?? author.handle;
 	authorName.title = author.handle;
+	authorHandle.textContent = `@${author.handle}`;
 
 	commentText.textContent = post.record.text;
 
 	// actions
-	const actionsLink = commentClone.querySelector(".actions-link");
+	const commentBodyEl = commentClone.querySelector(".comment-body");
 	const commentUrl = `https://bsky.app/profile/${author.did}/post/${post.uri
 .split("/")
 .pop()}`;
-	actionsLink.href = commentUrl;
-	actionsLink.textContent = `${post.replyCount ?? 0} replies | ${
-post.repostCount ?? 0
-} reposts | ${post.likeCount ?? 0} likes`;
+	commentBodyEl.href = commentUrl;
+
+	const commentReplyCountEl = commentClone.querySelector(".comment-actions .reply-count");
+	const commentRepostCountEl = commentClone.querySelector(".comment-actions .repost-count");
+	const commentLikeCountEl = commentClone.querySelector(".comment-actions .like-count");
+
+	commentReplyCountEl.textContent = post.replyCount ?? '';
+	commentRepostCountEl.textContent = post.repostCount ?? '';
+	commentLikeCountEl.textContent = post.likeCount ?? '';
 
 	// Nested replies
 	if (comment.replies && comment.replies.length > 0) {
