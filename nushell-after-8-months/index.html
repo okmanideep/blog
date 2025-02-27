@@ -4,7 +4,7 @@
         <!-- [[! Document Settings ]] -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+		<meta name="generator" content="Eleventy v3.0.0">
         <!-- [[! Page Meta ]] -->
         <title>Nushell, after 8 months</title>
 <meta name="description" content="I have been using nushell as my primary shell for the last 8 months and I don't see myself going back to bash or zsh or powershell">
@@ -49,8 +49,6 @@
 }
 </script>
 
-<meta name="generator" content="11ty">
-
 
         <!-- [[! Styles ]] -->
         
@@ -73,6 +71,185 @@
 .post-meta a:hover {
   text-decoration: underline;
 }
+#comments-bsky {
+		margin-top: 3rem;
+		margin-bottom: 3rem;
+		max-width: 640px;
+	}
+
+	#comment-post-meta-reply {
+		display: block;
+		text-decoration: none;
+		color: var(--dim-text-color);
+		background: var(--raised-bg-color);
+		border-radius: 4px;
+		width: 100%;
+		padding: 0.6em 0.8em;
+		margin: 1em 0 1.6em 0;
+		opacity: 0.8;
+		transition: all 0.2s ease;
+	}
+
+	#comment-post-meta-reply:hover {
+		opacity: 1.0;
+		color: var(--main-text-color);
+	}
+
+	.comment-post-header {
+		font-weight: 700;
+	}
+
+	.comment-post-meta {
+		margin-top: 0.5em;
+		margin-bottom: 1em;
+	}
+
+	.comment {
+		margin-top: 1em;
+		display: flex;
+		gap: 12px;
+	}
+
+	.nested-replies {
+		padding-bottom: 1em;
+	}
+
+	.more {
+		display: block;
+		color: var(--dim-text-color);
+		font-size: 0.8em;
+		text-decoration: none;
+		margin-top: 1.8em;
+		margin-left: 52px;
+	}
+
+	.more:hover {
+		text-decoration: underline;
+	}
+
+	#comments-container hr {
+		background-color: var(--raised-bg-color);
+		height: 1px;
+		border: 0;
+		margin-top: 1em;
+	}
+
+	.avatar {
+		padding-top: 0.5rem;
+		width: 40px;
+		height: 40px;
+		flex: none;
+	}
+
+	.avatar-link {
+		display: block;
+	}
+
+	.avatar-img {
+		border-width: 1px;
+		border-style: solid;
+		border-color: rgb(30, 41, 54);
+		border-radius: 9999px;
+		overflow: hidden;
+		width: 40px;
+		height: 40px;
+		object-fit: cover;
+		margin: 0;
+	}
+
+	.comment-body {
+		display: flex;
+		flex-direction: column;
+		text-decoration: none;
+		padding-top: 0.5rem;
+		color: var(--main-text-color);
+	}
+
+	.comment-head {
+		display: flex;
+		gap: 12px;
+		align-items: start;
+		justify-content: start;
+	}
+
+	.author {
+		display: flex;
+		align-items: start;
+		justify-content: start;
+		gap: 12px;
+	}
+
+	.author-link {
+		display: flex;
+		flex-direction: column;
+		text-decoration: none;
+		align-items: start;
+		justify-content: center;
+	}
+
+	.comment-date {
+		color: var(--dim-text-color);
+		font-size: 0.8em;
+		margin: 0;
+	}
+
+	.comment-body .author-link {
+		display: block;
+	}
+
+	.author-name {
+		color: var(--main-text-color);
+		font-weight: bold;
+		margin: 0;
+		line-height: 1em;
+	}
+
+	.author-handle {
+		color: var(--dim-text-color);
+		margin: 0;
+		font-size: 0.85em;
+	}
+
+	.comment-text {
+		margin-top: 0.25em;
+		white-space: pre-line;
+		line-height: 1.2;
+	}
+
+	.comment-actions {
+		margin-top: 0.25rem;
+	}
+
+	.actions-link {}
+
+	a.powered-by {
+		color: var(--dim-text-color);
+		text-decoration: none;
+		margin-bottom: 1em;
+		display: block;
+		font-size: 0.8em;
+	}
+
+	.comment-post-meta-actions,
+	.comment-actions {
+		display: flex;
+		text-decoration: none;
+		color: var(--dim-text-color);
+		align-items: center;
+	}
+
+	.post-action {
+		flex: 1;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.post-action svg {
+		margin-left: 8px;
+		width: 18px;
+		fill: var(--dim-text-color);
+	}
 /* Source: https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital@0;1&family=Rubik:ital,wght@0,600;1,600&display=swap */
 
 /* vietnamese */
@@ -841,9 +1018,9 @@ pre {
 
 
         <main role="main">
-    <article>
-        <h1>Nushell, after 8 months</h1>
-		<post-meta date="Mon Apr 29 2024 11:15:00 GMT+0000 (Coordinated Universal Time)" tags="shell,nushell,cli,unix,powershell"><div class="post-meta">
+	<article>
+		<h1>Nushell, after 8 months</h1>
+		<post-meta><div class="post-meta">
 	<time datetime="Mon Apr 29 2024 11:15:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Mon, Apr 29 2024</time>
 	
 on <a href="/tag/shell" class="tag">shell</a>, <a href="/tag/nushell" class="tag">nushell</a>, <a href="/tag/cli" class="tag">cli</a>, <a href="/tag/unix" class="tag">unix</a>, <a href="/tag/powershell" class="tag">powershell</a>
@@ -851,7 +1028,7 @@ on <a href="/tag/shell" class="tag">shell</a>, <a href="/tag/nushell" class="tag
 </div>
 
 </post-meta>
-        <section class="content"><blockquote>
+		<section class="content"><blockquote>
 <p>... Plain text is definitely simpler than tables. So maybe we are just moving complexity here. Or this is a very good abstraction and a lot of things improve. Time will tell.</p>
 </blockquote>
 <p><a href="https://okmanideep.me/i-am-very-excited-about-using-nushell-everyday/">Me, 8 months ago</a></p>
@@ -873,7 +1050,7 @@ namespace-86c7df9555-xv45m                             1/1     Running     0    
 </code></pre>
 <p>This is just plain text but pipe it into <code>detect columns</code> and we get an actual <code>nushell</code> table</p>
 <pre class="language-sh"><code class="language-sh">$ kubectl <span class="token parameter variable">-n</span> namespace get pods <span class="token operator">|</span> detect columns</code></pre>
-<img src="https://imgur.com/k5im8XR.png" style="max-width: 680px;" />
+<img src="https://imgur.com/k5im8XR.png" style="max-width: 680px;">
 <p>Now we can filter the rows with <code>where</code> and get the first row with <code>first</code></p>
 <pre class="language-sh"><code class="language-sh">$ kubectl <span class="token parameter variable">-n</span> namespace get pods <span class="token operator">|</span> detect columns <span class="token operator">|</span> where <span class="token punctuation">{</span> <span class="token variable">$it</span>.STATUS <span class="token operator">==</span> <span class="token string">"Running"</span> <span class="token punctuation">}</span> <span class="token operator">|</span> first <span class="token operator">|</span> get NAME</code></pre>
 <p>We can store this in a variable and access the shell with <code>kubectl exec</code></p>
@@ -908,14 +1085,393 @@ namespace-86c7df9555-xv45m                             1/1     Running     0    
 <p>Some extra work to setup programs that output configuration for bash / zsh etc. And a few copy pasta for setting up some completions.</p>
 <p>That's about it. After I have setup <code>nushell</code> in my system and added it to my <a href="https://github.com/okmanideep/dotfiles">dotfiles</a>, it's been a smooth ride across both Windows and MacOS. I have been using <code>nushell</code> as my primary shell for the last 8 months and I don't see myself going back to <code>bash</code> or <code>zsh</code> or <code>powershell</code>.</p>
 </section>
-    </article>
+		<div id="comments-bsky" data-bsky-uri="https://bsky.app/profile/okmanideep.me/post/3lj62e2bdak2x" class="text-henryt-lighter my-12">
+	<a href="https://bsky.app" target="_blank" class="powered-by">
+		Powered by &nbsp;
+		<svg width="16" viewBox="0 0 600 530" version="1.1" xmlns="http://www.w3.org/2000/svg" class="bsky-logo">
+			<path d="m135.72 44.03c66.496 49.921 138.02 151.14 164.28 205.46 26.262-54.316 97.782-155.54 164.28-205.46 47.98-36.021 125.72-63.892 125.72 24.795 0 17.712-10.155 148.79-16.111 170.07-20.703 73.984-96.144 92.854-163.25 81.433 117.3 19.964 147.14 86.092 82.697 152.22-122.39 125.59-175.91-31.511-189.63-71.766-2.514-7.3797-3.6904-10.832-3.7077-7.8964-0.0174-2.9357-1.1937 0.51669-3.7077 7.8964-13.714 40.255-67.233 197.36-189.63 71.766-64.444-66.128-34.605-132.26 82.697-152.22-67.108 11.421-142.55-7.4491-163.25-81.433-5.9562-21.282-16.111-152.36-16.111-170.07 0-88.687 77.742-60.816 125.72-24.795z" fill="#1185fe"></path>
+		</svg>
+	</a>
+	<div id="comment-post">
+		<div class="author">
+			<a href="" target="_blank" class="avatar-link">
+				<img src="" alt="avatar" class="avatar-img">
+			</a>
+			<a href="#" target="_blank" class="author-link">
+				<p title="" class="author-name"></p>
+				<p title="" class="author-handle"></p>
+			</a>
+			<p class="comment-date"></p>
+		</div>
+
+		<div class="comment-body">
+			<p class="comment-text"></p>
+		</div>
+	</div>
+
+	<div class="comment-post-meta">
+		<a href="#" target="_blank" class="comment-post-meta-actions">
+			<div class="post-action">
+				<span id="replyCount">0</span>
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+					<path d="M160 368c26.5 0 48 21.5 48 48l0 16 72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6L448 368c8.8 0 16-7.2 16-16l0-288c0-8.8-7.2-16-16-16L64 48c-8.8 0-16 7.2-16 16l0 288c0 8.8 7.2 16 16 16l96 0zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3l0-21.3 0-6.4 0-.3 0-4 0-48-48 0-48 0c-35.3 0-64-28.7-64-64L0 64C0 28.7 28.7 0 64 0L448 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64l-138.7 0L208 492z"></path>
+				</svg>
+			</div>
+			<div class="post-action">
+				<span id="repostCount">0</span>
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+					<path d="M272 416c17.7 0 32-14.3 32-32s-14.3-32-32-32l-112 0c-17.7 0-32-14.3-32-32l0-128 32 0c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-64-64c-12.5-12.5-32.8-12.5-45.3 0l-64 64c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8l32 0 0 128c0 53 43 96 96 96l112 0zM304 96c-17.7 0-32 14.3-32 32s14.3 32 32 32l112 0c17.7 0 32 14.3 32 32l0 128-32 0c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l64 64c12.5 12.5 32.8 12.5 45.3 0l64-64c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8l-32 0 0-128c0-53-43-96-96-96L304 96z"></path>
+				</svg>
+			</div>
+			<div class="post-action">
+				<span id="likeCount">0</span>
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+					<path d="M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8l0-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5l0 3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20-.1-.1s0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5l0 3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2l0-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z"></path>
+				</svg>
+			</div>
+		</a>
+
+		<a id="comment-post-meta-reply" href="#" target="_blank">
+			Join the conversation
+		</a>
+	</div>
+
+	<div id="comments-container"></div>
+
+	<template id="comment-template">
+		<div class="comment-outer-container">
+			<div class="comment">
+				<div class="avatar">
+					<a href="" target="_blank" class="avatar-link">
+						<img src="" alt="avatar" class="avatar-img">
+					</a>
+				</div>
+
+				<div class="comment-body">
+					<div class="comment-head">
+						<a href="#" target="_blank" class="author-link">
+							<span title="" class="author-name"></span>
+							<span title="" class="author-handle"></span>
+						</a>
+						<p class="comment-date"></p>
+					</div>
+					<p class="comment-text"></p>
+
+					<div class="comment-actions">
+						<div class="post-action">
+							<span class="reply-count">0</span>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+								<path d="M160 368c26.5 0 48 21.5 48 48l0 16 72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6L448 368c8.8 0 16-7.2 16-16l0-288c0-8.8-7.2-16-16-16L64 48c-8.8 0-16 7.2-16 16l0 288c0 8.8 7.2 16 16 16l96 0zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3l0-21.3 0-6.4 0-.3 0-4 0-48-48 0-48 0c-35.3 0-64-28.7-64-64L0 64C0 28.7 28.7 0 64 0L448 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64l-138.7 0L208 492z"></path>
+							</svg>
+						</div>
+						<div class="post-action">
+							<span class="repost-count">0</span>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+								<path d="M272 416c17.7 0 32-14.3 32-32s-14.3-32-32-32l-112 0c-17.7 0-32-14.3-32-32l0-128 32 0c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-64-64c-12.5-12.5-32.8-12.5-45.3 0l-64 64c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8l32 0 0 128c0 53 43 96 96 96l112 0zM304 96c-17.7 0-32 14.3-32 32s14.3 32 32 32l112 0c17.7 0 32 14.3 32 32l0 128-32 0c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l64 64c12.5 12.5 32.8 12.5 45.3 0l64-64c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8l-32 0 0-128c0-53-43-96-96-96L304 96z"></path>
+							</svg>
+						</div>
+						<div class="post-action">
+							<span class="like-count">0</span>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+								<path d="M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8l0-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5l0 3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20-.1-.1s0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5l0 3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2l0-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z"></path>
+							</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+</div>
+
+
+
+
+
+	</article>
 </main>
 
 
         <footer>
-            <section><a href="/">@okmanideep</a> © <template>2025</template></section>
+            <section><a href="/">@okmanideep</a> © 2025</section>
             <section>Published with <a href="https://11ty.dev">11ty</a></section>
         </footer>
+        <script>document.addEventListener("DOMContentLoaded", () => {
+	const commentsSection = document.getElementById("comments-bsky");
+	const bskyWebUrl = commentsSection?.getAttribute("data-bsky-uri");
+
+	if (!bskyWebUrl) {
+		console.warn("bluesky web url not found");
+		return;
+	}
+
+	(async () => {
+		try {
+			const atUri = await extractAtUri(bskyWebUrl);
+			console.log("Extracted AT URI:", atUri);
+
+			const thread = await getPostThread(atUri);
+
+			if (thread && thread.$type === "app.bsky.feed.defs#threadViewPost") {
+				renderThread(thread, commentsSection);
+			} else {
+				commentsSection.textContent = "Error fetching comments.";
+			}
+		} catch (error) {
+			console.error("Error loading comments:", error);
+			commentsSection.textContent = "Error loading comments.";
+		}
+	})();
+});
+
+async function extractAtUri(webUrl) {
+	try {
+		const url = new URL(webUrl);
+		const pathSegments = url.pathname.split("/").filter(Boolean);
+
+		if (
+			pathSegments.length < 4 ||
+			pathSegments[0] !== "profile" ||
+			pathSegments[2] !== "post"
+		) {
+			throw new Error("Invalid URL format");
+		}
+
+		const handleOrDid = pathSegments[1];
+		const postID = pathSegments[3];
+		let did = handleOrDid;
+
+		if (!did.startsWith("did:")) {
+			const resolveHandleURL = `https://bsky.social/xrpc/com.atproto.identity.resolveHandle?handle=${encodeURIComponent(
+				handleOrDid
+			)}`;
+			const res = await fetch(resolveHandleURL);
+			if (!res.ok) {
+				const errorText = await res.text();
+				throw new Error(`Failed to resolve handle to DID: ${errorText}`);
+			}
+			const data = await res.json();
+			if (!data.did) {
+				throw new Error("DID not found in response");
+			}
+			did = data.did;
+		}
+
+		return `at://${did}/app.bsky.feed.post/${postID}`;
+	} catch (error) {
+		console.error("Error extracting AT URI:", error);
+		throw error;
+	}
+}
+
+async function getPostThread(atUri) {
+	console.log("getPostThread called with atUri:", atUri);
+	const params = new URLSearchParams({ uri: atUri });
+	const apiUrl = `https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?${params.toString()}`;
+
+	console.log("API URL:", apiUrl);
+
+	const res = await fetch(apiUrl, {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+		},
+		cache: "no-store",
+	});
+
+	if (!res.ok) {
+		const errorText = await res.text();
+		console.error("API Error:", errorText);
+		throw new Error(`Failed to fetch post thread: ${errorText}`);
+	}
+
+	const data = await res.json();
+
+	if (
+		!data.thread ||
+		data.thread.$type !== "app.bsky.feed.defs#threadViewPost"
+	) {
+		throw new Error("Could not find thread");
+	}
+
+	return data.thread;
+}
+
+function renderThread(thread, container) {
+	const likeCountEl = container.querySelector("#likeCount");
+	const repostCountEl = container.querySelector("#repostCount");
+	const replyCountEl = container.querySelector("#replyCount");
+	const commentPostLink = container.querySelector("#comment-post-meta-reply");
+
+	likeCountEl.textContent = thread.post.likeCount ?? 0;
+	repostCountEl.textContent = thread.post.repostCount ?? 0;
+	replyCountEl.textContent = thread.post.replyCount ?? 0;
+
+	const postAuthorImgEl = container.querySelector("#comment-post .author .avatar-img");
+	const postAuthorNameEl = container.querySelector("#comment-post .author .author-name");
+	const postAuthorHandleEl = container.querySelector("#comment-post .author .author-handle");
+	const postAvatarLinkEl = container.querySelector("#comment-post .author .avatar-link");
+	const postAuthorLinkEl = container.querySelector("#comment-post .author .author-link");
+	const postDateEl = container.querySelector("#comment-post .comment-date");
+
+	const postAuthor = thread.post.author;
+
+	if (postAuthor) {
+		postAuthorImgEl.src = postAuthor.avatar;
+		postAuthorImgEl.alt = postAuthor.displayName ?? postAuthor.handle;
+		postAuthorImgEl.title = postAuthor.handle;
+
+		postAuthorNameEl.textContent = postAuthor.displayName ?? postAuthor.handle;
+		postAuthorHandleEl.textContent = `@${postAuthor.handle}`;
+
+		postAvatarLinkEl.href = `https://bsky.app/profile/${postAuthor.did}`;
+		postAuthorLinkEl.href = `https://bsky.app/profile/${postAuthor.did}`;
+	}
+
+	const postTextEl = container.querySelector("#comment-post .comment-text");
+	postTextEl.textContent = thread.post.record.text;
+
+	const postUrl = `https://bsky.app/profile/${thread.post.author.did
+		}/post/${thread.post.uri.split("/").pop()}`;
+	commentPostLink.href = postUrl;
+
+	postDateEl.textContent = dateInRelativeTerms(thread.post.record.createdAt);
+	postDateEl.title = new Date(thread.post.record.createdAt).toLocaleString();
+
+	const commentsContainer = container.querySelector("#comments-container");
+	commentsContainer.innerHTML = "";
+	if (thread.replies && thread.replies.length > 0) {
+		const sortedReplies = thread.replies.sort(sortByLikes);
+		for (const reply of sortedReplies.slice(0, 5)) {
+			if (isThreadViewPost(reply)) {
+				commentsContainer.appendChild(renderComment(reply));
+			}
+		}
+		if (sortedReplies.length > 5) {
+			const moreTag = document.createElement("a");
+			moreTag.className = "more";
+			moreTag.textContent = `${sortedReplies.length - 5} more`;
+			moreTag.href = postUrl;
+			moreTag.target = "_blank";
+			commentsContainer.appendChild(moreTag);
+		}
+	}
+}
+
+function renderComment(comment, nested = false) {
+	const { post } = comment;
+	const { author } = post;
+
+	const template = document.getElementById("comment-template");
+	const commentClone = template.content.cloneNode(true);
+
+	const avatarLink = commentClone.querySelector(".avatar-link");
+	const avatarImg = commentClone.querySelector(".avatar-img");
+	const authorLink = commentClone.querySelector(".author-link");
+	const authorName = commentClone.querySelector(".author-name");
+	const authorHandle = commentClone.querySelector(".author-handle");
+	const commentText = commentClone.querySelector(".comment-text");
+
+	avatarLink.href = `https://bsky.app/profile/${author.did}`;
+	authorLink.href = `https://bsky.app/profile/${author.did}`;
+
+	if (author.avatar) {
+		avatarImg.src = author.avatar;
+		avatarImg.alt = author.displayName ?? author.handle;
+		avatarImg.title = author.handle;
+	}
+
+	authorName.textContent = author.displayName ?? author.handle;
+	authorName.title = author.handle;
+	authorHandle.textContent = `@${author.handle}`;
+
+	commentText.textContent = post.record.text;
+
+	// actions
+	const commentReplyCountEl = commentClone.querySelector(".comment-actions .reply-count");
+	const commentRepostCountEl = commentClone.querySelector(".comment-actions .repost-count");
+	const commentLikeCountEl = commentClone.querySelector(".comment-actions .like-count");
+
+	const commentDateEl = commentClone.querySelector(".comment-date");
+	commentDateEl.textContent = dateInRelativeTerms(post.record.createdAt);
+	commentDateEl.title = new Date(post.record.createdAt).toLocaleString();
+
+	commentReplyCountEl.textContent = post.replyCount ?? '';
+	commentRepostCountEl.textContent = post.repostCount ?? '';
+	commentLikeCountEl.textContent = post.likeCount ?? '';
+
+	const commentUrl = `https://bsky.app/profile/${author.did}/post/${post.uri
+		.split("/")
+		.pop()}`;
+
+	// Nested replies
+	if (comment.replies && comment.replies.length > 0 && !nested) {
+		const sortedReplies = comment.replies.sort(sortByLikes);
+		const nestedRepliesContainer = document.createElement("div");
+		nestedRepliesContainer.className = "nested-replies";
+
+		for (const reply of sortedReplies.slice(0, 3)) {
+			if (isThreadViewPost(reply)) {
+				nestedRepliesContainer.appendChild(renderComment(reply, true));
+			}
+		}
+		if (sortedReplies.length > 3) {
+			const moreTag = document.createElement("a");
+			moreTag.className = "more";
+			moreTag.textContent = `${sortedReplies.length - 3} more`;
+			moreTag.href = commentUrl;
+			moreTag.target = "_blank";
+			nestedRepliesContainer.appendChild(moreTag);
+		}
+		if (!nested) {
+			nestedRepliesContainer.appendChild(document.createElement("hr"));
+		}
+		commentClone.appendChild(nestedRepliesContainer);
+	}
+
+	return commentClone;
+}
+
+function sortByLikes(a, b) {
+	if (!isThreadViewPost(a) || !isThreadViewPost(b)) {
+		return 0;
+	}
+	return (b.post.likeCount ?? 0) - (a.post.likeCount ?? 0);
+}
+
+function isThreadViewPost(obj) {
+	return obj && obj.$type === "app.bsky.feed.defs#threadViewPost";
+}
+
+/**
+* @returns '12h', '1d', '30d', if the date is within 30 days old
+* '13 July 2024' otherwise
+*/
+function dateInRelativeTerms(date) {
+	const now = new Date();
+	const postDate = new Date(date);
+	const diff = now - postDate;
+	const diffInDays = diff / (1000 * 60 * 60 * 24);
+
+	if (diffInDays < 1) {
+		const diffInHours = diff / (1000 * 60 * 60);
+		if (diffInHours < 1) {
+			const diffInMinutes = diff / (1000 * 60);
+			return `${Math.floor(diffInMinutes)}m`;
+		}
+		return `${Math.floor(diffInHours)}h`;
+	}
+
+	if (diffInDays < 30) {
+		return `${Math.floor(diffInDays)}d`;
+	}
+
+	const options = { day: "numeric", month: "short", year: "numeric" };
+	return postDate.toLocaleDateString(undefined, options);
+}
+
+function replaceNewLinesWithHtmlBreaks(text) {
+	return text.replace(/\n\n/g, "<br>");
+}</script>
     
 
 </body>

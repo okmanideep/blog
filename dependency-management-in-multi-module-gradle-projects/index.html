@@ -4,7 +4,7 @@
         <!-- [[! Document Settings ]] -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+		<meta name="generator" content="Eleventy v3.0.0">
         <!-- [[! Page Meta ]] -->
         <title>Dependency management in multi-module gradle projects</title>
 <meta name="description" content="Simple things you can do to improve your gradle/android dependency management">
@@ -48,8 +48,6 @@
     "description": "Android · Web · Design"
 }
 </script>
-
-<meta name="generator" content="11ty">
 
 
         <!-- [[! Styles ]] -->
@@ -841,9 +839,9 @@ pre {
 
 
         <main role="main">
-    <article>
-        <h1>Dependency management in multi-module gradle projects</h1>
-		<post-meta date="Thu Nov 02 2017 00:20:00 GMT+0000 (Coordinated Universal Time)" tags="android,gradle"><div class="post-meta">
+	<article>
+		<h1>Dependency management in multi-module gradle projects</h1>
+		<post-meta><div class="post-meta">
 	<time datetime="Thu Nov 02 2017 00:20:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Thu, Nov 02 2017</time>
 	
 on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="tag">gradle</a>
@@ -851,7 +849,7 @@ on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="
 </div>
 
 </post-meta>
-        <section class="content"><p>Google's approach in <a href="https://github.com/googlesamples/android-architecture-components/">this google samples repo</a> seems to be tackling it very well. They actually do it across multiple projects but it applies for multiple modules as well. If you just have one module, don't bother doing this right now, but remember to do it when you decide to extract a module out.</p>
+		<section class="content"><p>Google's approach in <a href="https://github.com/googlesamples/android-architecture-components/">this google samples repo</a> seems to be tackling it very well. They actually do it across multiple projects but it applies for multiple modules as well. If you just have one module, don't bother doing this right now, but remember to do it when you decide to extract a module out.</p>
 <p>Our main objectives are to</p>
 <ul>
 <li>Minimise the effort required to update dependecies</li>
@@ -881,14 +879,16 @@ on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="
 <h2>Feedback</h2>
 <p>What do you think of this approach? Is there a better way? I am actually curious how this changes when we use kotlin to write gradle files. <a href="https://twitter.com/okmanideep">Let me know</a> your feedback.</p>
 </section>
-    </article>
+		
+	</article>
 </main>
 
 
         <footer>
-            <section><a href="/">@okmanideep</a> © <template>2025</template></section>
+            <section><a href="/">@okmanideep</a> © 2025</section>
             <section>Published with <a href="https://11ty.dev">11ty</a></section>
         </footer>
+        
     
 
 </body>

@@ -4,7 +4,7 @@
         <!-- [[! Document Settings ]] -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+		<meta name="generator" content="Eleventy v3.0.0">
         <!-- [[! Page Meta ]] -->
         <title>Clean way to define support library dependencies</title>
 <meta name="description" content="A cleaner way to define support library dependencies which makes updating their version number a whole lot easier">
@@ -48,8 +48,6 @@
     "description": "Android · Web · Design"
 }
 </script>
-
-<meta name="generator" content="11ty">
 
 
         <!-- [[! Styles ]] -->
@@ -841,9 +839,9 @@ pre {
 
 
         <main role="main">
-    <article>
-        <h1>Clean way to define support library dependencies</h1>
-		<post-meta date="Mon Nov 23 2015 20:10:00 GMT+0000 (Coordinated Universal Time)" tags="android"><div class="post-meta">
+	<article>
+		<h1>Clean way to define support library dependencies</h1>
+		<post-meta><div class="post-meta">
 	<time datetime="Mon Nov 23 2015 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Mon, Nov 23 2015</time>
 	
 on <a href="/tag/android" class="tag">android</a>
@@ -851,11 +849,11 @@ on <a href="/tag/android" class="tag">android</a>
 </div>
 
 </post-meta>
-        <section class="content"><p>As the support library started getting bigger with more tools in it, the team at google have suggested developers to pick and choose the individual pieces of the library in their dependencies. More recently our <code>build.gradle</code> files started to look like this</p>
+		<section class="content"><p>As the support library started getting bigger with more tools in it, the team at google have suggested developers to pick and choose the individual pieces of the library in their dependencies. More recently our <code>build.gradle</code> files started to look like this</p>
 <pre class="language-groovy"><code class="language-groovy">dependencies <span class="token punctuation">{</span><br>    compile <span class="token string">'com.android.support:appcompat-v7:23.1.0'</span><br>    compile <span class="token string">'com.android.support:design:23.1.0'</span><br>    compile <span class="token string">'com.android.support:pallete-v7:23.1.0'</span><br>    compile <span class="token string">'com.android.support:cardview-v7:23.1.0'</span><br>    compile <span class="token string">'com.android.support:recyclerview-v7:23.1.0'</span><br><span class="token punctuation">}</span></code></pre>
 <p>So when a new release comes out, we have to change the version number in every single line. Chris Banes, from the Android developer relations team, in <a href="https://www.youtube.com/watch?v=ihQ16K8gSuQ&amp;t=17m58s">Android Dev Summit 2015</a> has given this great tip to solve this problem.</p>
 <blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">This! <a href="https://twitter.com/hashtag/AndroidDev?src=hash">#AndroidDev</a> <a href="https://twitter.com/hashtag/AndroidDevSummit?src=hash">#AndroidDevSummit</a>&#10;🙏 <a href="https://twitter.com/chrisbanes">@chrisbanes</a> <a href="https://t.co/v47Pm74ohj">pic.twitter.com/v47Pm74ohj</a></p>&mdash; Manideep Polireddi (@okmanideep) <a href="https://twitter.com/okmanideep/status/669195097947377664">November 24, 2015</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 <p>Great! But there is a small <strong>catch</strong> here</p>
 <p><code>compile 'com.android.support:appcompat-v7:${supportLibVersion}'</code> <strong>doesn't work</strong><br>
 <code>compile &quot;com.android.support:appcompat-v7:${supportLibVersion}&quot;</code> <strong>WORKS!!!</strong></p>
@@ -864,14 +862,16 @@ on <a href="/tag/android" class="tag">android</a>
 <pre class="language-groovy"><code class="language-groovy">ext <span class="token punctuation">{</span><br>    supportLibVersion <span class="token operator">=</span> <span class="token string">'23.1.1'</span><br><span class="token punctuation">}</span><br><br>dependencies <span class="token punctuation">{</span><br>    compile <span class="token interpolation-string"><span class="token string">"com.android.support:appcompat-v7:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">supportLibVersion</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"</span></span><br>    compile <span class="token interpolation-string"><span class="token string">"com.android.support:design:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">supportLibVersion</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"</span></span><br>    compile <span class="token interpolation-string"><span class="token string">"com.android.support:pallete-v7:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">supportLibVersion</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"</span></span><br>    compile <span class="token interpolation-string"><span class="token string">"com.android.support:cardview-v7:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">supportLibVersion</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"</span></span><br>    compile <span class="token interpolation-string"><span class="token string">"com.android.support:recyclerview-v7:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">supportLibVersion</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"</span></span><br><span class="token punctuation">}</span></code></pre>
 <p>By the way, Android Studio is intelligent enough that it will suggest you to update the version when there is a new one out, even in the above format. All hail IntelliJ.</p>
 </section>
-    </article>
+		
+	</article>
 </main>
 
 
         <footer>
-            <section><a href="/">@okmanideep</a> © <template>2025</template></section>
+            <section><a href="/">@okmanideep</a> © 2025</section>
             <section>Published with <a href="https://11ty.dev">11ty</a></section>
         </footer>
+        
     
 
 </body>

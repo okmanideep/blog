@@ -4,7 +4,7 @@
         <!-- [[! Document Settings ]] -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+		<meta name="generator" content="Eleventy v3.0.0">
         <!-- [[! Page Meta ]] -->
         <title>Improve your Android build times</title>
 <meta name="description" content="Simple things you can do to improve your gradle/android build time a lot">
@@ -48,8 +48,6 @@
     "description": "Android · Web · Design"
 }
 </script>
-
-<meta name="generator" content="11ty">
 
 
         <!-- [[! Styles ]] -->
@@ -841,9 +839,9 @@ pre {
 
 
         <main role="main">
-    <article>
-        <h1>Improve your Android build times</h1>
-		<post-meta date="Tue Apr 05 2016 20:10:00 GMT+0000 (Coordinated Universal Time)" tags="android,gradle"><div class="post-meta">
+	<article>
+		<h1>Improve your Android build times</h1>
+		<post-meta><div class="post-meta">
 	<time datetime="Tue Apr 05 2016 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Tue, Apr 05 2016</time>
 	
 on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="tag">gradle</a>
@@ -851,8 +849,8 @@ on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="
 </div>
 
 </post-meta>
-        <section class="content"><p>If you have the time to watch the video, go ahead. <a href="https://twitter.com/madisp">Madis Pink</a> goes over each optimisation you can do very carefully and how you can profile the gradle build process to identify the bottlenecks of your builds. If not, go ahead do the changes mentioned below, which will take less than two minutes and enjoy a much smaller build times.</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/AbNhen_zn-c" frameborder="0" allowfullscreen></iframe>
+		<section class="content"><p>If you have the time to watch the video, go ahead. <a href="https://twitter.com/madisp">Madis Pink</a> goes over each optimisation you can do very carefully and how you can profile the gradle build process to identify the bottlenecks of your builds. If not, go ahead do the changes mentioned below, which will take less than two minutes and enjoy a much smaller build times.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AbNhen_zn-c" frameborder="0" allowfullscreen=""></iframe>
 <h2>Optimisations</h2>
 <h4>The minSdk 21 trick</h4>
 <p>It doesn't matter your app is over the 65K method limit or not, enabling multiDex and having product flavors like this help a lot.</p>
@@ -914,14 +912,16 @@ In your <code>./gradle/gradle.properties</code> or <code>&lt;Project Root&gt;/gr
 <h4>Get an SSD</h4>
 <p>Please do.</p>
 </section>
-    </article>
+		
+	</article>
 </main>
 
 
         <footer>
-            <section><a href="/">@okmanideep</a> © <template>2025</template></section>
+            <section><a href="/">@okmanideep</a> © 2025</section>
             <section>Published with <a href="https://11ty.dev">11ty</a></section>
         </footer>
+        
     
 
 </body>

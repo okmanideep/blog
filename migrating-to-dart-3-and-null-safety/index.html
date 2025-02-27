@@ -4,7 +4,7 @@
         <!-- [[! Document Settings ]] -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+		<meta name="generator" content="Eleventy v3.0.0">
         <!-- [[! Page Meta ]] -->
         <title>Migrating to Dart 3 and null safety</title>
 <meta name="description" content="Dart 3 is here, but we cannot adopt it unless our entire codebase is null safe. Here are few strategies we have been using to slowly migrate our codebase">
@@ -48,8 +48,6 @@
     "description": "Android · Web · Design"
 }
 </script>
-
-<meta name="generator" content="11ty">
 
 
         <!-- [[! Styles ]] -->
@@ -841,9 +839,9 @@ pre {
 
 
         <main role="main">
-    <article>
-        <h1>Migrating to Dart 3 and null safety</h1>
-		<post-meta date="Fri May 12 2023 17:00:00 GMT+0000 (Coordinated Universal Time)" tags="flutter,dart"><div class="post-meta">
+	<article>
+		<h1>Migrating to Dart 3 and null safety</h1>
+		<post-meta><div class="post-meta">
 	<time datetime="Fri May 12 2023 17:00:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Fri, May 12 2023</time>
 	
 on <a href="/tag/flutter" class="tag">flutter</a>, <a href="/tag/dart" class="tag">dart</a>
@@ -851,7 +849,7 @@ on <a href="/tag/flutter" class="tag">flutter</a>, <a href="/tag/dart" class="ta
 </div>
 
 </post-meta>
-        <section class="content"><p>Dart 3 🎯 is here! And it brings very useful features like <code>sealed</code> classes, pattern matching and <a href="https://www.youtube.com/watch?v=yRlwOdCK7Ho&amp;t=1766s">many more</a>.</p>
+		<section class="content"><p>Dart 3 🎯 is here! And it brings very useful features like <code>sealed</code> classes, pattern matching and <a href="https://www.youtube.com/watch?v=yRlwOdCK7Ho&amp;t=1766s">many more</a>.</p>
 <p>It also <strong>ends the support for <code>--no-sound-null-safety</code></strong>.</p>
 <p>Which means to adopt it in any codebase, every single file should be null safe.</p>
 <p>Like us at <a href="https://github.com/praja">Praja</a>, if you have started writing your Flutter app more than a couple of years ago, you would have started slowly migrating your codebase to sound null safety. Some of you would have completed it. If you are one of them <a href="https://twitter.com/okmanideep">I would like to here about your experience</a> and learn what helped and what didn't.</p>
@@ -877,20 +875,22 @@ on <a href="/tag/flutter" class="tag">flutter</a>, <a href="/tag/dart" class="ta
 <h3>3. Highlight low hanging fruits 🍎</h3>
 <p>There are bound to be some files which are not touched at all and are lying there, which stop your from adopting full sound null safety. The PR check is not going to help here.</p>
 <p>A small script that can tell you how many files are left to convert and what are few low hanging fruits helps quite a bit</p>
-<img src="/img/null-safe-report-usage.png"/>
+<img src="/img/null-safe-report-usage.png">
 <pre class="language-ruby"><code class="language-ruby"><span class="token comment"># frozen_string_literal: true</span><br><br><span class="token comment"># Usage:</span><br><span class="token comment"># From the root of this project</span><br><span class="token comment"># $ ruby scripts/null_safe_report.rb ./lib</span><br><span class="token keyword">require</span> <span class="token string-literal"><span class="token string">'find'</span></span><br><br><span class="token comment"># This class is used to sort the files by line count</span><br><span class="token keyword">class</span> <span class="token class-name">FileToConvert</span><br>  <span class="token keyword">def</span> <span class="token method-definition"><span class="token function">initialize</span></span><span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> line_count<span class="token punctuation">)</span><br>    <span class="token variable">@file_name</span> <span class="token operator">=</span> file_name<br>    <span class="token variable">@line_count</span> <span class="token operator">=</span> line_count<br>  <span class="token keyword">end</span><br><br>  attr_reader <span class="token symbol">:line_count</span><br><br>  <span class="token keyword">def</span> <span class="token method-definition"><span class="token function">to_s</span></span><br>    <span class="token string-literal"><span class="token string">"</span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content"><span class="token variable">@file_name</span></span><span class="token delimiter punctuation">}</span></span><span class="token string">: </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content"><span class="token variable">@line_count</span></span><span class="token delimiter punctuation">}</span></span><span class="token string"> lines"</span></span><br>  <span class="token keyword">end</span><br><span class="token keyword">end</span><br><br>path <span class="token operator">=</span> <span class="token constant">ARGV</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><br><br>file_count <span class="token operator">=</span> <span class="token number">0</span><br>files_to_convert <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><br><span class="token builtin">Dir</span><span class="token punctuation">.</span>glob<span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"</span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">path</span><span class="token delimiter punctuation">}</span></span><span class="token string">/**/*.dart"</span></span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>file_name<span class="token operator">|</span><br>  file_count <span class="token operator">+=</span> <span class="token number">1</span><br>  first_line <span class="token operator">=</span> <span class="token builtin">File</span><span class="token punctuation">.</span>open<span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> <span class="token operator">&amp;</span><span class="token symbol">:readline</span><span class="token punctuation">)</span><br>  is_non_null_safe <span class="token operator">=</span> first_line<span class="token punctuation">.</span>start_with<span class="token operator">?</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">'// @dart = 2.9'</span></span><span class="token punctuation">)</span><br>  files_to_convert <span class="token operator">&lt;&lt;</span> <span class="token class-name">FileToConvert</span><span class="token punctuation">.</span><span class="token keyword">new</span><span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> <span class="token builtin">File</span><span class="token punctuation">.</span>foreach<span class="token punctuation">(</span>file_name<span class="token punctuation">)</span><span class="token punctuation">.</span>count<span class="token punctuation">)</span> <span class="token keyword">if</span> is_non_null_safe<br><span class="token keyword">end</span><br><br>files_to_convert<span class="token punctuation">.</span>sort_by<span class="token operator">!</span><span class="token punctuation">(</span><span class="token operator">&amp;</span><span class="token symbol">:line_count</span><span class="token punctuation">)</span><br><br>puts <span class="token string-literal"><span class="token string">"Null safe percent: </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content"><span class="token punctuation">(</span><span class="token punctuation">(</span>file_count <span class="token operator">-</span> files_to_convert<span class="token punctuation">.</span>count<span class="token punctuation">)</span><span class="token punctuation">.</span>to_f <span class="token operator">/</span> file_count<span class="token punctuation">.</span>to_f <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">.</span>round<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span></span><span class="token delimiter punctuation">}</span></span><span class="token string">%"</span></span><br>puts <span class="token string-literal"><span class="token string">"Number of files left to convert: </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">files_to_convert<span class="token punctuation">.</span>count</span><span class="token delimiter punctuation">}</span></span><span class="token string">"</span></span><br>puts <span class="token string-literal"><span class="token string">''</span></span><br>puts <span class="token string-literal"><span class="token string">'10 Smallest files left to convert:'</span></span><br>files_to_convert<span class="token punctuation">[</span><span class="token number">0.</span><span class="token number">.9</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token keyword">each</span> <span class="token keyword">do</span> <span class="token operator">|</span>file<span class="token operator">|</span><br>  puts file<br><span class="token keyword">end</span></code></pre>
 <h3>4. The final push 🥅</h3>
 <p>You likely have a few huge files that no one wants to touch. Likely some God object definitions. There is no shortcut here. We have to approach it like some good old tech debt and buy some time to replace these.</p>
 <p>We are yet to make this final push. Will update this article if we have any learnings.</p>
 </section>
-    </article>
+		
+	</article>
 </main>
 
 
         <footer>
-            <section><a href="/">@okmanideep</a> © <template>2025</template></section>
+            <section><a href="/">@okmanideep</a> © 2025</section>
             <section>Published with <a href="https://11ty.dev">11ty</a></section>
         </footer>
+        
     
 
 </body>
