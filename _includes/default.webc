@@ -4,7 +4,7 @@
         <!-- [[! Document Settings ]] -->
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
+		<meta name="generator" :content="eleventy.generator" />
         <!-- [[! Page Meta ]] -->
         <meta webc:nokeep webc:is="page-meta" />
 
@@ -22,8 +22,9 @@
         <template webc:nokeep @raw="content"></template>
 
         <footer>
-            <section><a :href="$data.site.baseurl" @raw="$data.site.name"></a> &copy; <template @raw="$data.site.current_year"></template></section>
+            <section><a :href="$data.site.baseurl" @raw="$data.site.name"></a> &copy; <template webc:nokeep @raw="$data.site.current_year"></template></section>
             <section>Published with <a href="https://11ty.dev">11ty</a></section>
         </footer>
+        <script webc:keep @raw="getJs(page.url)"></script>
     </body>
 </html>

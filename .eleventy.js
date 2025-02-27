@@ -1,8 +1,8 @@
-const webcPlugin = require("@11ty/eleventy-plugin-webc")
-const CleanCSS = require("clean-css")
-const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight")
-const { EleventyRenderPlugin } = require("@11ty/eleventy")
-const pluginRss = require("@11ty/eleventy-plugin-rss");
+import webcPlugin from "@11ty/eleventy-plugin-webc";
+import CleanCSS from "clean-css";
+import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
+import { EleventyRenderPlugin } from "@11ty/eleventy";
+import pluginRss, { dateToRfc3339 } from "@11ty/eleventy-plugin-rss";
 
 function imgShortcode(src, alt) {
 	return `<img src="${imgPath(src)}" alt="${alt}" />`
@@ -23,7 +23,7 @@ function readableDate(dateString) {
 	return d.toString().replace(/(^[A-z,a-z]{3})(.*20\d\d).*$/, '$1,$2')
 }
 
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("img")
 	eleventyConfig.addPassthroughCopy("CNAME")
 
@@ -38,5 +38,5 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPlugin(syntaxHighlight)
 	eleventyConfig.addPlugin(pluginRss);
 
-	eleventyConfig.addLiquidFilter("dateToRfc3339", pluginRss.dateToRfc3339);
+	eleventyConfig.addLiquidFilter("dateToRfc3339", dateToRfc3339);
 }

@@ -2,7 +2,7 @@ function currentYear() {
   return (new Date()).getFullYear()
 }
 
-module.exports = {
+export default {
   name: '@okmanideep',
   description: "Android · Web · Design",
   logo: 'logo-black-on-white-square.jpg',

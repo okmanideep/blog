@@ -4,6 +4,7 @@ title: 'Nushell, after 8 months'
 description: "I have been using nushell as my primary shell for the last 8 months and I don't see myself going back to bash or zsh or powershell"
 date: 2024-04-29 11:15:00
 tags: ['shell', 'nushell', 'cli', 'unix', 'powershell']
+bskyuri: 'https://bsky.app/profile/okmanideep.me/post/3lj62e2bdak2x'
 ---
 
 > ... Plain text is definitely simpler than tables. So maybe we are just moving complexity here. Or this is a very good abstraction and a lot of things improve. Time will tell.
