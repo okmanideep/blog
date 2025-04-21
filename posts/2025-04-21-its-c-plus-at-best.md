@@ -11,11 +11,11 @@ It's a C+ at best. That's what Nilay Patel, editor-in-chief of The Verge, had to
 > Happiness is reality minus expectations  
 > — Tom Magliozzi, *former co-host of Car Talk*
 
-Software tools, historically, have been extremely good at being reliable. Their deterministic nature has helped set appropriate expectations for the people using them. AI is not that. **Viewing AI as a fast, always available intern, whose output is C+ at best** helps me set set reasonable expectations. Expectations that keep me cautious while not becoming frustrated when it gets things wrong.
+Software tools, historically, have been extremely good at being reliable. Their deterministic nature has helped set appropriate expectations for the people using them. AI is not that. **Viewing AI as a fast, always available intern, whose output is C+ at best**, helps me set reasonable expectations. Expectations that keep me cautious while not becoming frustrated when it gets things wrong.
 
 > He who knows not, and knows not that he knows not is a fool...
 
-I could be an expert in my domain. But it's not uncommon for me to hit a wall in my day-to-day work. Modern software development (or many modern jobs, for that matter) requires us to understand, interact with and contribute in many adjacent domains. Now, I have an intern who is likely better than me in those domains—who can help me eliminate, or at least better understand, a few dependencies. It's still *C+ at best* but many times, that's good enough.
+I could be an expert in my domain. But there is a lot of day-to-day work where I could use some help. Modern software development (or many modern jobs, for that matter) requires us to understand, interact with and contribute in many adjacent domains. Now, I have an intern who is likely better than me in those domains—who can help me eliminate, or at least better understand, a few dependencies. It's still *C+ at best*, but many times, that's good enough.
 
 > If you want to build a great company, you have to surround yourself with A players  
 > — Steve Jobs
