@@ -6,7 +6,7 @@ date: 2025-04-21 14:22:00
 tags: ['LLM', 'AI']
 ---
 
-It's a C+ at best. That's what Nilay Patel, editor-in-chief of The Verge, had to say about ChatGPT's writing ability a couple of years ago. I was surprised at first because I thought LLMs were great at writing—but then I realized he had spent over a decade writing and editing high-quality articles. It was just a passing comment in a larger conversation about the promise of the AI industry, but often, I find myself coming back to it. It’s helped me maintain a balanced mindset about AI tools and how I adopt them at work.
+It's a C+ at best. That's what Nilay Patel, editor-in-chief of The Verge, had to say about ChatGPT's writing ability about a year ago. I was surprised at first because I thought LLMs were great at writing—but then I realized he had spent over a decade writing and editing high-quality articles. It was just a passing comment in a larger conversation about the promise of the AI industry, but often, I find myself coming back to it. It’s helped me maintain a balanced mindset about AI tools and how I adopt them at work.
 
 > Happiness is reality minus expectations  
 > — Tom Magliozzi, *former co-host of Car Talk*
