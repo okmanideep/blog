@@ -9,7 +9,7 @@ tags: ['LLM', 'AI']
 It's a C+ at best. That's what Nilay Patel, editor-in-chief of The Verge, had to say about ChatGPT's writing ability about a year ago. I was surprised at first because I thought LLMs were great at writing—but then I realized he had spent over a decade writing and editing high-quality articles. It was just a passing comment in a larger conversation about the promise of the AI industry, but often, I find myself coming back to it. It’s helped me maintain a balanced mindset about AI tools and how I adopt them at work.
 
 > Happiness is reality minus expectations  
-> — Tom Magliozzi, *former co-host of Car Talk*
+> — Tom Magliozzi
 
 Software tools, historically, have been extremely good at being reliable. Their deterministic nature has helped set appropriate expectations for the people using them. LLMs are not that. They are probabilistic at their core. So we need to find a way to tone down our expectations when using AI tools. **Viewing AI as a fast and always available intern whose output is C+ at best** helps me set reasonable expectations. Expectations that keep me cautious while not becoming frustrated when they get things wrong.
 
