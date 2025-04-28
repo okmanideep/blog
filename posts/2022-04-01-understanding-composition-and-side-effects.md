@@ -101,7 +101,7 @@ fun TouchAndGo() {
 Initially we show nothing. On click, we show the green light 🟢.
 
 <video width="320" height="320" autoplay muted loop>
-  <source src="https://i.imgur.com/TCy72F9.mp4" type="video/mp4">
+  <source src="https://s.okmanideep.me/touch-and-go.mp4" type="video/mp4">
 </video>
 
 Together, this is what we have got
@@ -269,7 +269,7 @@ fun StopAndGo() {
 
 
 <video width="320" height="320" autoplay muted loop>
-  <source src="https://i.imgur.com/pJWzmgh.mp4" type="video/mp4">
+  <source src="https://s.okmanideep.me/stop-and-go.mp4" type="video/mp4">
 </video>
 
 ```
@@ -380,7 +380,7 @@ fun ReadySetGo() {
 ```
 
 <video width="320" height="320" autoplay muted loop>
-  <source src="https://i.imgur.com/dEqERF5.mp4" type="video/mp4">
+  <source src="https://s.okmanideep.me/ready-set-go.mp4" type="video/mp4">
 </video>
 
 ```
