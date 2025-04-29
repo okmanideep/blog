@@ -97,8 +97,17 @@ open package-lock.json | get dependencies.ws.version
 
 ## How big is this Advent of Code input?
 <div style="width: 100%; height: 489px; background: var(--raised-bg-color)">
-	<script src="https://asciinema.org/a/717382.js" id="asciicast-717382" async="true"></script>
+	<script src="https://asciinema.org/a/717382.js" id="asciicast-717382" async="true" data-autoplay></script>
 </div>
+
+number of lines
+```sh
+cat inputs/day12.txt | lines | length
+```
+number of characters per line
+```sh
+cat inputs/day12.text | lines | first | split chars | length
+```
 
 ## It can't all be that good, can it?
 While I was about to adopt a new shell that's not 1.0 yet, I was expecting to deal with some rough edges.
