@@ -63,7 +63,9 @@ table {
 body {
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Barlow', -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, "Helvetica Neue", Arial, "Apple Color Emoji",
+               "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
 main {
@@ -96,7 +98,9 @@ main.full-width {
 }
 
 h1,h2,h3,h4,h5,h6 {
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Rubik', -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, "Helvetica Neue", Arial, "Apple Color Emoji",
+               "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 600;
   line-height: 1.2em;
   color: var(--heading-text-color);
