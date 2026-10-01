@@ -1,0 +1,14 @@
+sitemap.njk
+  h_ed7ef8ca79e302 1-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "3a22099a9f2fc20795952dac8029b7f065d2f586",
+  "prompts": {},
+  "humans": {
+    "h_ed7ef8ca79e302": {
+      "author": "Manideep Polireddi <okmanideep@users.noreply.github.com>"
+    }
+  }
+}
