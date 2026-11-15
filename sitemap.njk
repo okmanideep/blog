@@ -4,6 +4,9 @@ eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>{{ "/" | absoluteUrl(site.url) }}</loc>
+  </url>
 {%- for page in collections.all %}
   {%- if page.url and page.url != "/feed.xml" and page.url != "/feed.json" %}
   <url>
@@ -11,5 +14,10 @@ eleventyExcludeFromCollections: true
     {%- if page.date %}<lastmod>{{ page.date | dateToRfc3339 }}</lastmod>{% endif %}
   </url>
   {%- endif %}
+{%- endfor %}
+{%- for tag, posts in collections %}
+  <url>
+    <loc>{{ ("/tag/" + tag + "/") | absoluteUrl(site.url) }}</loc>
+  </url>
 {%- endfor %}
 </urlset>
