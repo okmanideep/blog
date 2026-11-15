@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://okmanideep.me/</loc>
+  </url>
+  <url>
     <loc>https://okmanideep.me/its-a-c-at-best/</loc><lastmod>2025-04-21T14:22:00Z</lastmod>
   </url>
   <url>
@@ -29,5 +32,59 @@
   </url>
   <url>
     <loc>https://okmanideep.me/permissions-in-marshmallow/</loc><lastmod>2015-11-14T20:10:00Z</lastmod>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/all/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/android/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/rxjava/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/gradle/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/jetpack/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/compose/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/flutter/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/dart/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/shell/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/windows/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/mac/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/bash/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/powershell/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/nushell/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/cli/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/unix/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/LLM/</loc>
+  </url>
+  <url>
+    <loc>https://okmanideep.me/tag/AI/</loc>
   </url>
 </urlset>
