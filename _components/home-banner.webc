@@ -105,6 +105,17 @@
 		width: 30px;
 	}
 
+	/* The bsky mark is a fixed blue fill, so a colour hover can't work: brighten it. */
+	@media (hover: hover) {
+		.home-banner .socials svg.bsky-logo:hover {
+			filter: brightness(1.15);
+		}
+	}
+
+	.home-banner .socials a:active svg {
+		transform: scale(0.92);
+	}
+
 	@media (hover: hover) {
 		.home-banner .socials svg.fa-twitter:hover {
 			color: #3DAEF4;

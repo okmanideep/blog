@@ -123,6 +123,12 @@
 		transition: all 0.2s ease;
 	}
 
+	#comment-post-meta-reply:active {
+		opacity: 1.0;
+		color: var(--main-text-color);
+		background: var(--pressed-bg-color);
+	}
+
 	@media (hover: hover) {
 		#comment-post-meta-reply:hover {
 			opacity: 1.0;
@@ -156,6 +162,10 @@
 		text-decoration: none;
 		margin-top: 1.8em;
 		margin-left: 52px;
+	}
+
+	.more:active {
+		text-decoration: underline;
 	}
 
 	@media (hover: hover) {

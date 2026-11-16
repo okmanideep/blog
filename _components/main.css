@@ -163,6 +163,13 @@ a:focus-visible {
   border-radius: 2px;
 }
 
+/* Pressed states. Touch gets no `:hover`, so every interactive element needs
+   its own `:active` feedback, matching or slightly intensifying its hover
+   style. Only the shared link rule lives here; components carry their own. */
+main a:active {
+  text-decoration-thickness: 2px;
+}
+
 blockquote {
   margin: 18px 0px;
   background: var(--raised-bg-color);
@@ -242,6 +249,10 @@ header > nav > a {
   display: block;
 }
 
+header > nav > a:active > img {
+  opacity: 0.8;
+}
+
 header > nav > a > img {
   height: 2em;
 }
@@ -249,6 +260,10 @@ header > nav > a > img {
 header > nav > a > svg {
   height: 1.4em;
   fill: var(--main-text-color);
+}
+
+header > nav > a:active > svg {
+  fill: var(--highlight-text-color);
 }
 
 /* Hover styles only where hover exists, so a tap doesn't leave an element
@@ -273,6 +288,10 @@ footer a {
   color: var(--dim-text-color);
   text-decoration: none;
   transition: color 0.2s ease;
+}
+
+footer a:active {
+  color: var(--main-text-color);
 }
 
 @media (hover: hover) {

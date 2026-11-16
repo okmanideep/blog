@@ -33,4 +33,18 @@
 		background: var(--raised-bg-color);
 	}
 }
+
+/* The card has `pointer-events: none` with `auto` on the inner link, so
+   `:active` never reaches the card itself; `:has()` lets the whole card react
+   to a press on the link. */
+.post-item:has(> a:active) {
+	background: var(--pressed-bg-color);
+}
+
+/* Fallback for browsers without `:has()`: the link itself darkens. */
+@supports not selector(:has(*)) {
+	.post-item > a:active {
+		background: var(--pressed-bg-color);
+	}
+}
 </style>

@@ -13,6 +13,10 @@
 	pointer-events: auto;
 }
 
+.post-meta a:active {
+  text-decoration: underline;
+}
+
 @media (hover: hover) {
   .post-meta a:hover {
     text-decoration: underline;
