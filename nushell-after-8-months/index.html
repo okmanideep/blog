@@ -3,9 +3,8 @@
 <head>
         <!-- [[! Document Settings ]] -->
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="theme-color" content="#22262c">
-		<meta name="generator" content="Eleventy v3.0.0">
+		<meta name="generator" content="Eleventy v3.1.8">
         <!-- [[! Page Meta ]] -->
         <title>Nushell, after 8 months</title>
 <meta name="description" content="I have been using nushell as my primary shell for the last 8 months and I don't see myself going back to bash or zsh or powershell">
@@ -69,8 +68,14 @@
 	pointer-events: auto;
 }
 
-.post-meta a:hover {
+.post-meta a:active {
   text-decoration: underline;
+}
+
+@media (hover: hover) {
+  .post-meta a:hover {
+    text-decoration: underline;
+  }
 }
 #comments-bsky {
 		margin-top: 3rem;
@@ -90,9 +95,17 @@
 		transition: all 0.2s ease;
 	}
 
-	#comment-post-meta-reply:hover {
+	#comment-post-meta-reply:active {
 		opacity: 1.0;
 		color: var(--main-text-color);
+		background: var(--pressed-bg-color);
+	}
+
+	@media (hover: hover) {
+		#comment-post-meta-reply:hover {
+			opacity: 1.0;
+			color: var(--main-text-color);
+		}
 	}
 
 	.comment-post-header {
@@ -123,8 +136,14 @@
 		margin-left: 52px;
 	}
 
-	.more:hover {
+	.more:active {
 		text-decoration: underline;
+	}
+
+	@media (hover: hover) {
+		.more:hover {
+			text-decoration: underline;
+		}
 	}
 
 	#comments-container hr {
@@ -615,8 +634,11 @@ table {
   --highlight-text-color: #61aeee;
   --highlight-border-color: #218EE8;
   --raised-bg-color: #282c34;
+  --pressed-bg-color: #2c313a;
   --dim-text-color: #9eabb3;
   --edge-margin: 1.5rem;
+  --focus-ring: 2px solid var(--highlight-border-color);
+  --focus-ring-offset: 2px;
 }
 
 /* MAIN CSS */
@@ -710,6 +732,24 @@ p {
 
 a {
   color: var(--highlight-text-color);
+  /* Redundant now that every link has a pressed state; the grey rectangle
+     would otherwise be the only feedback a tap gets. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Keyboard focus only: `:focus-visible` keeps the ring off mouse clicks and
+   taps, so nothing has to be suppressed with `outline: 0`. */
+a:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: 2px;
+}
+
+/* Pressed states. Touch gets no `:hover`, so every interactive element needs
+   its own `:active` feedback, matching or slightly intensifying its hover
+   style. Only the shared link rule lives here; components carry their own. */
+main a:active {
+  text-decoration-thickness: 2px;
 }
 
 blockquote {
@@ -791,6 +831,18 @@ header > nav > a {
   display: block;
 }
 
+/* The RSS icon is ~20px wide and WCAG 2.5.8 asks for at least 24×24, so widen
+   the tap area with horizontal padding. The matching negative margin keeps the
+   icon, and the layout, exactly where it was. (The logo is already 45×50.) */
+header > nav > a:last-child {
+  padding: 0 12px;
+  margin: 0 -12px;
+}
+
+header > nav > a:active > img {
+  opacity: 0.8;
+}
+
 header > nav > a > img {
   height: 2em;
 }
@@ -800,9 +852,17 @@ header > nav > a > svg {
   fill: var(--main-text-color);
 }
 
-header > nav > a:hover > svg {
+header > nav > a:active > svg {
   fill: var(--highlight-text-color);
-  transition: fill 0.3s ease;
+}
+
+/* Hover styles only where hover exists, so a tap doesn't leave an element
+   looking hovered (e.g. after going back from a post card). */
+@media (hover: hover) {
+  header > nav > a:hover > svg {
+    fill: var(--highlight-text-color);
+    transition: fill 0.3s ease;
+  }
 }
 
 footer {
@@ -820,8 +880,14 @@ footer a {
   transition: color 0.2s ease;
 }
 
-footer a:hover {
+footer a:active {
   color: var(--main-text-color);
+}
+
+@media (hover: hover) {
+  footer a:hover {
+    color: var(--main-text-color);
+  }
 }
 
 img {
@@ -1009,13 +1075,16 @@ pre {
 }</style>
     </head>
 
-    <body>
+    <!-- Empty inline handler so iOS Safari applies `:active` states (WebKit
+         bug 138816). It is passive-by-default for touchstart, so scrolling is
+         unaffected, and it needs no user-agent sniffing. -->
+    <body ontouchstart="">
         <header>
   <nav>
     <a href="/"><img src="/img/logo-white.png" alt="okmanideep blog logo">
 </a>
-    <a href="/feed.json">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M25.57 176.1C12.41 175.4 .9117 185.2 .0523 198.4s9.173 24.65 22.39 25.5c120.1 7.875 225.7 112.7 233.6 233.6C256.9 470.3 267.4 480 279.1 480c.5313 0 1.062-.0313 1.594-.0625c13.22-.8438 23.25-12.28 22.39-25.5C294.6 310.3 169.7 185.4 25.57 176.1zM32 32C14.33 32 0 46.31 0 64s14.33 32 32 32c194.1 0 352 157.9 352 352c0 17.69 14.33 32 32 32s32-14.31 32-32C448 218.6 261.4 32 32 32zM63.1 351.9C28.63 351.9 0 380.6 0 416s28.63 64 63.1 64s64.08-28.62 64.08-64S99.37 351.9 63.1 351.9z"></path></svg>
+    <a href="/feed.json" aria-label="RSS feed">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M25.57 176.1C12.41 175.4 .9117 185.2 .0523 198.4s9.173 24.65 22.39 25.5c120.1 7.875 225.7 112.7 233.6 233.6C256.9 470.3 267.4 480 279.1 480c.5313 0 1.062-.0313 1.594-.0625c13.22-.8438 23.25-12.28 22.39-25.5C294.6 310.3 169.7 185.4 25.57 176.1zM32 32C14.33 32 0 46.31 0 64s14.33 32 32 32c194.1 0 352 157.9 352 352c0 17.69 14.33 32 32 32s32-14.31 32-32C448 218.6 261.4 32 32 32zM63.1 351.9C28.63 351.9 0 380.6 0 416s28.63 64 63.1 64s64.08-28.62 64.08-64S99.37 351.9 63.1 351.9z"></path></svg>
     </a>
   </nav>
 </header>
@@ -1025,7 +1094,7 @@ pre {
 	<article>
 		<h1>Nushell, after 8 months</h1>
 		<post-meta><div class="post-meta">
-	<time datetime="Mon Apr 29 2024 11:15:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Mon, Apr 29 2024</time>
+	<time datetime="Mon Apr 29 2024 11:15:00 GMT+0530 (India Standard Time)" class="post-date">Mon, Apr 29 2024</time>
 	
 on <a href="/tag/shell" class="tag">shell</a>, <a href="/tag/nushell" class="tag">nushell</a>, <a href="/tag/cli" class="tag">cli</a>, <a href="/tag/unix" class="tag">unix</a>, <a href="/tag/powershell" class="tag">powershell</a>
 
@@ -1058,7 +1127,8 @@ namespace-86c7df9555-xv45m                             1/1     Running     0    
 <p>Now we can filter the rows with <code>where</code> and get the first row with <code>first</code></p>
 <pre class="language-sh"><code class="language-sh">$ kubectl <span class="token parameter variable">-n</span> namespace get pods <span class="token operator">|</span> detect columns <span class="token operator">|</span> where <span class="token punctuation">{</span> <span class="token variable">$it</span>.STATUS <span class="token operator">==</span> <span class="token string">"Running"</span> <span class="token punctuation">}</span> <span class="token operator">|</span> first <span class="token operator">|</span> get NAME</code></pre>
 <p>We can store this in a variable and access the shell with <code>kubectl exec</code></p>
-<pre class="language-sh"><code class="language-sh">$ <span class="token builtin class-name">let</span> pod_id <span class="token operator">=</span> kubectl <span class="token parameter variable">-n</span> namespace get pods <span class="token operator">|</span> detect columns <span class="token operator">|</span> where <span class="token punctuation">{</span> <span class="token variable">$it</span>.STATUS <span class="token operator">==</span> <span class="token string">"Running"</span> <span class="token punctuation">}</span> <span class="token operator">|</span> first <span class="token operator">|</span> get NAME<br>$ kubectl <span class="token parameter variable">-n</span> namespace <span class="token builtin class-name">exec</span> <span class="token parameter variable">-it</span> <span class="token variable">$pod_id</span> -- /bin/bash</code></pre>
+<pre class="language-sh"><code class="language-sh">$ <span class="token builtin class-name">let</span> pod_id <span class="token operator">=</span> kubectl <span class="token parameter variable">-n</span> namespace get pods <span class="token operator">|</span> detect columns <span class="token operator">|</span> where <span class="token punctuation">{</span> <span class="token variable">$it</span>.STATUS <span class="token operator">==</span> <span class="token string">"Running"</span> <span class="token punctuation">}</span> <span class="token operator">|</span> first <span class="token operator">|</span> get NAME
+$ kubectl <span class="token parameter variable">-n</span> namespace <span class="token builtin class-name">exec</span> <span class="token parameter variable">-it</span> <span class="token variable">$pod_id</span> -- /bin/bash</code></pre>
 <p>Or just put it in <code>()</code> brackets and use it directly</p>
 <pre class="language-sh"><code class="language-sh">$ kubectl <span class="token parameter variable">-n</span> namespace <span class="token builtin class-name">exec</span> <span class="token parameter variable">-it</span> <span class="token punctuation">(</span>kubectl <span class="token parameter variable">-n</span> namespace get pods <span class="token operator">|</span> detect columns <span class="token operator">|</span> where <span class="token punctuation">{</span> <span class="token variable">$it</span>.STATUS <span class="token operator">==</span> <span class="token string">"Running"</span> <span class="token punctuation">}</span> <span class="token operator">|</span> first <span class="token operator">|</span> get NAME<span class="token punctuation">)</span> -- /bin/bash</code></pre>
 <p>Working within <code>nushell</code> has been a lot like working with the programming languages that I am used to. It feels like I am in a REPL of one of those languages. Familiar and comfortable.</p>
@@ -1092,7 +1162,11 @@ namespace-86c7df9555-xv45m                             1/1     Running     0    
 <p><a href="https://okmanideep.me/i-am-very-excited-about-using-nushell-everyday/">Me, 8 months ago</a></p>
 <p>To be honest, I didn't have to deal with many issues. But there was one which took a bit of time to figure out.</p>
 <p><a href="https://github.com/Schniz/fnm">fnm</a> - fast node version manager, only offer setup instructions for <code>bash</code>, <code>zsh</code>, <code>fish</code> and <code>powershell</code> to add necessary changes to the shell profile for the right $PATH. For <code>nushell</code>, we have to use something like this</p>
-<pre class="language-sh"><code class="language-sh"><span class="token comment"># fnm - node version manager</span><br><span class="token comment"># https://dev.to/vaibhavdn/using-fnm-with-nushell-3kh1</span><br>load-env <span class="token punctuation">(</span>/opt/homebrew/bin/fnm <span class="token function">env</span> <span class="token parameter variable">--shell</span> <span class="token function">bash</span> <span class="token operator">|</span> lines <span class="token operator">|</span> str replace <span class="token string">'export '</span> <span class="token string">''</span> <span class="token operator">|</span> str replace <span class="token parameter variable">-a</span> <span class="token string">'"'</span> <span class="token string">''</span> <span class="token operator">|</span> <span class="token function">split</span> <span class="token function">column</span> <span class="token operator">=</span> <span class="token operator">|</span> <span class="token function">rename</span> name value <span class="token operator">|</span> where name <span class="token operator">!=</span> <span class="token string">"FNM_ARCH"</span> and name <span class="token operator">!=</span> <span class="token string">"PATH"</span> <span class="token operator">|</span> reduce <span class="token parameter variable">-f</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token operator">|</span>it, acc<span class="token operator">|</span> <span class="token variable">$acc</span> <span class="token operator">|</span> upsert <span class="token variable">$it</span>.name <span class="token variable">$it</span>.value <span class="token punctuation">}</span><span class="token punctuation">)</span><br><br><span class="token variable">$env</span><span class="token builtin class-name">.</span><span class="token environment constant">PATH</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token variable">$env</span><span class="token builtin class-name">.</span><span class="token environment constant">PATH</span> <span class="token operator">|</span> prepend $<span class="token string">"(<span class="token variable">$env</span>.FNM_MULTISHELL_PATH)/bin"</span><span class="token punctuation">)</span></code></pre>
+<pre class="language-sh"><code class="language-sh"><span class="token comment"># fnm - node version manager</span>
+<span class="token comment"># https://dev.to/vaibhavdn/using-fnm-with-nushell-3kh1</span>
+load-env <span class="token punctuation">(</span>/opt/homebrew/bin/fnm <span class="token function">env</span> <span class="token parameter variable">--shell</span> <span class="token function">bash</span> <span class="token operator">|</span> lines <span class="token operator">|</span> str replace <span class="token string">'export '</span> <span class="token string">''</span> <span class="token operator">|</span> str replace <span class="token parameter variable">-a</span> <span class="token string">'"'</span> <span class="token string">''</span> <span class="token operator">|</span> <span class="token function">split</span> <span class="token function">column</span> <span class="token operator">=</span> <span class="token operator">|</span> <span class="token function">rename</span> name value <span class="token operator">|</span> where name <span class="token operator">!=</span> <span class="token string">"FNM_ARCH"</span> and name <span class="token operator">!=</span> <span class="token string">"PATH"</span> <span class="token operator">|</span> reduce <span class="token parameter variable">-f</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token operator">|</span>it, acc<span class="token operator">|</span> <span class="token variable">$acc</span> <span class="token operator">|</span> upsert <span class="token variable">$it</span>.name <span class="token variable">$it</span>.value <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token variable">$env</span><span class="token builtin class-name">.</span><span class="token environment constant">PATH</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token variable">$env</span><span class="token builtin class-name">.</span><span class="token environment constant">PATH</span> <span class="token operator">|</span> prepend $<span class="token string">"(<span class="token variable">$env</span>.FNM_MULTISHELL_PATH)/bin"</span><span class="token punctuation">)</span></code></pre>
 <p>Essentially fake the shell, get the necessary changes and apply them to the <code>nushell</code> environment.</p>
 <p>Some extra work to setup programs that output configuration for bash / zsh etc. And a few copy pasta for setting up some completions.</p>
 <p>That's about it. After I have setup <code>nushell</code> in my system and added it to my <a href="https://github.com/okmanideep/dotfiles">dotfiles</a>, it's been a smooth ride across both Windows and MacOS. I have been using <code>nushell</code> as my primary shell for the last 8 months and I don't see myself going back to <code>bash</code> or <code>zsh</code> or <code>powershell</code>.</p>

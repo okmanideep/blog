@@ -3,9 +3,8 @@
 <head>
         <!-- [[! Document Settings ]] -->
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="theme-color" content="#22262c">
-		<meta name="generator" content="Eleventy v3.0.0">
+		<meta name="generator" content="Eleventy v3.1.8">
         <!-- [[! Page Meta ]] -->
         <title>@okmanideep</title>
 <meta name="description" content="Android · Web · Design">
@@ -96,16 +95,8 @@
 		width: 30px;
 	}
 
-	.home-banner .socials svg.fa-twitter:hover {
-		color: #3DAEF4;
-	}
-
 	.home-banner .socials svg.fa-github {
 		color: #CCC;
-	}
-
-	.home-banner .socials svg.fa-github:hover {
-		color: #D3D3D3;
 	}
 
 	.home-banner .socials svg.fa-threads {
@@ -113,8 +104,29 @@
 		width: 30px;
 	}
 
-	.home-banner .socials svg.fa-threads:hover {
-		color: #ffffff;
+	/* The bsky mark is a fixed blue fill, so a colour hover can't work: brighten it. */
+	@media (hover: hover) {
+		.home-banner .socials svg.bsky-logo:hover {
+			filter: brightness(1.15);
+		}
+	}
+
+	.home-banner .socials a:active svg {
+		transform: scale(0.92);
+	}
+
+	@media (hover: hover) {
+		.home-banner .socials svg.fa-twitter:hover {
+			color: #3DAEF4;
+		}
+
+		.home-banner .socials svg.fa-github:hover {
+			color: #D3D3D3;
+		}
+
+		.home-banner .socials svg.fa-threads:hover {
+			color: #ffffff;
+		}
 	}
 a.tag {
 	text-transform: capitalize;
@@ -129,8 +141,14 @@ a.tag {
 	pointer-events: auto;
 }
 
-.post-meta a:hover {
+.post-meta a:active {
   text-decoration: underline;
+}
+
+@media (hover: hover) {
+  .post-meta a:hover {
+    text-decoration: underline;
+  }
 }
 .post-item {
 	border-radius: 5px;
@@ -154,8 +172,24 @@ a.tag {
 	padding: 0.3em 0 0.5em 0;
 }
 
-.post-item:hover {
-	background: var(--raised-bg-color);
+@media (hover: hover) {
+	.post-item:hover {
+		background: var(--raised-bg-color);
+	}
+}
+
+/* The card has `pointer-events: none` with `auto` on the inner link, so
+   `:active` never reaches the card itself; `:has()` lets the whole card react
+   to a press on the link. */
+.post-item:has(> a:active) {
+	background: var(--pressed-bg-color);
+}
+
+/* Fallback for browsers without `:has()`: the link itself darkens. */
+@supports not selector(:has(*)) {
+	.post-item > a:active {
+		background: var(--pressed-bg-color);
+	}
 }
 /* Source: https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital@0;1&family=Rubik:ital,wght@0,600;1,600&display=swap */
 
@@ -522,8 +556,11 @@ table {
   --highlight-text-color: #61aeee;
   --highlight-border-color: #218EE8;
   --raised-bg-color: #282c34;
+  --pressed-bg-color: #2c313a;
   --dim-text-color: #9eabb3;
   --edge-margin: 1.5rem;
+  --focus-ring: 2px solid var(--highlight-border-color);
+  --focus-ring-offset: 2px;
 }
 
 /* MAIN CSS */
@@ -617,6 +654,24 @@ p {
 
 a {
   color: var(--highlight-text-color);
+  /* Redundant now that every link has a pressed state; the grey rectangle
+     would otherwise be the only feedback a tap gets. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Keyboard focus only: `:focus-visible` keeps the ring off mouse clicks and
+   taps, so nothing has to be suppressed with `outline: 0`. */
+a:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: 2px;
+}
+
+/* Pressed states. Touch gets no `:hover`, so every interactive element needs
+   its own `:active` feedback, matching or slightly intensifying its hover
+   style. Only the shared link rule lives here; components carry their own. */
+main a:active {
+  text-decoration-thickness: 2px;
 }
 
 blockquote {
@@ -698,6 +753,18 @@ header > nav > a {
   display: block;
 }
 
+/* The RSS icon is ~20px wide and WCAG 2.5.8 asks for at least 24×24, so widen
+   the tap area with horizontal padding. The matching negative margin keeps the
+   icon, and the layout, exactly where it was. (The logo is already 45×50.) */
+header > nav > a:last-child {
+  padding: 0 12px;
+  margin: 0 -12px;
+}
+
+header > nav > a:active > img {
+  opacity: 0.8;
+}
+
 header > nav > a > img {
   height: 2em;
 }
@@ -707,9 +774,17 @@ header > nav > a > svg {
   fill: var(--main-text-color);
 }
 
-header > nav > a:hover > svg {
+header > nav > a:active > svg {
   fill: var(--highlight-text-color);
-  transition: fill 0.3s ease;
+}
+
+/* Hover styles only where hover exists, so a tap doesn't leave an element
+   looking hovered (e.g. after going back from a post card). */
+@media (hover: hover) {
+  header > nav > a:hover > svg {
+    fill: var(--highlight-text-color);
+    transition: fill 0.3s ease;
+  }
 }
 
 footer {
@@ -727,8 +802,14 @@ footer a {
   transition: color 0.2s ease;
 }
 
-footer a:hover {
+footer a:active {
   color: var(--main-text-color);
+}
+
+@media (hover: hover) {
+  footer a:hover {
+    color: var(--main-text-color);
+  }
 }
 
 img {
@@ -916,13 +997,16 @@ pre {
 }</style>
     </head>
 
-    <body>
+    <!-- Empty inline handler so iOS Safari applies `:active` states (WebKit
+         bug 138816). It is passive-by-default for touchstart, so scrolling is
+         unaffected, and it needs no user-agent sniffing. -->
+    <body ontouchstart="">
         <header>
   <nav>
     <a href="/"><img src="/img/logo-white.png" alt="okmanideep blog logo">
 </a>
-    <a href="/feed.json">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M25.57 176.1C12.41 175.4 .9117 185.2 .0523 198.4s9.173 24.65 22.39 25.5c120.1 7.875 225.7 112.7 233.6 233.6C256.9 470.3 267.4 480 279.1 480c.5313 0 1.062-.0313 1.594-.0625c13.22-.8438 23.25-12.28 22.39-25.5C294.6 310.3 169.7 185.4 25.57 176.1zM32 32C14.33 32 0 46.31 0 64s14.33 32 32 32c194.1 0 352 157.9 352 352c0 17.69 14.33 32 32 32s32-14.31 32-32C448 218.6 261.4 32 32 32zM63.1 351.9C28.63 351.9 0 380.6 0 416s28.63 64 63.1 64s64.08-28.62 64.08-64S99.37 351.9 63.1 351.9z"></path></svg>
+    <a href="/feed.json" aria-label="RSS feed">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M25.57 176.1C12.41 175.4 .9117 185.2 .0523 198.4s9.173 24.65 22.39 25.5c120.1 7.875 225.7 112.7 233.6 233.6C256.9 470.3 267.4 480 279.1 480c.5313 0 1.062-.0313 1.594-.0625c13.22-.8438 23.25-12.28 22.39-25.5C294.6 310.3 169.7 185.4 25.57 176.1zM32 32C14.33 32 0 46.31 0 64s14.33 32 32 32c194.1 0 352 157.9 352 352c0 17.69 14.33 32 32 32s32-14.31 32-32C448 218.6 261.4 32 32 32zM63.1 351.9C28.63 351.9 0 380.6 0 416s28.63 64 63.1 64s64.08-28.62 64.08-64S99.37 351.9 63.1 351.9z"></path></svg>
     </a>
   </nav>
 </header>
@@ -931,12 +1015,12 @@ pre {
         <home-banner><section class="home-banner">
 	<h2>@okmanideep</h2>
 	<div class="socials">
-		<a href="https://twitter.com/okmanideep" target="_blank"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-twitter fa-w-16">
+		<a href="https://twitter.com/okmanideep" target="_blank" aria-label="Twitter"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-twitter fa-w-16">
 				<path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
 				</path>
 			</svg></a>
-		<a href="https://github.com/okmanideep" target="_blank">
-			<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 54 54" space="preserve" style="enable-background:new 0 0 54 54" class="svg-inline-fa fa-github">
+		<a href="https://github.com/okmanideep" target="_blank" aria-label="GitHub">
+			<svg aria-hidden="true" focusable="false" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 54 54" space="preserve" style="enable-background:new 0 0 54 54" class="svg-inline-fa fa-github">
 				
 				<g>
 					<rect x="-0.2" y="0.1" width="53.8" height="53.4" class="st0"></rect>
@@ -962,13 +1046,13 @@ pre {
 				</g>
 			</svg>
 		</a>
-		<a href="https://threads.net/@okmanideep" target="_blank">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="currentColor" class="svg-inline-fa fa-threads">
+		<a href="https://threads.net/@okmanideep" target="_blank" aria-label="Threads">
+			<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="currentColor" class="svg-inline-fa fa-threads">
 				<path d="M141.54 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.035l13.78 9.452c5.73-8.694 14.723-10.548 21.347-10.548h.23c8.248.054 14.473 2.452 18.502 7.13 2.932 3.405 4.893 8.11 5.864 14.05-7.314-1.244-15.224-1.626-23.68-1.141-23.82 1.372-39.134 15.265-38.105 34.569.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.683 22.231-5.436 29.05-14.127 5.177-6.6 8.452-15.153 9.898-25.93 5.937 3.583 10.337 8.298 12.767 13.966 4.132 9.635 4.373 25.468-8.546 38.376-11.319 11.308-24.925 16.2-45.488 16.35-22.809-.168-40.06-7.483-51.275-21.741C35.238 139.966 29.811 120.682 29.608 96c.203-24.682 5.63-43.966 16.133-57.317C56.957 24.425 74.207 17.11 97.016 16.94c22.975.17 40.526 7.52 52.171 21.848 5.71 7.025 10.015 15.86 12.853 26.162l16.147-4.308c-3.44-12.68-8.853-23.606-16.219-32.668C147.04 9.608 125.205.195 97.072 0h-.113C68.884.195 47.294 9.643 32.79 28.08 19.884 44.487 13.226 67.316 13.002 95.933v.135c.224 28.616 6.882 51.446 19.788 67.854C47.294 182.359 68.883 191.807 96.96 192h.112c24.96-.173 42.554-6.708 57.048-21.19 18.963-18.944 18.392-42.691 12.142-57.27-4.484-10.453-13.033-18.944-24.723-24.552zm-43.096 40.519c-10.44.588-21.286-4.098-21.821-14.135-.396-7.442 5.296-15.746 22.462-16.735 1.966-.113 3.895-.169 5.79-.169 6.235 0 12.068.606 17.37 1.765-1.977 24.702-13.58 28.713-23.801 29.274z"></path>
 			</svg>
 		</a>
-		<a href="https://bsky.app/profile/okmanideep.me" target="_blank">
-			<svg viewBox="0 0 600 530" version="1.1" xmlns="http://www.w3.org/2000/svg" style="width: 32px" class="bsky-logo">
+		<a href="https://bsky.app/profile/okmanideep.me" target="_blank" aria-label="Bluesky">
+			<svg aria-hidden="true" focusable="false" viewBox="0 0 600 530" version="1.1" xmlns="http://www.w3.org/2000/svg" style="width: 32px" class="bsky-logo">
 				<path d="m135.72 44.03c66.496 49.921 138.02 151.14 164.28 205.46 26.262-54.316 97.782-155.54 164.28-205.46 47.98-36.021 125.72-63.892 125.72 24.795 0 17.712-10.155 148.79-16.111 170.07-20.703 73.984-96.144 92.854-163.25 81.433 117.3 19.964 147.14 86.092 82.697 152.22-122.39 125.59-175.91-31.511-189.63-71.766-2.514-7.3797-3.6904-10.832-3.7077-7.8964-0.0174-2.9357-1.1937 0.51669-3.7077 7.8964-13.714 40.255-67.233 197.36-189.63 71.766-64.444-66.128-34.605-132.26 82.697-152.22-67.108 11.421-142.55-7.4491-163.25-81.433-5.9562-21.282-16.111-152.36-16.111-170.07 0-88.687 77.742-60.816 125.72-24.795z" fill="#1185fe"></path>
 			</svg>
 		</a>
@@ -983,7 +1067,7 @@ pre {
 		<p>A mindset to have balanced expectations about adopting AI at work</p>
 	</a>
 	<div class="post-meta">
-	<time datetime="Mon Apr 21 2025 14:22:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Mon, Apr 21 2025</time>
+	<time datetime="Mon Apr 21 2025 14:22:00 GMT+0530 (India Standard Time)" class="post-date">Mon, Apr 21 2025</time>
 	
 on <a href="/tag/LLM" class="tag">LLM</a>, <a href="/tag/AI" class="tag">AI</a>
 
@@ -999,7 +1083,7 @@ on <a href="/tag/LLM" class="tag">LLM</a>, <a href="/tag/AI" class="tag">AI</a>
 		<p>I have been using nushell as my primary shell for the last 8 months and I don't see myself going back to bash or zsh or powershell</p>
 	</a>
 	<div class="post-meta">
-	<time datetime="Mon Apr 29 2024 11:15:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Mon, Apr 29 2024</time>
+	<time datetime="Mon Apr 29 2024 11:15:00 GMT+0530 (India Standard Time)" class="post-date">Mon, Apr 29 2024</time>
 	
 on <a href="/tag/shell" class="tag">shell</a>, <a href="/tag/nushell" class="tag">nushell</a>, <a href="/tag/cli" class="tag">cli</a>, <a href="/tag/unix" class="tag">unix</a>, <a href="/tag/powershell" class="tag">powershell</a>
 
@@ -1015,7 +1099,7 @@ on <a href="/tag/shell" class="tag">shell</a>, <a href="/tag/nushell" class="tag
 		<p>From the moment I saw the intro video, I found it very appealing. It takes the best of bash and powershell</p>
 	</a>
 	<div class="post-meta">
-	<time datetime="Mon Aug 28 2023 13:00:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Mon, Aug 28 2023</time>
+	<time datetime="Mon Aug 28 2023 13:00:00 GMT+0530 (India Standard Time)" class="post-date">Mon, Aug 28 2023</time>
 	
 on <a href="/tag/shell" class="tag">shell</a>, <a href="/tag/windows" class="tag">windows</a>, <a href="/tag/mac" class="tag">mac</a>, <a href="/tag/bash" class="tag">bash</a>, <a href="/tag/powershell" class="tag">powershell</a>
 
@@ -1031,7 +1115,7 @@ on <a href="/tag/shell" class="tag">shell</a>, <a href="/tag/windows" class="tag
 		<p>Dart 3 is here, but we cannot adopt it unless our entire codebase is null safe. Here are few strategies we have been using to slowly migrate our codebase</p>
 	</a>
 	<div class="post-meta">
-	<time datetime="Fri May 12 2023 17:00:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Fri, May 12 2023</time>
+	<time datetime="Fri May 12 2023 17:00:00 GMT+0530 (India Standard Time)" class="post-date">Fri, May 12 2023</time>
 	
 on <a href="/tag/flutter" class="tag">flutter</a>, <a href="/tag/dart" class="tag">dart</a>
 
@@ -1047,7 +1131,7 @@ on <a href="/tag/flutter" class="tag">flutter</a>, <a href="/tag/dart" class="ta
 		<p>Important aspect to any framework that relies on functions is to understand when they are invoked. Read along to get a crystal clear understanding</p>
 	</a>
 	<div class="post-meta">
-	<time datetime="Fri Apr 01 2022 18:00:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Fri, Apr 01 2022</time>
+	<time datetime="Fri Apr 01 2022 18:00:00 GMT+0530 (India Standard Time)" class="post-date">Fri, Apr 01 2022</time>
 	
 on <a href="/tag/jetpack" class="tag">jetpack</a>, <a href="/tag/compose" class="tag">compose</a>, <a href="/tag/android" class="tag">android</a>
 
@@ -1063,7 +1147,7 @@ on <a href="/tag/jetpack" class="tag">jetpack</a>, <a href="/tag/compose" class=
 		<p>Simple things you can do to improve your gradle/android dependency management</p>
 	</a>
 	<div class="post-meta">
-	<time datetime="Thu Nov 02 2017 00:20:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Thu, Nov 02 2017</time>
+	<time datetime="Thu Nov 02 2017 00:20:00 GMT+0530 (India Standard Time)" class="post-date">Thu, Nov 02 2017</time>
 	
 on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="tag">gradle</a>
 
@@ -1079,7 +1163,7 @@ on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="
 		<p>Simple things you can do to improve your gradle/android build time a lot</p>
 	</a>
 	<div class="post-meta">
-	<time datetime="Tue Apr 05 2016 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Tue, Apr 05 2016</time>
+	<time datetime="Tue Apr 05 2016 20:10:00 GMT+0530 (India Standard Time)" class="post-date">Tue, Apr 05 2016</time>
 	
 on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="tag">gradle</a>
 
@@ -1095,7 +1179,7 @@ on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="
 		<p>You probably know what the map operator is. This post discussed mostly about FlatMap and that probably will remove the confusion between map and flatMap operators if any</p>
 	</a>
 	<div class="post-meta">
-	<time datetime="Tue Dec 01 2015 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Tue, Dec 01 2015</time>
+	<time datetime="Tue Dec 01 2015 20:10:00 GMT+0530 (India Standard Time)" class="post-date">Tue, Dec 01 2015</time>
 	
 on <a href="/tag/rxjava" class="tag">rxjava</a>, <a href="/tag/android" class="tag">android</a>
 
@@ -1111,7 +1195,7 @@ on <a href="/tag/rxjava" class="tag">rxjava</a>, <a href="/tag/android" class="t
 		<p>A cleaner way to define support library dependencies which makes updating their version number a whole lot easier</p>
 	</a>
 	<div class="post-meta">
-	<time datetime="Mon Nov 23 2015 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Mon, Nov 23 2015</time>
+	<time datetime="Mon Nov 23 2015 20:10:00 GMT+0530 (India Standard Time)" class="post-date">Mon, Nov 23 2015</time>
 	
 on <a href="/tag/android" class="tag">android</a>
 
@@ -1127,7 +1211,7 @@ on <a href="/tag/android" class="tag">android</a>
 		<p>A deep dive into requesting permissions in Android Marshmallow and handling extreme cases</p>
 	</a>
 	<div class="post-meta">
-	<time datetime="Sat Nov 14 2015 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Sat, Nov 14 2015</time>
+	<time datetime="Sat Nov 14 2015 20:10:00 GMT+0530 (India Standard Time)" class="post-date">Sat, Nov 14 2015</time>
 	
 on <a href="/tag/android" class="tag">android</a>
 

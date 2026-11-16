@@ -3,9 +3,8 @@
 <head>
         <!-- [[! Document Settings ]] -->
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="theme-color" content="#22262c">
-		<meta name="generator" content="Eleventy v3.0.0">
+		<meta name="generator" content="Eleventy v3.1.8">
         <!-- [[! Page Meta ]] -->
         <title>Migrating to Dart 3 and null safety</title>
 <meta name="description" content="Dart 3 is here, but we cannot adopt it unless our entire codebase is null safe. Here are few strategies we have been using to slowly migrate our codebase">
@@ -69,8 +68,14 @@
 	pointer-events: auto;
 }
 
-.post-meta a:hover {
+.post-meta a:active {
   text-decoration: underline;
+}
+
+@media (hover: hover) {
+  .post-meta a:hover {
+    text-decoration: underline;
+  }
 }
 /* Source: https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital@0;1&family=Rubik:ital,wght@0,600;1,600&display=swap */
 
@@ -437,8 +442,11 @@ table {
   --highlight-text-color: #61aeee;
   --highlight-border-color: #218EE8;
   --raised-bg-color: #282c34;
+  --pressed-bg-color: #2c313a;
   --dim-text-color: #9eabb3;
   --edge-margin: 1.5rem;
+  --focus-ring: 2px solid var(--highlight-border-color);
+  --focus-ring-offset: 2px;
 }
 
 /* MAIN CSS */
@@ -532,6 +540,24 @@ p {
 
 a {
   color: var(--highlight-text-color);
+  /* Redundant now that every link has a pressed state; the grey rectangle
+     would otherwise be the only feedback a tap gets. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Keyboard focus only: `:focus-visible` keeps the ring off mouse clicks and
+   taps, so nothing has to be suppressed with `outline: 0`. */
+a:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: 2px;
+}
+
+/* Pressed states. Touch gets no `:hover`, so every interactive element needs
+   its own `:active` feedback, matching or slightly intensifying its hover
+   style. Only the shared link rule lives here; components carry their own. */
+main a:active {
+  text-decoration-thickness: 2px;
 }
 
 blockquote {
@@ -613,6 +639,18 @@ header > nav > a {
   display: block;
 }
 
+/* The RSS icon is ~20px wide and WCAG 2.5.8 asks for at least 24×24, so widen
+   the tap area with horizontal padding. The matching negative margin keeps the
+   icon, and the layout, exactly where it was. (The logo is already 45×50.) */
+header > nav > a:last-child {
+  padding: 0 12px;
+  margin: 0 -12px;
+}
+
+header > nav > a:active > img {
+  opacity: 0.8;
+}
+
 header > nav > a > img {
   height: 2em;
 }
@@ -622,9 +660,17 @@ header > nav > a > svg {
   fill: var(--main-text-color);
 }
 
-header > nav > a:hover > svg {
+header > nav > a:active > svg {
   fill: var(--highlight-text-color);
-  transition: fill 0.3s ease;
+}
+
+/* Hover styles only where hover exists, so a tap doesn't leave an element
+   looking hovered (e.g. after going back from a post card). */
+@media (hover: hover) {
+  header > nav > a:hover > svg {
+    fill: var(--highlight-text-color);
+    transition: fill 0.3s ease;
+  }
 }
 
 footer {
@@ -642,8 +688,14 @@ footer a {
   transition: color 0.2s ease;
 }
 
-footer a:hover {
+footer a:active {
   color: var(--main-text-color);
+}
+
+@media (hover: hover) {
+  footer a:hover {
+    color: var(--main-text-color);
+  }
 }
 
 img {
@@ -831,13 +883,16 @@ pre {
 }</style>
     </head>
 
-    <body>
+    <!-- Empty inline handler so iOS Safari applies `:active` states (WebKit
+         bug 138816). It is passive-by-default for touchstart, so scrolling is
+         unaffected, and it needs no user-agent sniffing. -->
+    <body ontouchstart="">
         <header>
   <nav>
     <a href="/"><img src="/img/logo-white.png" alt="okmanideep blog logo">
 </a>
-    <a href="/feed.json">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M25.57 176.1C12.41 175.4 .9117 185.2 .0523 198.4s9.173 24.65 22.39 25.5c120.1 7.875 225.7 112.7 233.6 233.6C256.9 470.3 267.4 480 279.1 480c.5313 0 1.062-.0313 1.594-.0625c13.22-.8438 23.25-12.28 22.39-25.5C294.6 310.3 169.7 185.4 25.57 176.1zM32 32C14.33 32 0 46.31 0 64s14.33 32 32 32c194.1 0 352 157.9 352 352c0 17.69 14.33 32 32 32s32-14.31 32-32C448 218.6 261.4 32 32 32zM63.1 351.9C28.63 351.9 0 380.6 0 416s28.63 64 63.1 64s64.08-28.62 64.08-64S99.37 351.9 63.1 351.9z"></path></svg>
+    <a href="/feed.json" aria-label="RSS feed">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M25.57 176.1C12.41 175.4 .9117 185.2 .0523 198.4s9.173 24.65 22.39 25.5c120.1 7.875 225.7 112.7 233.6 233.6C256.9 470.3 267.4 480 279.1 480c.5313 0 1.062-.0313 1.594-.0625c13.22-.8438 23.25-12.28 22.39-25.5C294.6 310.3 169.7 185.4 25.57 176.1zM32 32C14.33 32 0 46.31 0 64s14.33 32 32 32c194.1 0 352 157.9 352 352c0 17.69 14.33 32 32 32s32-14.31 32-32C448 218.6 261.4 32 32 32zM63.1 351.9C28.63 351.9 0 380.6 0 416s28.63 64 63.1 64s64.08-28.62 64.08-64S99.37 351.9 63.1 351.9z"></path></svg>
     </a>
   </nav>
 </header>
@@ -847,7 +902,7 @@ pre {
 	<article>
 		<h1>Migrating to Dart 3 and null safety</h1>
 		<post-meta><div class="post-meta">
-	<time datetime="Fri May 12 2023 17:00:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Fri, May 12 2023</time>
+	<time datetime="Fri May 12 2023 17:00:00 GMT+0530 (India Standard Time)" class="post-date">Fri, May 12 2023</time>
 	
 on <a href="/tag/flutter" class="tag">flutter</a>, <a href="/tag/dart" class="tag">dart</a>
 
@@ -868,12 +923,57 @@ on <a href="/tag/flutter" class="tag">flutter</a>, <a href="/tag/dart" class="ta
 <li>Add <code>// @dart = 2.9</code> to the starting of every dart file in your project and manually convert your <code>main.dart</code></li>
 </ul>
 <p>The following script can help you out here</p>
-<pre class="language-ruby"><code class="language-ruby"><span class="token comment">#!/usr/bin/env ruby</span><br><br>directory <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"/lib"</span></span><br><br><span class="token comment"># Navigate to the directory</span><br><span class="token builtin">Dir</span><span class="token punctuation">.</span>chdir<span class="token punctuation">(</span>directory<span class="token punctuation">)</span><br><br><span class="token comment"># Loop through each .dart file in the directory</span><br><span class="token builtin">Dir</span><span class="token punctuation">.</span>glob<span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"**/*.dart"</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">each</span> <span class="token keyword">do</span> <span class="token operator">|</span>file<span class="token operator">|</span><br>  <span class="token comment"># Check if the file is a regular file</span><br>  <span class="token keyword">if</span> <span class="token builtin">File</span><span class="token punctuation">.</span>file<span class="token operator">?</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span><br>    <span class="token comment"># Prepend "// @dart=2.9" to the file</span><br>    content <span class="token operator">=</span> <span class="token builtin">File</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span>file<span class="token punctuation">)</span><br>    <span class="token builtin">File</span><span class="token punctuation">.</span>open<span class="token punctuation">(</span>file<span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"w"</span></span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>f<span class="token operator">|</span><br>      f<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"// @dart=2.9\n</span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">content</span><span class="token delimiter punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><br>    <span class="token keyword">end</span><br>    puts <span class="token string-literal"><span class="token string">"Added // @dart=2.9 to </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">file</span><span class="token delimiter punctuation">}</span></span><span class="token string">"</span></span><br>  <span class="token keyword">end</span><br><span class="token keyword">end</span></code></pre>
+<pre class="language-ruby"><code class="language-ruby"><span class="token comment">#!/usr/bin/env ruby</span>
+
+directory <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"/lib"</span></span>
+
+<span class="token comment"># Navigate to the directory</span>
+<span class="token builtin">Dir</span><span class="token punctuation">.</span>chdir<span class="token punctuation">(</span>directory<span class="token punctuation">)</span>
+
+<span class="token comment"># Loop through each .dart file in the directory</span>
+<span class="token builtin">Dir</span><span class="token punctuation">.</span>glob<span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"**/*.dart"</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">each</span> <span class="token keyword">do</span> <span class="token operator">|</span>file<span class="token operator">|</span>
+  <span class="token comment"># Check if the file is a regular file</span>
+  <span class="token keyword">if</span> <span class="token builtin">File</span><span class="token punctuation">.</span>file<span class="token operator">?</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span>
+    <span class="token comment"># Prepend "// @dart=2.9" to the file</span>
+    content <span class="token operator">=</span> <span class="token builtin">File</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span>file<span class="token punctuation">)</span>
+    <span class="token builtin">File</span><span class="token punctuation">.</span>open<span class="token punctuation">(</span>file<span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"w"</span></span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>f<span class="token operator">|</span>
+      f<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"// @dart=2.9\n</span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">content</span><span class="token delimiter punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    <span class="token keyword">end</span>
+    puts <span class="token string-literal"><span class="token string">"Added // @dart=2.9 to </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">file</span><span class="token delimiter punctuation">}</span></span><span class="token string">"</span></span>
+  <span class="token keyword">end</span>
+<span class="token keyword">end</span></code></pre>
 <p>With this you can start using <code>flutter run --no-sound-null-safety</code> and run your app as always</p>
 <h3>2. Add a PR check as a nudge for your team ✅</h3>
 <p>Since this doesn't immediately impact the product, it's not going to be worth it to migrate all the files as a single task / project. We want to do this gradually over a few months. For that, we'd like some regular nudges to everyone in the team to slowly convert files they are touching.</p>
 <p>A PR check like this can help out in a big way</p>
-<pre class="language-yaml"><code class="language-yaml"><span class="token key atrule">name</span><span class="token punctuation">:</span> Dart Null Safety Validation<br><span class="token key atrule">on</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>pull_request<span class="token punctuation">]</span><br><br><span class="token key atrule">env</span><span class="token punctuation">:</span><br>  <span class="token key atrule">GITHUB_BASE_REF</span><span class="token punctuation">:</span> $<br>  <br><span class="token key atrule">jobs</span><span class="token punctuation">:</span><br>  <span class="token key atrule">validate</span><span class="token punctuation">:</span><br>    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest<br>    <span class="token key atrule">steps</span><span class="token punctuation">:</span><br>      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Checkout code<br>        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v3<br>      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Validate Dart files<br>        <span class="token key atrule">shell</span><span class="token punctuation">:</span> bash<br>        <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string"><br>          # Fetch the base branch for diffing<br>          git fetch origin $GITHUB_BASE_REF:$GITHUB_BASE_REF</span><br><br>          n_files=$((grep <span class="token punctuation">-</span>r <span class="token punctuation">-</span>H <span class="token punctuation">-</span><span class="token punctuation">-</span>include \<span class="token important">*.dart</span> "// @dart = 2.9" $(git diff <span class="token punctuation">-</span><span class="token punctuation">-</span>name<span class="token punctuation">-</span>only $GITHUB_BASE_REF <span class="token punctuation">-</span><span class="token punctuation">-</span>diff<span class="token punctuation">-</span>filter=AMR) <span class="token punctuation">|</span><span class="token punctuation">|</span> true) <span class="token punctuation">|</span> wc <span class="token punctuation">-</span>l)<br><br>          if <span class="token punctuation">[</span> $n_files <span class="token punctuation">-</span>ne 0 <span class="token punctuation">]</span>; then<br>            echo "Dart Files that changed<span class="token punctuation">,</span> but still contain 2.9 dart version<span class="token punctuation">:</span>"<br>            grep <span class="token punctuation">-</span>r <span class="token punctuation">-</span>H <span class="token punctuation">-</span><span class="token punctuation">-</span>include \<span class="token important">*.dart</span> "// @dart = 2.9" $(git diff <span class="token punctuation">-</span><span class="token punctuation">-</span>name<span class="token punctuation">-</span>only $GITHUB_BASE_REF <span class="token punctuation">-</span><span class="token punctuation">-</span>diff<span class="token punctuation">-</span>filter=AMR)<br>            echo "\n"<br>            echo "Please convert the above files to project dart version"<br>            exit 1<br>          fi<br></code></pre>
+<pre class="language-yaml"><code class="language-yaml"><span class="token key atrule">name</span><span class="token punctuation">:</span> Dart Null Safety Validation
+<span class="token key atrule">on</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>pull_request<span class="token punctuation">]</span>
+
+<span class="token key atrule">env</span><span class="token punctuation">:</span>
+  <span class="token key atrule">GITHUB_BASE_REF</span><span class="token punctuation">:</span> $
+  
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+  <span class="token key atrule">validate</span><span class="token punctuation">:</span>
+    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
+    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Checkout code
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v3
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Validate Dart files
+        <span class="token key atrule">shell</span><span class="token punctuation">:</span> bash
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+          # Fetch the base branch for diffing
+          git fetch origin $GITHUB_BASE_REF:$GITHUB_BASE_REF</span>
+
+          n_files=$((grep <span class="token punctuation">-</span>r <span class="token punctuation">-</span>H <span class="token punctuation">-</span><span class="token punctuation">-</span>include \<span class="token important">*.dart</span> "// @dart = 2.9" $(git diff <span class="token punctuation">-</span><span class="token punctuation">-</span>name<span class="token punctuation">-</span>only $GITHUB_BASE_REF <span class="token punctuation">-</span><span class="token punctuation">-</span>diff<span class="token punctuation">-</span>filter=AMR) <span class="token punctuation">|</span><span class="token punctuation">|</span> true) <span class="token punctuation">|</span> wc <span class="token punctuation">-</span>l)
+
+          if <span class="token punctuation">[</span> $n_files <span class="token punctuation">-</span>ne 0 <span class="token punctuation">]</span>; then
+            echo "Dart Files that changed<span class="token punctuation">,</span> but still contain 2.9 dart version<span class="token punctuation">:</span>"
+            grep <span class="token punctuation">-</span>r <span class="token punctuation">-</span>H <span class="token punctuation">-</span><span class="token punctuation">-</span>include \<span class="token important">*.dart</span> "// @dart = 2.9" $(git diff <span class="token punctuation">-</span><span class="token punctuation">-</span>name<span class="token punctuation">-</span>only $GITHUB_BASE_REF <span class="token punctuation">-</span><span class="token punctuation">-</span>diff<span class="token punctuation">-</span>filter=AMR)
+            echo "\n"
+            echo "Please convert the above files to project dart version"
+            exit 1
+          fi
+</code></pre>
 <p>This validates that all <code>.dart</code> files added/modified in a PR are null safe.</p>
 <p>Based on your team, you can choose to make this an optional or a required check. We chose to have it as optional and it worked out for us.</p>
 <p>With just this, over a couple of months, we converted over half the codebase to null safety!</p>
@@ -881,7 +981,47 @@ on <a href="/tag/flutter" class="tag">flutter</a>, <a href="/tag/dart" class="ta
 <p>There are bound to be some files which are not touched at all and are lying there, which stop your from adopting full sound null safety. The PR check is not going to help here.</p>
 <p>A small script that can tell you how many files are left to convert and what are few low hanging fruits helps quite a bit</p>
 <img src="/img/null-safe-report-usage.png">
-<pre class="language-ruby"><code class="language-ruby"><span class="token comment"># frozen_string_literal: true</span><br><br><span class="token comment"># Usage:</span><br><span class="token comment"># From the root of this project</span><br><span class="token comment"># $ ruby scripts/null_safe_report.rb ./lib</span><br><span class="token keyword">require</span> <span class="token string-literal"><span class="token string">'find'</span></span><br><br><span class="token comment"># This class is used to sort the files by line count</span><br><span class="token keyword">class</span> <span class="token class-name">FileToConvert</span><br>  <span class="token keyword">def</span> <span class="token method-definition"><span class="token function">initialize</span></span><span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> line_count<span class="token punctuation">)</span><br>    <span class="token variable">@file_name</span> <span class="token operator">=</span> file_name<br>    <span class="token variable">@line_count</span> <span class="token operator">=</span> line_count<br>  <span class="token keyword">end</span><br><br>  attr_reader <span class="token symbol">:line_count</span><br><br>  <span class="token keyword">def</span> <span class="token method-definition"><span class="token function">to_s</span></span><br>    <span class="token string-literal"><span class="token string">"</span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content"><span class="token variable">@file_name</span></span><span class="token delimiter punctuation">}</span></span><span class="token string">: </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content"><span class="token variable">@line_count</span></span><span class="token delimiter punctuation">}</span></span><span class="token string"> lines"</span></span><br>  <span class="token keyword">end</span><br><span class="token keyword">end</span><br><br>path <span class="token operator">=</span> <span class="token constant">ARGV</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><br><br>file_count <span class="token operator">=</span> <span class="token number">0</span><br>files_to_convert <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><br><span class="token builtin">Dir</span><span class="token punctuation">.</span>glob<span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"</span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">path</span><span class="token delimiter punctuation">}</span></span><span class="token string">/**/*.dart"</span></span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>file_name<span class="token operator">|</span><br>  file_count <span class="token operator">+=</span> <span class="token number">1</span><br>  first_line <span class="token operator">=</span> <span class="token builtin">File</span><span class="token punctuation">.</span>open<span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> <span class="token operator">&amp;</span><span class="token symbol">:readline</span><span class="token punctuation">)</span><br>  is_non_null_safe <span class="token operator">=</span> first_line<span class="token punctuation">.</span>start_with<span class="token operator">?</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">'// @dart = 2.9'</span></span><span class="token punctuation">)</span><br>  files_to_convert <span class="token operator">&lt;&lt;</span> <span class="token class-name">FileToConvert</span><span class="token punctuation">.</span><span class="token keyword">new</span><span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> <span class="token builtin">File</span><span class="token punctuation">.</span>foreach<span class="token punctuation">(</span>file_name<span class="token punctuation">)</span><span class="token punctuation">.</span>count<span class="token punctuation">)</span> <span class="token keyword">if</span> is_non_null_safe<br><span class="token keyword">end</span><br><br>files_to_convert<span class="token punctuation">.</span>sort_by<span class="token operator">!</span><span class="token punctuation">(</span><span class="token operator">&amp;</span><span class="token symbol">:line_count</span><span class="token punctuation">)</span><br><br>puts <span class="token string-literal"><span class="token string">"Null safe percent: </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content"><span class="token punctuation">(</span><span class="token punctuation">(</span>file_count <span class="token operator">-</span> files_to_convert<span class="token punctuation">.</span>count<span class="token punctuation">)</span><span class="token punctuation">.</span>to_f <span class="token operator">/</span> file_count<span class="token punctuation">.</span>to_f <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">.</span>round<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span></span><span class="token delimiter punctuation">}</span></span><span class="token string">%"</span></span><br>puts <span class="token string-literal"><span class="token string">"Number of files left to convert: </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">files_to_convert<span class="token punctuation">.</span>count</span><span class="token delimiter punctuation">}</span></span><span class="token string">"</span></span><br>puts <span class="token string-literal"><span class="token string">''</span></span><br>puts <span class="token string-literal"><span class="token string">'10 Smallest files left to convert:'</span></span><br>files_to_convert<span class="token punctuation">[</span><span class="token number">0.</span><span class="token number">.9</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token keyword">each</span> <span class="token keyword">do</span> <span class="token operator">|</span>file<span class="token operator">|</span><br>  puts file<br><span class="token keyword">end</span></code></pre>
+<pre class="language-ruby"><code class="language-ruby"><span class="token comment"># frozen_string_literal: true</span>
+
+<span class="token comment"># Usage:</span>
+<span class="token comment"># From the root of this project</span>
+<span class="token comment"># $ ruby scripts/null_safe_report.rb ./lib</span>
+<span class="token keyword">require</span> <span class="token string-literal"><span class="token string">'find'</span></span>
+
+<span class="token comment"># This class is used to sort the files by line count</span>
+<span class="token keyword">class</span> <span class="token class-name">FileToConvert</span>
+  <span class="token keyword">def</span> <span class="token method-definition"><span class="token function">initialize</span></span><span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> line_count<span class="token punctuation">)</span>
+    <span class="token variable">@file_name</span> <span class="token operator">=</span> file_name
+    <span class="token variable">@line_count</span> <span class="token operator">=</span> line_count
+  <span class="token keyword">end</span>
+
+  attr_reader <span class="token symbol">:line_count</span>
+
+  <span class="token keyword">def</span> <span class="token method-definition"><span class="token function">to_s</span></span>
+    <span class="token string-literal"><span class="token string">"</span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content"><span class="token variable">@file_name</span></span><span class="token delimiter punctuation">}</span></span><span class="token string">: </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content"><span class="token variable">@line_count</span></span><span class="token delimiter punctuation">}</span></span><span class="token string"> lines"</span></span>
+  <span class="token keyword">end</span>
+<span class="token keyword">end</span>
+
+path <span class="token operator">=</span> <span class="token constant">ARGV</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+
+file_count <span class="token operator">=</span> <span class="token number">0</span>
+files_to_convert <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token builtin">Dir</span><span class="token punctuation">.</span>glob<span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"</span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">path</span><span class="token delimiter punctuation">}</span></span><span class="token string">/**/*.dart"</span></span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>file_name<span class="token operator">|</span>
+  file_count <span class="token operator">+=</span> <span class="token number">1</span>
+  first_line <span class="token operator">=</span> <span class="token builtin">File</span><span class="token punctuation">.</span>open<span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> <span class="token operator">&amp;</span><span class="token symbol">:readline</span><span class="token punctuation">)</span>
+  is_non_null_safe <span class="token operator">=</span> first_line<span class="token punctuation">.</span>start_with<span class="token operator">?</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">'// @dart = 2.9'</span></span><span class="token punctuation">)</span>
+  files_to_convert <span class="token operator">&lt;&lt;</span> <span class="token class-name">FileToConvert</span><span class="token punctuation">.</span><span class="token keyword">new</span><span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> <span class="token builtin">File</span><span class="token punctuation">.</span>foreach<span class="token punctuation">(</span>file_name<span class="token punctuation">)</span><span class="token punctuation">.</span>count<span class="token punctuation">)</span> <span class="token keyword">if</span> is_non_null_safe
+<span class="token keyword">end</span>
+
+files_to_convert<span class="token punctuation">.</span>sort_by<span class="token operator">!</span><span class="token punctuation">(</span><span class="token operator">&amp;</span><span class="token symbol">:line_count</span><span class="token punctuation">)</span>
+
+puts <span class="token string-literal"><span class="token string">"Null safe percent: </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content"><span class="token punctuation">(</span><span class="token punctuation">(</span>file_count <span class="token operator">-</span> files_to_convert<span class="token punctuation">.</span>count<span class="token punctuation">)</span><span class="token punctuation">.</span>to_f <span class="token operator">/</span> file_count<span class="token punctuation">.</span>to_f <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">.</span>round<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span></span><span class="token delimiter punctuation">}</span></span><span class="token string">%"</span></span>
+puts <span class="token string-literal"><span class="token string">"Number of files left to convert: </span><span class="token interpolation"><span class="token delimiter punctuation">#{</span><span class="token content">files_to_convert<span class="token punctuation">.</span>count</span><span class="token delimiter punctuation">}</span></span><span class="token string">"</span></span>
+puts <span class="token string-literal"><span class="token string">''</span></span>
+puts <span class="token string-literal"><span class="token string">'10 Smallest files left to convert:'</span></span>
+files_to_convert<span class="token punctuation">[</span><span class="token number">0.</span><span class="token number">.9</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token keyword">each</span> <span class="token keyword">do</span> <span class="token operator">|</span>file<span class="token operator">|</span>
+  puts file
+<span class="token keyword">end</span></code></pre>
 <h3>4. The final push 🥅</h3>
 <p>You likely have a few huge files that no one wants to touch. Likely some God object definitions. There is no shortcut here. We have to approach it like some good old tech debt and buy some time to replace these.</p>
 <p>We are yet to make this final push. Will update this article if we have any learnings.</p>

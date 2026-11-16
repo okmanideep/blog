@@ -3,9 +3,8 @@
 <head>
         <!-- [[! Document Settings ]] -->
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="theme-color" content="#22262c">
-		<meta name="generator" content="Eleventy v3.0.0">
+		<meta name="generator" content="Eleventy v3.1.8">
         <!-- [[! Page Meta ]] -->
         <title>Improve your Android build times</title>
 <meta name="description" content="Simple things you can do to improve your gradle/android build time a lot">
@@ -69,8 +68,14 @@
 	pointer-events: auto;
 }
 
-.post-meta a:hover {
+.post-meta a:active {
   text-decoration: underline;
+}
+
+@media (hover: hover) {
+  .post-meta a:hover {
+    text-decoration: underline;
+  }
 }
 /* Source: https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital@0;1&family=Rubik:ital,wght@0,600;1,600&display=swap */
 
@@ -437,8 +442,11 @@ table {
   --highlight-text-color: #61aeee;
   --highlight-border-color: #218EE8;
   --raised-bg-color: #282c34;
+  --pressed-bg-color: #2c313a;
   --dim-text-color: #9eabb3;
   --edge-margin: 1.5rem;
+  --focus-ring: 2px solid var(--highlight-border-color);
+  --focus-ring-offset: 2px;
 }
 
 /* MAIN CSS */
@@ -532,6 +540,24 @@ p {
 
 a {
   color: var(--highlight-text-color);
+  /* Redundant now that every link has a pressed state; the grey rectangle
+     would otherwise be the only feedback a tap gets. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Keyboard focus only: `:focus-visible` keeps the ring off mouse clicks and
+   taps, so nothing has to be suppressed with `outline: 0`. */
+a:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: 2px;
+}
+
+/* Pressed states. Touch gets no `:hover`, so every interactive element needs
+   its own `:active` feedback, matching or slightly intensifying its hover
+   style. Only the shared link rule lives here; components carry their own. */
+main a:active {
+  text-decoration-thickness: 2px;
 }
 
 blockquote {
@@ -613,6 +639,18 @@ header > nav > a {
   display: block;
 }
 
+/* The RSS icon is ~20px wide and WCAG 2.5.8 asks for at least 24×24, so widen
+   the tap area with horizontal padding. The matching negative margin keeps the
+   icon, and the layout, exactly where it was. (The logo is already 45×50.) */
+header > nav > a:last-child {
+  padding: 0 12px;
+  margin: 0 -12px;
+}
+
+header > nav > a:active > img {
+  opacity: 0.8;
+}
+
 header > nav > a > img {
   height: 2em;
 }
@@ -622,9 +660,17 @@ header > nav > a > svg {
   fill: var(--main-text-color);
 }
 
-header > nav > a:hover > svg {
+header > nav > a:active > svg {
   fill: var(--highlight-text-color);
-  transition: fill 0.3s ease;
+}
+
+/* Hover styles only where hover exists, so a tap doesn't leave an element
+   looking hovered (e.g. after going back from a post card). */
+@media (hover: hover) {
+  header > nav > a:hover > svg {
+    fill: var(--highlight-text-color);
+    transition: fill 0.3s ease;
+  }
 }
 
 footer {
@@ -642,8 +688,14 @@ footer a {
   transition: color 0.2s ease;
 }
 
-footer a:hover {
+footer a:active {
   color: var(--main-text-color);
+}
+
+@media (hover: hover) {
+  footer a:hover {
+    color: var(--main-text-color);
+  }
 }
 
 img {
@@ -831,13 +883,16 @@ pre {
 }</style>
     </head>
 
-    <body>
+    <!-- Empty inline handler so iOS Safari applies `:active` states (WebKit
+         bug 138816). It is passive-by-default for touchstart, so scrolling is
+         unaffected, and it needs no user-agent sniffing. -->
+    <body ontouchstart="">
         <header>
   <nav>
     <a href="/"><img src="/img/logo-white.png" alt="okmanideep blog logo">
 </a>
-    <a href="/feed.json">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M25.57 176.1C12.41 175.4 .9117 185.2 .0523 198.4s9.173 24.65 22.39 25.5c120.1 7.875 225.7 112.7 233.6 233.6C256.9 470.3 267.4 480 279.1 480c.5313 0 1.062-.0313 1.594-.0625c13.22-.8438 23.25-12.28 22.39-25.5C294.6 310.3 169.7 185.4 25.57 176.1zM32 32C14.33 32 0 46.31 0 64s14.33 32 32 32c194.1 0 352 157.9 352 352c0 17.69 14.33 32 32 32s32-14.31 32-32C448 218.6 261.4 32 32 32zM63.1 351.9C28.63 351.9 0 380.6 0 416s28.63 64 63.1 64s64.08-28.62 64.08-64S99.37 351.9 63.1 351.9z"></path></svg>
+    <a href="/feed.json" aria-label="RSS feed">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M25.57 176.1C12.41 175.4 .9117 185.2 .0523 198.4s9.173 24.65 22.39 25.5c120.1 7.875 225.7 112.7 233.6 233.6C256.9 470.3 267.4 480 279.1 480c.5313 0 1.062-.0313 1.594-.0625c13.22-.8438 23.25-12.28 22.39-25.5C294.6 310.3 169.7 185.4 25.57 176.1zM32 32C14.33 32 0 46.31 0 64s14.33 32 32 32c194.1 0 352 157.9 352 352c0 17.69 14.33 32 32 32s32-14.31 32-32C448 218.6 261.4 32 32 32zM63.1 351.9C28.63 351.9 0 380.6 0 416s28.63 64 63.1 64s64.08-28.62 64.08-64S99.37 351.9 63.1 351.9z"></path></svg>
     </a>
   </nav>
 </header>
@@ -847,7 +902,7 @@ pre {
 	<article>
 		<h1>Improve your Android build times</h1>
 		<post-meta><div class="post-meta">
-	<time datetime="Tue Apr 05 2016 20:10:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Tue, Apr 05 2016</time>
+	<time datetime="Tue Apr 05 2016 20:10:00 GMT+0530 (India Standard Time)" class="post-date">Tue, Apr 05 2016</time>
 	
 on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="tag">gradle</a>
 
@@ -859,7 +914,16 @@ on <a href="/tag/android" class="tag">android</a>, <a href="/tag/gradle" class="
 <h2>Optimisations</h2>
 <h4>The minSdk 21 trick</h4>
 <p>It doesn't matter your app is over the 65K method limit or not, enabling multiDex and having product flavors like this help a lot.</p>
-<pre class="language-groovy"><code class="language-groovy">productFlavors <span class="token punctuation">{</span><br>    dev <span class="token punctuation">{</span><br>        multiDexEnabled <span class="token boolean">true</span><br>        minSdkVersion <span class="token number">21</span><br>    <span class="token punctuation">}</span><br>    prod <span class="token punctuation">{</span><br>        multiDexEnabled <span class="token boolean">true</span><br>        minSdkVersion <span class="token number">15</span><br>    <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<pre class="language-groovy"><code class="language-groovy">productFlavors <span class="token punctuation">{</span>
+    dev <span class="token punctuation">{</span>
+        multiDexEnabled <span class="token boolean">true</span>
+        minSdkVersion <span class="token number">21</span>
+    <span class="token punctuation">}</span>
+    prod <span class="token punctuation">{</span>
+        multiDexEnabled <span class="token boolean">true</span>
+        minSdkVersion <span class="token number">15</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <p>And also keep in mind that <strong>Instant Run</strong> has <a href="https://twitter.com/tornorbye/status/717446584284241921">some overhead</a> on the dex method count in your debug builds, which might just make your method count go over the limit.</p>
 <p>On my machine for my project
 <code>./gradlew :app:assembleProdDebug</code> takes <strong>55.623s</strong> and <code>./gradlew :app:assembleDevDebug</code> takes <strong>12.41s</strong>!</p>
@@ -905,11 +969,22 @@ In your <code>./gradle/gradle.properties</code> or <code>&lt;Project Root&gt;/gr
 <h2>Common Pitfalls</h2>
 <h4>Dynamic dependencies</h4>
 <p>Use definite version numbers for your dependencies in your gradle</p>
-<pre class="language-groovy"><code class="language-groovy"><span class="token comment">//Do NOT do this</span><br>compile <span class="token string">'com.google.code.gson:gson:2.+'</span><br><br><span class="token comment">//Do this instead</span><br>compile <span class="token string">'com.google.code.gson:gson:2.3'</span></code></pre>
+<pre class="language-groovy"><code class="language-groovy"><span class="token comment">//Do NOT do this</span>
+compile <span class="token string">'com.google.code.gson:gson:2.+'</span>
+
+<span class="token comment">//Do this instead</span>
+compile <span class="token string">'com.google.code.gson:gson:2.3'</span></code></pre>
 <p>This avoids the problem of gradle always making a network request to check for the latest version of the dependency</p>
 <h4>Avoid heavy computation</h4>
 <p>You can find snippets like this on stack overflow that aim to make versioning easier for you</p>
-<pre class="language-groovy"><code class="language-groovy"><span class="token keyword">def</span> cmd <span class="token operator">=</span> <span class="token string">'git rev-list HEAD --first-parent --count'</span><br><span class="token keyword">def</span> gitVersion <span class="token operator">=</span> cmd<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toInteger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><br><br>android <span class="token punctuation">{</span><br>  defaultConfig <span class="token punctuation">{</span><br>    versionCode gitVersion<br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<pre class="language-groovy"><code class="language-groovy"><span class="token keyword">def</span> cmd <span class="token operator">=</span> <span class="token string">'git rev-list HEAD --first-parent --count'</span>
+<span class="token keyword">def</span> gitVersion <span class="token operator">=</span> cmd<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toInteger</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+android <span class="token punctuation">{</span>
+  defaultConfig <span class="token punctuation">{</span>
+    versionCode gitVersion
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <p>The problem with this code is - gradle needs to count the number of commits for every build. For a large repo which has around <code>20000</code> commits, it takes around <strong>half a second</strong> to just count the number of commits.</p>
 <h4>That's it</h4>
 <p>After these optimisations your first build might take the same amount of time, but trust me your <strong>subsequent builds will be much faster</strong> overall.</p>

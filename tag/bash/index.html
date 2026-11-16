@@ -3,9 +3,8 @@
 <head>
         <!-- [[! Document Settings ]] -->
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="theme-color" content="#22262c">
-		<meta name="generator" content="Eleventy v3.0.0">
+		<meta name="generator" content="Eleventy v3.1.8">
         <!-- [[! Page Meta ]] -->
         <title>@okmanideep</title>
 <meta name="description" content="Android · Web · Design">
@@ -69,8 +68,14 @@
 	pointer-events: auto;
 }
 
-.post-meta a:hover {
+.post-meta a:active {
   text-decoration: underline;
+}
+
+@media (hover: hover) {
+  .post-meta a:hover {
+    text-decoration: underline;
+  }
 }
 .post-item {
 	border-radius: 5px;
@@ -94,8 +99,24 @@
 	padding: 0.3em 0 0.5em 0;
 }
 
-.post-item:hover {
-	background: var(--raised-bg-color);
+@media (hover: hover) {
+	.post-item:hover {
+		background: var(--raised-bg-color);
+	}
+}
+
+/* The card has `pointer-events: none` with `auto` on the inner link, so
+   `:active` never reaches the card itself; `:has()` lets the whole card react
+   to a press on the link. */
+.post-item:has(> a:active) {
+	background: var(--pressed-bg-color);
+}
+
+/* Fallback for browsers without `:has()`: the link itself darkens. */
+@supports not selector(:has(*)) {
+	.post-item > a:active {
+		background: var(--pressed-bg-color);
+	}
 }
 /* Source: https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital@0;1&family=Rubik:ital,wght@0,600;1,600&display=swap */
 
@@ -462,8 +483,11 @@ table {
   --highlight-text-color: #61aeee;
   --highlight-border-color: #218EE8;
   --raised-bg-color: #282c34;
+  --pressed-bg-color: #2c313a;
   --dim-text-color: #9eabb3;
   --edge-margin: 1.5rem;
+  --focus-ring: 2px solid var(--highlight-border-color);
+  --focus-ring-offset: 2px;
 }
 
 /* MAIN CSS */
@@ -557,6 +581,24 @@ p {
 
 a {
   color: var(--highlight-text-color);
+  /* Redundant now that every link has a pressed state; the grey rectangle
+     would otherwise be the only feedback a tap gets. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Keyboard focus only: `:focus-visible` keeps the ring off mouse clicks and
+   taps, so nothing has to be suppressed with `outline: 0`. */
+a:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: 2px;
+}
+
+/* Pressed states. Touch gets no `:hover`, so every interactive element needs
+   its own `:active` feedback, matching or slightly intensifying its hover
+   style. Only the shared link rule lives here; components carry their own. */
+main a:active {
+  text-decoration-thickness: 2px;
 }
 
 blockquote {
@@ -638,6 +680,18 @@ header > nav > a {
   display: block;
 }
 
+/* The RSS icon is ~20px wide and WCAG 2.5.8 asks for at least 24×24, so widen
+   the tap area with horizontal padding. The matching negative margin keeps the
+   icon, and the layout, exactly where it was. (The logo is already 45×50.) */
+header > nav > a:last-child {
+  padding: 0 12px;
+  margin: 0 -12px;
+}
+
+header > nav > a:active > img {
+  opacity: 0.8;
+}
+
 header > nav > a > img {
   height: 2em;
 }
@@ -647,9 +701,17 @@ header > nav > a > svg {
   fill: var(--main-text-color);
 }
 
-header > nav > a:hover > svg {
+header > nav > a:active > svg {
   fill: var(--highlight-text-color);
-  transition: fill 0.3s ease;
+}
+
+/* Hover styles only where hover exists, so a tap doesn't leave an element
+   looking hovered (e.g. after going back from a post card). */
+@media (hover: hover) {
+  header > nav > a:hover > svg {
+    fill: var(--highlight-text-color);
+    transition: fill 0.3s ease;
+  }
 }
 
 footer {
@@ -667,8 +729,14 @@ footer a {
   transition: color 0.2s ease;
 }
 
-footer a:hover {
+footer a:active {
   color: var(--main-text-color);
+}
+
+@media (hover: hover) {
+  footer a:hover {
+    color: var(--main-text-color);
+  }
 }
 
 img {
@@ -856,13 +924,16 @@ pre {
 }</style>
     </head>
 
-    <body>
+    <!-- Empty inline handler so iOS Safari applies `:active` states (WebKit
+         bug 138816). It is passive-by-default for touchstart, so scrolling is
+         unaffected, and it needs no user-agent sniffing. -->
+    <body ontouchstart="">
         <header>
   <nav>
     <a href="/"><img src="/img/logo-white.png" alt="okmanideep blog logo">
 </a>
-    <a href="/feed.json">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M25.57 176.1C12.41 175.4 .9117 185.2 .0523 198.4s9.173 24.65 22.39 25.5c120.1 7.875 225.7 112.7 233.6 233.6C256.9 470.3 267.4 480 279.1 480c.5313 0 1.062-.0313 1.594-.0625c13.22-.8438 23.25-12.28 22.39-25.5C294.6 310.3 169.7 185.4 25.57 176.1zM32 32C14.33 32 0 46.31 0 64s14.33 32 32 32c194.1 0 352 157.9 352 352c0 17.69 14.33 32 32 32s32-14.31 32-32C448 218.6 261.4 32 32 32zM63.1 351.9C28.63 351.9 0 380.6 0 416s28.63 64 63.1 64s64.08-28.62 64.08-64S99.37 351.9 63.1 351.9z"></path></svg>
+    <a href="/feed.json" aria-label="RSS feed">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M25.57 176.1C12.41 175.4 .9117 185.2 .0523 198.4s9.173 24.65 22.39 25.5c120.1 7.875 225.7 112.7 233.6 233.6C256.9 470.3 267.4 480 279.1 480c.5313 0 1.062-.0313 1.594-.0625c13.22-.8438 23.25-12.28 22.39-25.5C294.6 310.3 169.7 185.4 25.57 176.1zM32 32C14.33 32 0 46.31 0 64s14.33 32 32 32c194.1 0 352 157.9 352 352c0 17.69 14.33 32 32 32s32-14.31 32-32C448 218.6 261.4 32 32 32zM63.1 351.9C28.63 351.9 0 380.6 0 416s28.63 64 63.1 64s64.08-28.62 64.08-64S99.37 351.9 63.1 351.9z"></path></svg>
     </a>
   </nav>
 </header>
@@ -876,7 +947,7 @@ pre {
 		<p>From the moment I saw the intro video, I found it very appealing. It takes the best of bash and powershell</p>
 	</a>
 	<div class="post-meta">
-	<time datetime="Mon Aug 28 2023 13:00:00 GMT+0000 (Coordinated Universal Time)" class="post-date">Mon, Aug 28 2023</time>
+	<time datetime="Mon Aug 28 2023 13:00:00 GMT+0530 (India Standard Time)" class="post-date">Mon, Aug 28 2023</time>
 	
 on <a href="/tag/shell" class="tag">shell</a>, <a href="/tag/windows" class="tag">windows</a>, <a href="/tag/mac" class="tag">mac</a>, <a href="/tag/bash" class="tag">bash</a>, <a href="/tag/powershell" class="tag">powershell</a>
 
