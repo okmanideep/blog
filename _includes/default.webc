@@ -17,7 +17,10 @@
         <style webc:keep @raw="getCss(page.url)"></style>
     </head>
 
-    <body>
+    <!-- Empty inline handler so iOS Safari applies `:active` states (WebKit
+         bug 138816). It is passive-by-default for touchstart, so scrolling is
+         unaffected, and it needs no user-agent sniffing. -->
+    <body ontouchstart="">
         <site-header></site-header>
 
         <template webc:nokeep @raw="content"></template>
