@@ -153,6 +153,9 @@ p {
 
 a {
   color: var(--highlight-text-color);
+  /* Redundant now that every link has a pressed state; the grey rectangle
+     would otherwise be the only feedback a tap gets. */
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Keyboard focus only: `:focus-visible` keeps the ring off mouse clicks and
