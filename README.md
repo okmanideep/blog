@@ -10,3 +10,11 @@
   before any date is formatted, so `npm run build`, `npm start`, bare
   `npx @11ty/eleventy`, and CI all produce identical output on any machine.
 - `npm run check` gates deploys on the sitemap: nothing live may disappear.
+- `npm run visual` screenshots the built `_site` and compares it pixel-for-pixel
+  against the live site (one post page + one tag page, desktop + mobile, ~8s).
+  Use `-- --all` for every page, `-- --only /,/tag/AI/` for specific pages.
+  Screenshots are written to a fresh directory under the OS temp dir and are
+  never committed. Requires `npm run build` first, and a local Chrome
+  (`playwright-core` ships no browser download; override with `CHROME_PATH`).
+  A mismatching page is re-shot once before being reported, since tall
+  full-page captures occasionally differ by a few antialiased pixels.

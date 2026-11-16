@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx @11ty/eleventy --serve --watch",
     "build": "npx @11ty/eleventy",
-    "check": "node scripts/check-sitemap.mjs"
+    "check": "node scripts/check-sitemap.mjs",
+    "visual": "node scripts/visual-compare.mjs"
   },
   "type": "module",
   "author": "okmanideep",
@@ -15,7 +16,8 @@
   "devDependencies": {
     "@11ty/eleventy": "^3.1.8",
     "@11ty/eleventy-plugin-rss": "^3.1.0",
-    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2"
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
+    "playwright-core": "^1.65.1"
   },
   "dependencies": {
     "@11ty/eleventy-plugin-webc": "^0.12.0-beta.8",
