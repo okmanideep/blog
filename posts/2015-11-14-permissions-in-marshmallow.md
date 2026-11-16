@@ -2,7 +2,7 @@
 cover: false
 title: Permissions in marshmallow
 description: 'A deep dive into requesting permissions in Android Marshmallow and handling extreme cases'
-date:   2015-11-14 20:10:00
+date:   2015-11-14 20:10:00 +05:30
 tags: [ 'android' ]
 ---
 

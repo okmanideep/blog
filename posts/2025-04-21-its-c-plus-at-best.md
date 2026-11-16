@@ -2,7 +2,7 @@
 cover: false
 title: "It's a C+ at best"
 description: "A mindset to have balanced expectations about adopting AI at work"
-date: 2025-04-21 14:22:00
+date: 2025-04-21 14:22:00 +05:30
 tags: ['LLM', 'AI']
 bskyuri: 'https://bsky.app/profile/okmanideep.me/post/3lnp6zez3j22o'
 ---

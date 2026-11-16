@@ -2,7 +2,7 @@
 cover: false
 title: 'RxConfusions - Part 1 : Map and FlatMap'
 description: 'You probably know what the map operator is. This post discussed mostly about FlatMap and that probably will remove the confusion between map and flatMap operators if any'
-date:   2015-12-01 20:10:00
+date:   2015-12-01 20:10:00 +05:30
 tags: ['rxjava', 'android']
 ---
 

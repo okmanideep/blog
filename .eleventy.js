@@ -1,3 +1,9 @@
+// Pin the site's timezone so dates render identically on every machine and in CI.
+// Front matter dates carry an explicit +05:30 (IST) offset, so rendering them in
+// the same zone is what makes the displayed day match the day that was authored.
+// This must run before any date is formatted; Eleventy formats with the local zone.
+process.env.TZ = "Asia/Kolkata";
+
 import webcPlugin from "@11ty/eleventy-plugin-webc";
 import CleanCSS from "clean-css";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";

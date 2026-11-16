@@ -2,7 +2,7 @@
 cover: false
 title: 'Migrating to Dart 3 and null safety'
 description: 'Dart 3 is here, but we cannot adopt it unless our entire codebase is null safe. Here are few strategies we have been using to slowly migrate our codebase'
-date:   2023-05-12 17:00:00
+date:   2023-05-12 17:00:00 +05:30
 tags: ['flutter', 'dart']
 ---
 

@@ -2,7 +2,7 @@
 cover: false
 title: Improve your Android build times
 description: 'Simple things you can do to improve your gradle/android build time a lot'
-date:   2016-04-05 20:10:00
+date:   2016-04-05 20:10:00 +05:30
 tags: ['android', 'gradle']
 ---
 

@@ -2,7 +2,7 @@
 cover: false
 title: 'Nushell, after 8 months'
 description: "I have been using nushell as my primary shell for the last 8 months and I don't see myself going back to bash or zsh or powershell"
-date: 2024-04-29 11:15:00
+date: 2024-04-29 11:15:00 +05:30
 tags: ['shell', 'nushell', 'cli', 'unix', 'powershell']
 bskyuri: 'https://bsky.app/profile/okmanideep.me/post/3lj62e2bdak2x'
 ---

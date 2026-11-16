@@ -2,7 +2,7 @@
 cover: false
 title: 'Understanding Composition and Side Effects'
 description: 'Important aspect to any framework that relies on functions is to understand when they are invoked. Read along to get a crystal clear understanding'
-date:   2022-04-01 18:00:00
+date:   2022-04-01 18:00:00 +05:30
 tags: ['jetpack', 'compose', 'android']
 ---
 

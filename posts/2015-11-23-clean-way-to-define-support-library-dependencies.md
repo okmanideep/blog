@@ -2,7 +2,7 @@
 cover: false
 title: Clean way to define support library dependencies
 description: 'A cleaner way to define support library dependencies which makes updating their version number a whole lot easier'
-date:   2015-11-23 20:10:00
+date:   2015-11-23 20:10:00 +05:30
 tags: ['android']
 ---
 

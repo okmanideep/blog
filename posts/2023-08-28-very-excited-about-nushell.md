@@ -2,7 +2,7 @@
 cover: false
 title: 'I am very excited about using nushell everyday'
 description: 'From the moment I saw the intro video, I found it very appealing. It takes the best of bash and powershell'
-date: 2023-08-28 13:00:00
+date: 2023-08-28 13:00:00 +05:30
 tags: ['shell', 'windows', 'mac', 'bash', 'powershell']
 ---
 From the moment I saw the [intro video](https://youtu.be/bMpYyqWCzZk?si=VLXcaCFLT2p_fHXf) I found it very appealing. It takes the best of `bash`(in unix) and `powershell`. I will assume you could totally relate to the `bash` part of that sentence.

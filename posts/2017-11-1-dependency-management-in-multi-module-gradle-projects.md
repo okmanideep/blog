@@ -2,7 +2,7 @@
 cover: false
 title: Dependency management in multi-module gradle projects
 description: 'Simple things you can do to improve your gradle/android dependency management'
-date:   2017-11-02 00:20:00
+date:   2017-11-02 00:20:00 +05:30
 tags: ['android', 'gradle']
 ---
 
