@@ -123,9 +123,11 @@
 		transition: all 0.2s ease;
 	}
 
-	#comment-post-meta-reply:hover {
-		opacity: 1.0;
-		color: var(--main-text-color);
+	@media (hover: hover) {
+		#comment-post-meta-reply:hover {
+			opacity: 1.0;
+			color: var(--main-text-color);
+		}
 	}
 
 	.comment-post-header {
@@ -156,8 +158,10 @@
 		margin-left: 52px;
 	}
 
-	.more:hover {
-		text-decoration: underline;
+	@media (hover: hover) {
+		.more:hover {
+			text-decoration: underline;
+		}
 	}
 
 	#comments-container hr {

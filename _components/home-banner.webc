@@ -96,16 +96,8 @@
 		width: 30px;
 	}
 
-	.home-banner .socials svg.fa-twitter:hover {
-		color: #3DAEF4;
-	}
-
 	.home-banner .socials svg.fa-github {
 		color: #CCC;
-	}
-
-	.home-banner .socials svg.fa-github:hover {
-		color: #D3D3D3;
 	}
 
 	.home-banner .socials svg.fa-threads {
@@ -113,7 +105,17 @@
 		width: 30px;
 	}
 
-	.home-banner .socials svg.fa-threads:hover {
-		color: #ffffff;
+	@media (hover: hover) {
+		.home-banner .socials svg.fa-twitter:hover {
+			color: #3DAEF4;
+		}
+
+		.home-banner .socials svg.fa-github:hover {
+			color: #D3D3D3;
+		}
+
+		.home-banner .socials svg.fa-threads:hover {
+			color: #ffffff;
+		}
 	}
 </style>

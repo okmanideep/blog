@@ -28,7 +28,9 @@
 	padding: 0.3em 0 0.5em 0;
 }
 
-.post-item:hover {
-	background: var(--raised-bg-color);
+@media (hover: hover) {
+	.post-item:hover {
+		background: var(--raised-bg-color);
+	}
 }
 </style>

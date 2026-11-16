@@ -251,9 +251,13 @@ header > nav > a > svg {
   fill: var(--main-text-color);
 }
 
-header > nav > a:hover > svg {
-  fill: var(--highlight-text-color);
-  transition: fill 0.3s ease;
+/* Hover styles only where hover exists, so a tap doesn't leave an element
+   looking hovered (e.g. after going back from a post card). */
+@media (hover: hover) {
+  header > nav > a:hover > svg {
+    fill: var(--highlight-text-color);
+    transition: fill 0.3s ease;
+  }
 }
 
 footer {
@@ -271,8 +275,10 @@ footer a {
   transition: color 0.2s ease;
 }
 
-footer a:hover {
-  color: var(--main-text-color);
+@media (hover: hover) {
+  footer a:hover {
+    color: var(--main-text-color);
+  }
 }
 
 img {
