@@ -55,8 +55,11 @@ table {
   --highlight-text-color: #61aeee;
   --highlight-border-color: #218EE8;
   --raised-bg-color: #282c34;
+  --pressed-bg-color: #2c313a;
   --dim-text-color: #9eabb3;
   --edge-margin: 1.5rem;
+  --focus-ring: 2px solid var(--highlight-border-color);
+  --focus-ring-offset: 2px;
 }
 
 /* MAIN CSS */
@@ -150,6 +153,14 @@ p {
 
 a {
   color: var(--highlight-text-color);
+}
+
+/* Keyboard focus only: `:focus-visible` keeps the ring off mouse clicks and
+   taps, so nothing has to be suppressed with `outline: 0`. */
+a:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: 2px;
 }
 
 blockquote {
