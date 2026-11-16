@@ -4,13 +4,9 @@ a.tag {
 }
 </style>
 <script webc:type="js">
-let tagLinks = value.map(tag => `<a class="tag" href="${$data.site.baseurl}tag/${tag}">${tag}</a>`).join(', ')
-let html
-if (taglist < 0) {
-	html = ``
-} else {
-	html = `on ${tagLinks}`
+export default function() {
+	let site = this.$data.site
+	let tagLinks = this.value.map(tag => `<a class="tag" href="${site.baseurl}tag/${tag}">${tag}</a>`).join(', ')
+	return `on ${tagLinks}`
 }
-
-html
 </script>

@@ -19,17 +19,18 @@
 
 
 <script webc:type="js" webc:is="script" type="application/ld+json" webc:keep>
-let blackLogoPath = this.helpers.imgPath('logo-black.png')
-let ret = `
+export default function() {
+	let blackLogoPath = this.helpers.imgPath('logo-black.png')
+	let site = this.$data.site
+	return `
 {
     "@context": "http://schema.org",
     "@type": "Website",
     "publisher": "Manideep Polireddi",
-	"url": "${$data.site.url}",
+	"url": "${site.url}",
     "image": "${blackLogoPath}",
-    "description": "${$data.site.description}"
+    "description": "${site.description}"
 }
 `
-
-ret
+}
 </script>
